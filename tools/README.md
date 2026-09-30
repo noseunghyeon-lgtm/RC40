@@ -1,5 +1,12 @@
 # RC40 Pinmap → Simulink 포트 자동 생성기
 
+> ⚠️ **반드시 확인하세요: easyConfig와 `RC40_Pinmap.xlsx` 파일의 핀 설정이
+> 일치하는지 확인하시오.**
+> `RC40_Pinmap.xlsx`가 이 도구의 핀 정의 단일 소스입니다. 실제 제어기 구성
+> 도구(easyConfig)에서의 핀 설정과 Excel의 설정(Type / In-Out / Description)이
+> 서로 다르면, 생성된 모델이 실제 하드웨어 구성과 어긋납니다. 핀 기능을 바꿀
+> 때는 **먼저 easyConfig와 Excel을 동일하게 맞춘 뒤** 재생성하세요.
+
 **대상 제어기: Bosch Rexroth BODAS RC27-18/40** (`cfg.ecuType = 'RC27-18/40'`).
 핀맵의 High-Side 파워 출력 21개가 RC27-18/40 사양(21 HS / 24 LS, 45 파워 출력)과
 일치하여 이 변형으로 확정했습니다. DBC 내 이 제어기의 노드명은
@@ -39,6 +46,23 @@ build_rc40_model(cfg);
 **요구사항:** MATLAB + Simulink. 그 외 애드온 불필요.
 DBC를 쓰려면 `<repo>/can/` 폴더에 `.dbc`를 두거나 `cfg.dbcFiles`에 경로 지정.
 
+## 핀 설정을 바꾸려면 (핀 기능 변경)
+
+개별 핀의 기능을 바꿀 때는 **`RC40_Pinmap.xlsx`의 해당 행을 수정**하는 것이
+정석입니다. Excel이 핀 정의의 단일 소스이기 때문입니다.
+
+1. **먼저 easyConfig와 `RC40_Pinmap.xlsx`의 핀 설정이 일치하는지 확인하시오.**
+   (easyConfig에서 바꾼 핀 구성과 Excel의 `Type` / `In/Out` / `Description`이
+   반드시 같아야 합니다. 어긋나면 생성 모델이 실제 HW와 맞지 않습니다.)
+2. Excel에서 해당 핀의 `Type`(및 필요 시 `In/Out`, `Description`)을 수정
+   - 예: `K43`을 아날로그 전압 → 저항 입력으로 바꾸려면
+     `Type`을 `AnalogSignal` → `ResistanceMeasurementSignal`로 변경
+3. `build_rc40_model` 재실행 → 해당 핀이 알맞은 서브시스템(`HwInp/R` 등)으로
+   자동 재배치되고 데이터타입도 규칙에 맞게 갱신됩니다.
+
+> 특정 핀만 Excel을 건드리지 않고 예외 처리하려면 `cfg.overrides` 사용
+> (아래 "Per-pin override" 참고). 매핑 규칙 자체를 바꾸려면 `rc40_typemap.m` 수정.
+
 ## Excel 스키마 (`RC40_Pinmap.xlsx`, 시트 GW1)
 
 3개 섹션이 세로로 이어집니다. 각 섹션은 제목행 + 헤더행으로 시작합니다.
@@ -70,10 +94,11 @@ Name | Type | In/Out | Description | Pin Assignment (MASAR) | Connect to
 - `low side ... switching output` + `power` 없음 → `PropSig` (예: K80~K83, 200mA 저전력)
 - 그 외(현재제어/스위칭 파워/설명 없음) → `PropPwr` (예: K17은 설명 `-` 이지만 파워)
 
-## 포트명 데이터타입 접미사 (`cfg.appendTypeSuffix`, 기본 on)
+## 포트명 데이터타입 접미사 (`cfg.appendTypeSuffix`, 기본 **off**)
 
-실제 모델처럼 포트 이름 끝에 데이터타입 접미사를 붙입니다
-(`rc40_type_suffix.m`):
+BSW 통합을 위해 **기본 off** 입니다(포트명이 C 식별자로 쓰이므로 접미사 없이
+깨끗하게 유지 — "BSW 통합 지원" 참고). 켜면(`true`) 포트 이름 끝에 데이터타입
+접미사를 붙입니다(`rc40_type_suffix.m`):
 
 | DataType | 접미사 | 예시 |
 |----------|--------|------|

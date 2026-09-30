@@ -25,40 +25,55 @@ function pins = rc40_read_pinmap(xlsxPath)
         [~,~,raw] = xlsread(xlsxPath);       %#ok<XLSRD> % legacy fallback
     end
 
+    % --- auto-detect the base column ---------------------------------------
+    % readcell may or may not keep a leading empty column, so the data may
+    % start at column 1 or 2. Find the "Name"/"Type" header row and use the
+    % column where 'Name' sits as the base (col offset for all fields).
+    base = detectBaseColumn(raw);
+
     section = '';
     pins = struct('section',{},'name',{},'type',{},'inout',{}, ...
                   'desc',{},'masar',{},'connectTo',{});
 
     for r = 1:size(raw,1)
-        c = @(k) cellval(raw, r, k);
+        c = @(k) strip1(cellval(raw, r, base-1+k));   % k=1..7 relative to base
         c1 = c(1); c2 = c(2); c3 = c(3); c4 = c(4); c5 = c(5); c6 = c(6); c7 = c(7);
 
-        % Column layout in this workbook is shifted right by one (col 1 blank),
-        % so the meaningful data starts at column 2. Detect dynamically:
-        %   title row  -> a lone label in the first non-empty column
-        %   header row -> contains 'Name' and 'Type'
-        rowText = strtrim(strjoin(cellfun(@tostr,{c1,c2,c3,c4,c5,c6,c7},'uni',0),'|'));
-
-        % Section titles
-        if any(strcmpi(strip1(c2), {'Signal','Power','Communication'})) && isempty(strip1(c3))
-            section = strip1(c2); continue;
+        % Section title row: a lone label ('Signal'/'Power'/'Communication')
+        % in the base column, nothing in the next.
+        if any(strcmpi(c1, {'Signal','Power','Communication'})) && isempty(c2)
+            section = c1; continue;
         end
         % Header row
-        if strcmpi(strip1(c2),'Name') && strcmpi(strip1(c3),'Type')
+        if strcmpi(c1,'Name') && strcmpi(c2,'Type')
             continue;
         end
 
-        name = strip1(c2);
+        name = c1;
         if isempty(name), continue; end       % skip blank rows
 
         p.section   = section;
         p.name      = name;
-        p.type      = strip1(c3);
-        p.inout     = strip1(c4);
-        p.desc      = strip1(c5);
-        p.masar     = strip1(c6);
-        p.connectTo = strip1(c7);
+        p.type      = c2;
+        p.inout     = c3;
+        p.desc      = c4;
+        p.masar     = c5;
+        p.connectTo = c6;
         pins(end+1) = p; %#ok<AGROW>
+    end
+end
+
+function base = detectBaseColumn(raw)
+    % Find the header row ('Name' + 'Type' in adjacent cells) and return the
+    % column index of 'Name'. Falls back to 1 if not found.
+    base = 1;
+    for r = 1:size(raw,1)
+        for k = 1:max(1,size(raw,2)-1)
+            if strcmpi(strip1(cellval(raw,r,k)),'Name') && ...
+               strcmpi(strip1(cellval(raw,r,k+1)),'Type')
+                base = k; return;
+            end
+        end
     end
 end
 

@@ -1,0 +1,99 @@
+function cfg = rc40_config()
+%RC40_CONFIG  Central configuration for the RC40 pinmap -> Simulink generator.
+%
+%   Edit the paths and options here, then run BUILD_RC40_MODEL.
+%
+%   All rules encoded below are derived from:
+%     - RC40_Pinmap.xlsx        (pin definitions: Signal / Power / Communication)
+%     - Hw*.h header files       (data types and physical ranges per signal type)
+%     - MASAR naming convention  (HwInp/HwOutp array element references)
+%
+%   See README.md for details.
+
+% ----------------------------------------------------------------------------
+% Paths
+% ----------------------------------------------------------------------------
+here            = fileparts(mfilename('fullpath'));
+repoRoot        = fileparts(here);                       % .../RC40
+
+cfg.pinmapXlsx  = fullfile(repoRoot, 'RC40_Pinmap.xlsx'); % input pin definition
+% CAN definitions. MASAR manages CAN in the CANdbaseEditor workbook (the
+% "Dataset" sheet with an explicit "Tx or Rx" column). That is the primary
+% source. A raw .dbc is kept as an optional fallback.
+cfg.canExcel    = fullfile(repoRoot, 'CANdbaseEditor.xlsm'); % MASAR CAN Excel
+cfg.canExcelSheet = 'Dataset';
+cfg.dbcFolder   = fullfile(repoRoot, 'can');              % folder scanned for *.dbc (fallback)
+cfg.dbcFiles    = {fullfile(repoRoot,'KIA_ADUS_CAN_v0_6.dbc')}; % explicit .dbc (fallback)
+cfg.outputSlx   = fullfile(repoRoot, 'RC27_18_Model.slx'); % model to (re)create
+cfg.modelName   = 'RC27_18_Model';
+
+% Target controller variant. This pinmap matches the RC27-18/40 (BODAS RC
+% series 40): 45 power outputs (21 high-side / 24 low-side) + 11 low-power
+% outputs + 58 multi-functional inputs + 4 CAN. Kept for documentation and
+% for variant-specific checks.
+cfg.ecuType     = 'RC27-18/40';
+
+% CAN node name of THIS controller inside the DBC network database.
+cfg.ecuNode     = 'RC27_18';
+
+% CAN direction logic selector (decision lives in rc40_can_direction.m):
+%   'masar' - use the explicit "Tx or Rx" column from the MASAR CAN Excel
+%             (Dataset sheet). This is how MASAR Tool manages CAN. DEFAULT.
+%   'node'  - infer from DBC transmitter/receiver relative to cfg.ecuNode
+%             (fallback when only a raw .dbc is available).
+cfg.canDirectionMode = 'masar';
+
+% CAN source selector:
+%   'excel' - read CAN signals from cfg.canExcel (MASAR Dataset sheet). DEFAULT.
+%   'dbc'   - read CAN signals from cfg.dbcFiles / cfg.dbcFolder (*.dbc).
+cfg.canSource = 'excel';
+
+% ----------------------------------------------------------------------------
+% Generation options
+% ----------------------------------------------------------------------------
+% Which pins get a Simulink port:
+%   'all'      - every Signal/Comm pin becomes a port (MASAR name used when present,
+%                otherwise the physical pin name such as A01). RECOMMENDED while the
+%                "Pin Assignment (MASAR)" column is still being filled in.
+%   'assigned' - only pins whose "Pin Assignment (MASAR)" cell is non-empty.
+cfg.portSelection      = 'all';
+
+% Include the Power section (Power Supply / Ground / SensorSupply / SensorGND)
+% as ports. Usually OFF - supply/ground pins are not model I/O.
+cfg.includePowerPins   = false;
+
+% Include the Communication section (LIN / CAN / Ethernet) as CAN Tx/Rx ports.
+cfg.includeCommPins     = true;
+
+% HS/LS suffix on OUTPUT index names (e.g. DevOutp_A03LS_D).
+% NOTE: HS/LS is a MASAR-internal naming convenience (not a hardware property),
+% derived from "High Side" / "Low Side" in the Description column.
+% Set false to emit plain DevOutp_<pin>_D.
+cfg.useHsLsSuffix       = true;
+
+% Per-pin overrides for cases the Excel cannot express, e.g. a pin whose
+% Description is empty ('-') so HS/LS can't be inferred, or a pin that MASAR
+% reconfigures away from the Excel Type. Each entry: pin -> struct with any of
+% the fields {hwArray, hwClass, dataType, side, direction}. Fields left out
+% fall back to the value derived from the Excel Type via rc40_typemap.
+%   Sources: RC5-6/40 header note "K12/K13 can be reconfigured as high side";
+%            RC40 datasheet (K17 = HighSide 4A current-controlled power output).
+ov = containers.Map('KeyType','char','ValueType','any');
+ov('K17') = struct('side','HS');                          % desc '-' in Excel; HS per datasheet
+% ov('K13') = struct('hwArray','PropPwr','hwClass','HwOutpPropPwr','side','LS'); % if MASAR reconfigures K13 to power
+cfg.overrides = ov;
+
+% Validation policy when a pin's Type is not recognized:
+%   'error' - stop and report (strict, recommended)
+%   'warn'  - warn and skip the pin
+cfg.onUnknownType      = 'error';
+
+% Layout spacing (pixels) for auto-placed ports.
+cfg.layout.x_in        = 40;    % x of input ports column
+cfg.layout.x_out       = 640;   % x of output ports column
+cfg.layout.y0          = 40;    % first port y
+cfg.layout.dy          = 40;    % vertical spacing
+cfg.layout.w           = 30;    % port width
+cfg.layout.h           = 14;    % port height
+
+end

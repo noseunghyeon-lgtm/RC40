@@ -83,6 +83,12 @@ cfg.appendTypeSuffix   = true;
 % (Pull-Down / Pull-Up), e.g. PD_K38_APP_Sig1. PD_ = Pull-Down.
 cfg.usePullPrefix      = true;
 
+% Prefix HwOutp port names with HS_ / LS_ based on the High Side / Low Side
+% information in the Description (RC40 datasheet). e.g. HS_A31_u16, LS_A03_u16.
+% Applies to switching/power outputs (PropPwr, DigSig, PropSig). Analog
+% voltage outputs (AbsltU: A12, K25, K62) have no side and are left as-is.
+cfg.useHsLsOutPrefix   = true;
+
 % CAN signal port data type:
 %   'raw'    - use the raw integer type (u8->uint8, u16->uint16, ...) as sent
 %              on the bus, ignoring factor/offset. Matches the manual model

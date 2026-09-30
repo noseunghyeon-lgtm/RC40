@@ -71,7 +71,7 @@ function build_rc40_model(cfg)
         if strcmp(cfg.portSelection,'assigned') && isempty(strtrim(p.masar))
             nSkipped=nSkipped+1; continue;
         end
-        portName = choosePortName(p, cfg);
+        portName = choosePortName(p, m, cfg);
         portName = appendTypeSuffix(portName, m.dataType, cfg);   % e.g. _u16, _l
 
         % --- subsystem group (path relative to model) ---
@@ -314,20 +314,27 @@ function placePort(blk, direction, cfg, counters, sub)
     counters(key) = n+1; %#ok<NASGU>
 end
 
-function nm = choosePortName(p, cfg)
+function nm = choosePortName(p, m, cfg)
     % base name: MASAR assignment when present, else physical pin name
     if strcmp(cfg.portSelection,'all')
         if ~isempty(strtrim(p.masar)), base = sanitize(p.masar); else, base = p.name; end
     else
         base = sanitize(p.masar);
     end
-    % optional Pull-Down / Pull-Up prefix from Description (PD_ / PU_)
-    if isfield(cfg,'usePullPrefix') && cfg.usePullPrefix
+    % INPUT: optional Pull-Down / Pull-Up prefix from Description (PD_ / PU_)
+    if strcmp(m.direction,'In') && isfield(cfg,'usePullPrefix') && cfg.usePullPrefix
         d = lower(p.desc);
         if contains(d,'pull-down') || contains(d,'pull down') || contains(d,'pulldown')
             base = ['PD_' base];
         elseif contains(d,'pull-up') || contains(d,'pull up') || contains(d,'pullup')
             base = ['PU_' base];
+        end
+    end
+    % OUTPUT: optional HS_ / LS_ prefix from High Side / Low Side (RC40 datasheet).
+    % Applies to switching/power outputs; analog voltage output (AbsltU) has no side.
+    if strcmp(m.direction,'Out') && isfield(cfg,'useHsLsOutPrefix') && cfg.useHsLsOutPrefix
+        if ~strcmp(m.hwArray,'AbsltU') && ~isempty(m.side)
+            base = [m.side '_' base];       % HS_ / LS_
         end
     end
     nm = base;

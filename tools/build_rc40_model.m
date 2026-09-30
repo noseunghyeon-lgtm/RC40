@@ -84,6 +84,7 @@ function build_rc40_model(cfg)
 
         % apply characteristics
         set_param(blk, 'OutDataTypeStr', m.dataType);
+        setPortDims(blk, cfg);                 % PortDimensions (e.g. '1')
         % MASAR reference as a description annotation on the port
         masarRef = masarReference(p, m, cfg);
         set_param(blk, 'Description', sprintf(['Pin=%s\nType=%s\nMASAR=%s\n' ...
@@ -114,6 +115,7 @@ function build_rc40_model(cfg)
             addPortBlock(blk, blockType);
             dt = S.dataType;                 % already a Simulink type string
             set_param(blk,'OutDataTypeStr',dt);
+            setPortDims(blk, cfg);             % PortDimensions (e.g. '1')
             set_param(blk,'Description',sprintf(['CAN msg=%s id=0x%X %s node=%s dir=%s\n' ...
                 'sig=%s start=%d len=%d factor=%g offset=%g [%g..%g] %s'], ...
                 S.message, S.id, tern(S.extended,'ext','std'), S.node, dir, ...
@@ -134,6 +136,17 @@ end
 % ============================================================================
 % helpers
 % ============================================================================
+function setPortDims(blk, cfg)
+    % Stamp PortDimensions on the port (matches the manual model's
+    % "포트 차원" field). Applies to Inport; Outport ignores gracefully.
+    if ~(isfield(cfg,'portDimensions') && ~isempty(cfg.portDimensions)), return; end
+    try
+        set_param(blk, 'PortDimensions', cfg.portDimensions);
+    catch
+        % Outport (or a release without the param): ignore.
+    end
+end
+
 function sigs = loadCanSignals(cfg)
 %LOADCANSIGNALS  Return a normalized CAN signal list from the configured source.
 %   Each element: .message .node .name .dataType(Simulink) .id .extended
@@ -148,7 +161,11 @@ function sigs = loadCanSignals(cfg)
             raw = rc40_read_can_excel(cfg.canExcel, cfg.canExcelSheet);
             for i=1:numel(raw)
                 r = raw(i); s = r;
-                s.dataType = masarTypeToSimulink(r.dataType, r.factor, r.offset);
+                if strcmpi(cfg.canValueMode,'raw')
+                    s.dataType = masarTypeToSimulink(r.dataType, 1, 0);  % raw integer type
+                else
+                    s.dataType = masarTypeToSimulink(r.dataType, r.factor, r.offset);
+                end
                 sigs(end+1) = s; %#ok<AGROW>
             end
         case 'dbc'
@@ -165,7 +182,7 @@ function sigs = loadCanSignals(cfg)
                         if S.byteOrder==1, s.byteOrder='Intel'; else, s.byteOrder='Motorola'; end
                         s.factor=S.factor; s.offset=S.offset; s.min=S.min; s.max=S.max;
                         s.unit=S.unit; s.dir='';                 % unknown -> node mode decides
-                        s.dataType = canSignalDataType(S);
+                        s.dataType = canSignalDataType(S, cfg);
                         s.receivers = S.receivers; s.txNode = M.txNode; %#ok<STRNU>
                         sigs(end+1) = s; %#ok<AGROW>
                     end
@@ -277,14 +294,17 @@ function ref = masarReference(p, m, cfg)
     end
 end
 
-function dt = canSignalDataType(S)
+function dt = canSignalDataType(S, cfg)
     bits = S.len;
     if S.signed
         if bits<=8, dt='int8'; elseif bits<=16, dt='int16'; elseif bits<=32, dt='int32'; else, dt='int64'; end
     else
         if bits<=8, dt='uint8'; elseif bits<=16, dt='uint16'; elseif bits<=32, dt='uint32'; else, dt='uint64'; end
     end
-    if S.factor ~= 1 || S.offset ~= 0, dt='single'; end % scaled -> physical
+    % 'phys' mode -> scaled signals become single; 'raw' keeps integer type.
+    if nargin>1 && strcmpi(cfg.canValueMode,'phys') && (S.factor~=1 || S.offset~=0)
+        dt='single';
+    end
 end
 
 function list = resolveDbcList(cfg)

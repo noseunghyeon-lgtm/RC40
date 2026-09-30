@@ -84,11 +84,23 @@ Name | Type | In/Out | Description | Pin Assignment (MASAR) | Connect to
 | int16 | `_i16` | |
 | single | `_f32` | `SteerWheelAngle_f32` (스케일 신호) |
 
-## Pull-Down / Pull-Up 접두사 (`cfg.usePullPrefix`, 기본 off)
+## Pull-Down / Pull-Up 접두사 (`cfg.usePullPrefix`, 기본 on)
 
-아날로그 입력의 Description이 `Pull-Down`/`Pull-Up`이면 포트명에 `PD_`/`PU_`
-접두사를 붙입니다(예: `PD_K38_APP_Sig1`). `PD_`=Pull-Down. 전 핀 규칙이 확정되면
-`true`로 켜세요.
+입력 핀 Description이 `Pull-Down`/`Pull-Up`이면 포트명에 `PD_`/`PU_` 접두사를
+붙입니다. `PD_`=Pull-Down. 예: `PD_A13_u16`, `PU_A14_u16`.
+
+## 블록 파라미터 설정 (수작업 모델과 동일하게)
+
+생성되는 각 Inport/Outport에 다음 블록 파라미터를 명시적으로 설정합니다:
+
+- **데이터형** (`OutDataTypeStr`): Type/신호에서 도출한 타입 (uint8/uint16/...)
+- **포트 차원** (`PortDimensions`): `cfg.portDimensions` (기본 `'1'`, 스칼라)
+
+## CAN 값 모드 (`cfg.canValueMode`, 기본 `'raw'`)
+
+- `'raw'`: 버스 원시 정수 타입 그대로(`u16`→`uint16` 등). factor/offset 무시.
+  수작업 모델과 동일(예: `SteeringAngle_u16`). 스케일 변환은 모델 내부에서.
+- `'phys'`: factor≠1 또는 offset≠0이면 물리값으로 보고 `single`(`_f32`)로 생성.
 
 ## MASAR 명명 규칙
 

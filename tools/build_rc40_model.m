@@ -326,24 +326,40 @@ function writeBswSnippets(hwPins, cfg)
 end
 
 function emitPinSnippet(fid, hp)
-    idx = hp.index;   % e.g. DevOutp_K81_D
+    % Match the exact pattern used in Os10msProc.c:
+    %   <base>.stErrReactn_e = ErrReactn_s.outp_s.ErrReactn_s.<arr>_as_<idx>_stErrReactn_e;
+    %   <base>.flgSp_l = ...;
+    %   <base>.<value field> = <application source>;
+    idx = hp.index;                                   % e.g. DevOutp_K81_D
     if strcmp(hp.dir,'Out')
         base = sprintf('HwOutp_s.%s_as[%s].inp_s', hp.hwArray, idx);
+        errR = sprintf('ErrReactn_s.outp_s.ErrReactn_s.%s_as_%s_stErrReactn_e', hp.hwArray, idx);
+        % application source signals: PropSig/PropPwr duty -> PO_s, digital -> DO_s
+        srcPO = sprintf('Veh_s.GW1_Core_s.outp_s.PO_s.%s', hp.portName);   % e.g. LS_K81_APP_...
+        srcDO = sprintf('Veh_s.GW1_Core_s.outp_s.DO_s.%s', hp.portName);   % e.g. HS_A31_...
         switch hp.hwArray
             case 'PropPwr'
-                fprintf(fid, '%s.flgSp_l = TRUE;\n', base);
-                fprintf(fid, '%s.iSp_mA_u16 = /* <%s current mA> */;\n', base, hp.portName);
-                fprintf(fid, '%s.stErrReactn_e = /* <ErrReactn> */;\n', base);
+                % Current-controlled / PWM power output.
+                fprintf(fid, '%s.stErrReactn_e = %s;\n', base, errR);
+                fprintf(fid, '%s.flgSp_l = (bool)%s;\n', base, srcDO);
+                fprintf(fid, '%s.iSp_mA_u16 = /* <%s current mA, or dead value if Fct*Ctrl mode> */;\n', base, hp.portName);
+                fprintf(fid, '%s.dutyCycSp_perml_u16 = /* <%s duty 0.1%%, or dead value> */;\n', base, hp.portName);
             case 'PropSig'
+                fprintf(fid, '%s.stErrReactn_e = %s;\n', base, errR);
                 fprintf(fid, '%s.flgSp_l = TRUE;\n', base);
-                fprintf(fid, '%s.dutyCycSp_perml_u16 = /* <%s duty 0.1%%> */;\n', base, hp.portName);
-                fprintf(fid, '%s.stErrReactn_e = /* <ErrReactn> */;\n', base);
+                fprintf(fid, '%s.dutyCycSp_perml_u16 = %s; /* duty 0.1%% (0~1000) */\n', base, srcPO);
             case 'DigSig'
-                fprintf(fid, '%s.flgSp_l = /* <%s TRUE/FALSE> */;\n', base, hp.portName);
-                fprintf(fid, '%s.stErrReactn_e = /* <ErrReactn> */;\n', base);
+                fprintf(fid, '%s.stErrReactn_e = %s;\n', base, errR);
+                fprintf(fid, '%s.flgSp_l = (bool)%s;\n', base, srcDO);
             case 'AbsltU'
-                fprintf(fid, '%s.uAbslt_mV_u16 = /* <%s voltage mV> */;\n', base, hp.portName);
-                fprintf(fid, '%s.stErrReactn_e = /* <ErrReactn> */;\n', base);
+                fprintf(fid, '%s.stErrReactn_e = %s;\n', base, errR);
+                fprintf(fid, '%s.uAbslt_mV_u16 = /* <%s voltage mV, 0~10000> */;\n', base, hp.portName);
+            case 'DigPwr'
+                fprintf(fid, '%s.stErrReactn_e = %s;\n', base, errR);
+                fprintf(fid, '%s.flgSp_l = (bool)%s;\n', base, srcDO);
+            case 'RelU'
+                fprintf(fid, '%s.stErrReactn_e = %s;\n', base, errR);
+                fprintf(fid, '%s.uRel_perml_u16 = /* <%s 0~1000> */;\n', base, hp.portName);
         end
     else
         base = sprintf('HwInp_s.%s_as[%s].outp_s', hp.hwArray, idx);
@@ -355,6 +371,7 @@ function emitPinSnippet(fid, hp)
             case 'Sent',   fprintf(fid, '/* %s */ x = %s.dataSerlMsg_u16;\n', hp.portName, base);
         end
     end
+    fprintf(fid, '\n');   % blank line between pins, like the real code
 end
 
 function cs = uniqueClasses(hwPins, D)

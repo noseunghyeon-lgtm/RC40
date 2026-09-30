@@ -36,6 +36,7 @@ function build_rc40_model(cfg)
     counters = containers.Map('KeyType','char','ValueType','double'); % y position per subsystem
 
     nMade = 0; nSkipped = 0; report = {};
+    hwPins = struct('dir',{},'hwArray',{},'index',{},'portName',{});  % for BSW snippets
 
     % ---- 3. signal ports --------------------------------------------------------
     for i = 1:numel(pins)
@@ -98,9 +99,14 @@ function build_rc40_model(cfg)
         set_param(blk, 'OutDataTypeStr', m.dataType);
         setPortDims(blk, cfg);                 % PortDimensions (e.g. '1')
         % MASAR reference as a description annotation on the port
-        masarRef = masarReference(p, m, cfg);
+        masarRef = masarReference(p, m, cfg);          % e.g. PropSig_as[DevOutp_K81_D]
         set_param(blk, 'Description', sprintf(['Pin=%s\nType=%s\nMASAR=%s\n' ...
             'HW=%s (%s)\nUnit=%s'], p.name, p.type, masarRef, m.hwClass, m.hwArray, m.unit));
+
+        % remember for BSW snippet generation
+        idx = regexp(masarRef, '\[(.*)\]', 'tokens', 'once');
+        hwPins(end+1) = struct('dir',m.direction,'hwArray',m.hwArray, ...
+            'index',idx{1},'portName',portName); %#ok<AGROW>
 
         % auto layout
         placePort(blk, m.direction, cfg, counters, sub);
@@ -140,6 +146,11 @@ function build_rc40_model(cfg)
             nMade=nMade+1;
             report{end+1}=sprintf('CAN  %-4s %-28s -> %-8s (id 0x%X)', dir, portName, dt, S.id); %#ok<AGROW>
         end
+    end
+
+    % ---- 4b. BSW integration snippets ------------------------------------------
+    if isfield(cfg,'genBswSnippets') && cfg.genBswSnippets
+        writeBswSnippets(hwPins, cfg);
     end
 
     % ---- 5. save + report -------------------------------------------------------
@@ -280,6 +291,79 @@ function sub = ensureSubsystem(model, grp, subs, cfg)
         path = subs(rel); %#ok<NASGU>
     end
     sub = subs(grp);
+end
+
+function writeBswSnippets(hwPins, cfg)
+%WRITEBSWSNIPPETS  Emit ready-to-use BSW access code for every HW pin.
+%   Groups by direction+class and writes <modelName>_bsw_integration.c next
+%   to the .slx. Outputs write to .inp_s; inputs read from .outp_s.
+    [d,~,~] = fileparts(cfg.outputSlx);
+    outFile = fullfile(d, [cfg.modelName '_bsw_integration.c']);
+    fid = fopen(outFile,'w');
+    if fid<0, warning('rc40:BswFile','Cannot write %s', outFile); return; end
+    c = onCleanup(@() fclose(fid));
+
+    fprintf(fid, '/* Auto-generated BSW integration snippets for %s\n', cfg.modelName);
+    fprintf(fid, '   Outputs: write setpoints to .inp_s   Inputs: read measured from .outp_s\n');
+    fprintf(fid, '   Replace <...> placeholders with application signals. */\n\n');
+
+    % stable order: outputs first then inputs, grouped by class
+    dirs = {'Out','In'};
+    for di = 1:numel(dirs)
+        D = dirs{di};
+        classes = uniqueClasses(hwPins, D);
+        for ci = 1:numel(classes)
+            cls = classes{ci};
+            fprintf(fid, '/* ===== %s / %s ===== */\n', ternary(D,'Out','HwOutp','HwInp'), cls);
+            for i = 1:numel(hwPins)
+                if ~strcmp(hwPins(i).dir,D) || ~strcmp(hwPins(i).hwArray,cls), continue; end
+                emitPinSnippet(fid, hwPins(i));
+            end
+            fprintf(fid, '\n');
+        end
+    end
+    fprintf('BSW snippets written: %s\n', outFile);
+end
+
+function emitPinSnippet(fid, hp)
+    idx = hp.index;   % e.g. DevOutp_K81_D
+    if strcmp(hp.dir,'Out')
+        base = sprintf('HwOutp_s.%s_as[%s].inp_s', hp.hwArray, idx);
+        switch hp.hwArray
+            case 'PropPwr'
+                fprintf(fid, '%s.flgSp_l = TRUE;\n', base);
+                fprintf(fid, '%s.iSp_mA_u16 = /* <%s current mA> */;\n', base, hp.portName);
+                fprintf(fid, '%s.stErrReactn_e = /* <ErrReactn> */;\n', base);
+            case 'PropSig'
+                fprintf(fid, '%s.flgSp_l = TRUE;\n', base);
+                fprintf(fid, '%s.dutyCycSp_perml_u16 = /* <%s duty 0.1%%> */;\n', base, hp.portName);
+                fprintf(fid, '%s.stErrReactn_e = /* <ErrReactn> */;\n', base);
+            case 'DigSig'
+                fprintf(fid, '%s.flgSp_l = /* <%s TRUE/FALSE> */;\n', base, hp.portName);
+                fprintf(fid, '%s.stErrReactn_e = /* <ErrReactn> */;\n', base);
+            case 'AbsltU'
+                fprintf(fid, '%s.uAbslt_mV_u16 = /* <%s voltage mV> */;\n', base, hp.portName);
+                fprintf(fid, '%s.stErrReactn_e = /* <ErrReactn> */;\n', base);
+        end
+    else
+        base = sprintf('HwInp_s.%s_as[%s].outp_s', hp.hwArray, idx);
+        switch hp.hwArray
+            case 'AnU',    fprintf(fid, '/* %s */ x = %s.u_mV_u16;\n',   hp.portName, base);
+            case 'Dig',    fprintf(fid, '/* %s */ x = %s.flg_l;\n',      hp.portName, base);
+            case 'FrqStd', fprintf(fid, '/* %s */ x = %s.frq_p1Hz_u32;\n',hp.portName, base);
+            case 'R',      fprintf(fid, '/* %s */ x = %s.r_Ohm_u32;\n',  hp.portName, base);
+            case 'Sent',   fprintf(fid, '/* %s */ x = %s.dataSerlMsg_u16;\n', hp.portName, base);
+        end
+    end
+end
+
+function cs = uniqueClasses(hwPins, D)
+    cs = {};
+    for i=1:numel(hwPins)
+        if strcmp(hwPins(i).dir,D) && ~any(strcmp(cs,hwPins(i).hwArray))
+            cs{end+1}=hwPins(i).hwArray; %#ok<AGROW>
+        end
+    end
 end
 
 function addClassGuide(subsysPath, leafName)

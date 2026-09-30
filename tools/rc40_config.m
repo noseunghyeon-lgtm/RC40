@@ -74,10 +74,13 @@ cfg.hwGrouping         = 'nested';
 % Include the Communication section (LIN / CAN / Ethernet) as CAN Tx/Rx ports.
 cfg.includeCommPins     = true;
 
-% Append the data-type suffix to port names, matching the model convention
-% (e.g. SteeringAngle -> SteeringAngle_u16, HydraulicFailure -> ..._l,
-% MC_EPSO1 -> MC_EPSO1_u8). Mapping in rc40_type_suffix.m.
-cfg.appendTypeSuffix   = true;
+% Append the data-type suffix to port names (e.g. _u16, _l).
+% OFF for BSW integration: the port name is used verbatim as a C identifier,
+% and the data type already lives in the HW struct field
+% (e.g. dutyCycSp_perml_u16). Keeping the port name clean (LS_K81, HS_A31,
+% PD_A13) avoids duplicated/inconsistent type info during integration.
+% (The type/unit/range is documented in each subsystem's guide annotation.)
+cfg.appendTypeSuffix   = false;
 
 % Prefix analog input port names with PD_ / PU_ based on the Description
 % (Pull-Down / Pull-Up), e.g. PD_K38_APP_Sig1. PD_ = Pull-Down.
@@ -100,10 +103,17 @@ cfg.canValueMode       = 'raw';
 % Manual model uses scalar signals -> 1.
 cfg.portDimensions     = '1';
 
-% Add a short usage-guide annotation inside each HW class subsystem
-% (e.g. inside HwOutp/PropSig: "PropSig ...\nu16 = 0~1000"), so each pin
-% group documents its data type / unit / range. See rc40_class_guide.m.
+% Add a full usage-guide annotation inside each HW class subsystem
+% (direction, data type, range, HW struct path + fields, usage snippet),
+% so each pin group documents how to integrate with the BSW.
+% See rc40_class_guide.m.
 cfg.addClassGuide      = true;
+
+% Auto-generate a BSW integration snippet file listing, for every pin, the
+% ready-to-use HW struct access (with the DevInp_/DevOutp_ index) so it can
+% be copy-pasted during integration instead of typing indices by hand.
+% Written next to the .slx as <modelName>_bsw_integration.c
+cfg.genBswSnippets     = true;
 
 % CAN port naming:
 %   'signal'  - use the signal name only (e.g. SteeringAngle_u16). If two

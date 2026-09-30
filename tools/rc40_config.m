@@ -65,6 +65,26 @@ cfg.includePowerPins   = false;
 % Include the Communication section (LIN / CAN / Ethernet) as CAN Tx/Rx ports.
 cfg.includeCommPins     = true;
 
+% Append the data-type suffix to port names, matching the model convention
+% (e.g. SteeringAngle -> SteeringAngle_u16, HydraulicFailure -> ..._l,
+% MC_EPSO1 -> MC_EPSO1_u8). Mapping in rc40_type_suffix.m.
+cfg.appendTypeSuffix   = true;
+
+% Prefix analog input port names with PD_ / PU_ based on the Description
+% (Pull-Down / Pull-Up), e.g. PD_K38_APP_Sig1. PD_ = Pull-Down.
+cfg.usePullPrefix      = true;
+
+% CAN signal port data type:
+%   'raw'    - use the raw integer type (u8->uint8, u16->uint16, ...) as sent
+%              on the bus, ignoring factor/offset. Matches the manual model
+%              (e.g. SteeringAngle_u16). Scaling is done downstream. DEFAULT.
+%   'phys'   - use single when factor~=1 or offset~=0 (physical value).
+cfg.canValueMode       = 'raw';
+
+% Port dimensions to stamp on every generated port (PortDimensions param).
+% Manual model uses scalar signals -> 1.
+cfg.portDimensions     = '1';
+
 % HS/LS suffix on OUTPUT index names (e.g. DevOutp_A03LS_D).
 % NOTE: HS/LS is a MASAR-internal naming convenience (not a hardware property),
 % derived from "High Side" / "Low Side" in the Description column.

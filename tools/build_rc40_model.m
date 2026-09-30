@@ -68,10 +68,11 @@ function build_rc40_model(cfg)
         end
 
         % --- port selection policy ---
-        portName = choosePortName(p, cfg);
         if strcmp(cfg.portSelection,'assigned') && isempty(strtrim(p.masar))
             nSkipped=nSkipped+1; continue;
         end
+        portName = choosePortName(p, cfg);
+        portName = appendTypeSuffix(portName, m.dataType, cfg);   % e.g. _u16, _l
 
         % --- subsystem group (e.g. Input_AnU, Output_PropPwr) ---
         grp = sprintf('%s_%s', ternary(m.direction,"In","Input","Output"), m.hwArray);
@@ -83,6 +84,7 @@ function build_rc40_model(cfg)
 
         % apply characteristics
         set_param(blk, 'OutDataTypeStr', m.dataType);
+        setPortDims(blk, cfg);                 % PortDimensions (e.g. '1')
         % MASAR reference as a description annotation on the port
         masarRef = masarReference(p, m, cfg);
         set_param(blk, 'Description', sprintf(['Pin=%s\nType=%s\nMASAR=%s\n' ...
@@ -107,11 +109,13 @@ function build_rc40_model(cfg)
             if isempty(dir), continue; end
             if strcmp(dir,'Out'), blockType='Outport'; else, blockType='Inport'; end
             sub = ensureSubsystem(name, grp, subs);
-            portName = sanitize(sprintf('%s_%s', S.message, S.name));
+            portName = sanitize(S.name);                          % signal-level name
+            portName = appendTypeSuffix(portName, S.dataType, cfg); % e.g. _u8, _u16
             blk = sprintf('%s/%s', sub, portName);
             addPortBlock(blk, blockType);
             dt = S.dataType;                 % already a Simulink type string
             set_param(blk,'OutDataTypeStr',dt);
+            setPortDims(blk, cfg);             % PortDimensions (e.g. '1')
             set_param(blk,'Description',sprintf(['CAN msg=%s id=0x%X %s node=%s dir=%s\n' ...
                 'sig=%s start=%d len=%d factor=%g offset=%g [%g..%g] %s'], ...
                 S.message, S.id, tern(S.extended,'ext','std'), S.node, dir, ...
@@ -132,21 +136,45 @@ end
 % ============================================================================
 % helpers
 % ============================================================================
+function setPortDims(blk, cfg)
+    % Stamp PortDimensions on the port (matches the manual model's
+    % "포트 차원" field). Applies to Inport; Outport ignores gracefully.
+    if ~(isfield(cfg,'portDimensions') && ~isempty(cfg.portDimensions)), return; end
+    try
+        set_param(blk, 'PortDimensions', cfg.portDimensions);
+    catch
+        % Outport (or a release without the param): ignore.
+    end
+end
+
 function sigs = loadCanSignals(cfg)
 %LOADCANSIGNALS  Return a normalized CAN signal list from the configured source.
 %   Each element: .message .node .name .dataType(Simulink) .id .extended
 %                 .startBit .length .signed .byteOrder .factor .offset
 %                 .min .max .unit .dir('Tx'|'Rx' when known)
-    sigs = struct('message',{},'node',{},'name',{},'dataType',{},'id',{}, ...
-        'extended',{},'startBit',{},'length',{},'signed',{},'byteOrder',{}, ...
-        'factor',{},'offset',{},'min',{},'max',{},'unit',{},'dir',{});
+    % Fixed field set. Every element is built via makeSig() so struct-array
+    % assignment never fails on mismatched/extra fields.
+    sigs = makeSig();   % 0x0 template
 
     switch lower(cfg.canSource)
         case 'excel'
+            if exist(cfg.canExcel,'file')~=2
+                warning('rc40:CanExcelMissing', ...
+                    'CAN Excel not found: %s -- skipping CAN ports. Set cfg.canExcel or cfg.includeCommPins=false.', ...
+                    cfg.canExcel);
+                return;
+            end
             raw = rc40_read_can_excel(cfg.canExcel, cfg.canExcelSheet);
             for i=1:numel(raw)
-                r = raw(i); s = r;
-                s.dataType = masarTypeToSimulink(r.dataType, r.factor, r.offset);
+                r = raw(i);
+                if strcmpi(cfg.canValueMode,'raw')
+                    dt = masarTypeToSimulink(r.dataType, 1, 0);          % raw integer type
+                else
+                    dt = masarTypeToSimulink(r.dataType, r.factor, r.offset);
+                end
+                s = makeSig(r.message, r.node, r.name, dt, r.id, r.extended, ...
+                    r.startBit, r.length, r.signed, r.byteOrder, ...
+                    r.factor, r.offset, r.min, r.max, r.unit, r.dir, {});
                 sigs(end+1) = s; %#ok<AGROW>
             end
         case 'dbc'
@@ -157,14 +185,11 @@ function sigs = loadCanSignals(cfg)
                     M=msgs(mi);
                     for si=1:numel(M.signals)
                         S=M.signals(si);
-                        s.message=M.name; s.node=M.txNode; s.name=S.name;
-                        s.id=M.id; s.extended=M.extended;
-                        s.startBit=S.startBit; s.length=S.len; s.signed=S.signed;
-                        if S.byteOrder==1, s.byteOrder='Intel'; else, s.byteOrder='Motorola'; end
-                        s.factor=S.factor; s.offset=S.offset; s.min=S.min; s.max=S.max;
-                        s.unit=S.unit; s.dir='';                 % unknown -> node mode decides
-                        s.dataType = canSignalDataType(S);
-                        s.receivers = S.receivers; s.txNode = M.txNode; %#ok<STRNU>
+                        if S.byteOrder==1, bo='Intel'; else, bo='Motorola'; end
+                        dt = canSignalDataType(S, cfg);
+                        s = makeSig(M.name, M.txNode, S.name, dt, M.id, M.extended, ...
+                            S.startBit, S.len, S.signed, bo, ...
+                            S.factor, S.offset, S.min, S.max, S.unit, '', S.receivers);
                         sigs(end+1) = s; %#ok<AGROW>
                     end
                 end
@@ -172,6 +197,22 @@ function sigs = loadCanSignals(cfg)
         otherwise
             error('rc40:CanSource','Unknown cfg.canSource: %s', cfg.canSource);
     end
+end
+
+function s = makeSig(message,node,name,dataType,id,extended,startBit,length_, ...
+                     signed,byteOrder,factor,offset,mn,mx,unit,dir,receivers)
+%MAKESIG  Build a normalized CAN-signal struct with a FIXED field set.
+%   makeSig() with no args returns a 0x0 struct template (for preallocation).
+    if nargin==0
+        s = struct('message',{},'node',{},'name',{},'dataType',{},'id',{}, ...
+            'extended',{},'startBit',{},'length',{},'signed',{},'byteOrder',{}, ...
+            'factor',{},'offset',{},'min',{},'max',{},'unit',{},'dir',{},'receivers',{});
+        return;
+    end
+    s = struct('message',message,'node',node,'name',name,'dataType',dataType, ...
+        'id',id,'extended',extended,'startBit',startBit,'length',length_, ...
+        'signed',signed,'byteOrder',byteOrder,'factor',factor,'offset',offset, ...
+        'min',mn,'max',mx,'unit',unit,'dir',dir,'receivers',{receivers});
 end
 
 function dt = masarTypeToSimulink(masarType, factor, offset)
@@ -229,10 +270,30 @@ function placePort(blk, direction, cfg, counters, sub)
 end
 
 function nm = choosePortName(p, cfg)
+    % base name: MASAR assignment when present, else physical pin name
     if strcmp(cfg.portSelection,'all')
-        if ~isempty(strtrim(p.masar)), nm = sanitize(p.masar); else, nm = p.name; end
+        if ~isempty(strtrim(p.masar)), base = sanitize(p.masar); else, base = p.name; end
     else
-        nm = sanitize(p.masar);
+        base = sanitize(p.masar);
+    end
+    % optional Pull-Down / Pull-Up prefix from Description (PD_ / PU_)
+    if isfield(cfg,'usePullPrefix') && cfg.usePullPrefix
+        d = lower(p.desc);
+        if contains(d,'pull-down') || contains(d,'pull down') || contains(d,'pulldown')
+            base = ['PD_' base];
+        elseif contains(d,'pull-up') || contains(d,'pull up') || contains(d,'pullup')
+            base = ['PU_' base];
+        end
+    end
+    nm = base;
+end
+
+function nm = appendTypeSuffix(nm, dataType, cfg)
+    % Append data-type suffix to a port name, e.g. SteeringAngle -> SteeringAngle_u16.
+    if ~(isfield(cfg,'appendTypeSuffix') && cfg.appendTypeSuffix), return; end
+    sfx = rc40_type_suffix(dataType);
+    if ~isempty(sfx) && ~endsWith(nm, ['_' sfx])
+        nm = [nm '_' sfx];
     end
 end
 
@@ -255,14 +316,17 @@ function ref = masarReference(p, m, cfg)
     end
 end
 
-function dt = canSignalDataType(S)
+function dt = canSignalDataType(S, cfg)
     bits = S.len;
     if S.signed
         if bits<=8, dt='int8'; elseif bits<=16, dt='int16'; elseif bits<=32, dt='int32'; else, dt='int64'; end
     else
         if bits<=8, dt='uint8'; elseif bits<=16, dt='uint16'; elseif bits<=32, dt='uint32'; else, dt='uint64'; end
     end
-    if S.factor ~= 1 || S.offset ~= 0, dt='single'; end % scaled -> physical
+    % 'phys' mode -> scaled signals become single; 'raw' keeps integer type.
+    if nargin>1 && strcmpi(cfg.canValueMode,'phys') && (S.factor~=1 || S.offset~=0)
+        dt='single';
+    end
 end
 
 function list = resolveDbcList(cfg)

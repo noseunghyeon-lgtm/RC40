@@ -131,6 +131,22 @@ HwOutp_s.PropSig_as[DevOutp_K81_D].inp_s.stErrReactn_e = /* <ErrReactn> */;
 ```
 → 통합 시 인덱스를 손으로 타이핑할 필요 없이 복사해서 값만 채우면 됩니다.
 
+**출력 할당은 실제 Os10msProc.c 패턴(3줄 세트)으로 생성**됩니다:
+```c
+HwOutp_s.PropSig_as[DevOutp_K81_D].inp_s.stErrReactn_e = ErrReactn_s.outp_s.ErrReactn_s.PropSig_as_DevOutp_K81_D_stErrReactn_e;
+HwOutp_s.PropSig_as[DevOutp_K81_D].inp_s.flgSp_l = TRUE;
+HwOutp_s.PropSig_as[DevOutp_K81_D].inp_s.dutyCycSp_perml_u16 = Veh_s.GW1_Core_s.outp_s.PO_s.LS_K81_APP_DA1;
+```
+- `stErrReactn_e` 라인: `ErrReactn_s.outp_s.ErrReactn_s.<arr>_as_<idx>_stErrReactn_e`
+  (인덱스 대괄호 `[]`를 언더스코어로 치환)
+- 애플리케이션 소스: PropSig/PropPwr duty → `...outp_s.PO_s.<포트명>`,
+  디지털(DigSig/DigPwr) → `...outp_s.DO_s.<포트명>`
+- `FctDigCtrl_E`/`FctPwrSply_E` 모드 핀은 `iSp_mA_u16`/`dutyCycSp_perml_u16`이
+  dead value이므로 주석으로 표시
+
+> 핀 리스트(`Os10msProc_HwInpPinList_as` 등)는 이 도구가 생성하지 않습니다.
+> easyConfig 스크립트("get Hw pins from Bsw")로 얻으세요.
+
 ## 블록 파라미터 설정 (수작업 모델과 동일하게)
 
 생성되는 각 Inport/Outport에 다음 블록 파라미터를 명시적으로 설정합니다:

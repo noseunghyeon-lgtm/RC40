@@ -85,6 +85,15 @@ cfg.canValueMode       = 'raw';
 % Manual model uses scalar signals -> 1.
 cfg.portDimensions     = '1';
 
+% CAN port naming:
+%   'signal'  - use the signal name only (e.g. SteeringAngle_u16). If two
+%               signals share a name, a numeric suffix (_2,...) is appended
+%               to keep block names unique. DEFAULT.
+%   'message' - prefix with the message name (e.g. VDC2_SteerWheelAngle_u16),
+%               guaranteeing uniqueness and matching the manual model style
+%               where the message context is part of the name.
+cfg.canPortNaming      = 'signal';
+
 % HS/LS suffix on OUTPUT index names (e.g. DevOutp_A03LS_D).
 % NOTE: HS/LS is a MASAR-internal naming convenience (not a hardware property),
 % derived from "High Side" / "Low Side" in the Description column.

@@ -80,7 +80,7 @@ function build_rc40_model(cfg)
 
         % --- create the port block (robust across releases) ---
         blk = sprintf('%s/%s', sub, portName);
-        addPortBlock(blk, m.blockType);
+        blk = addPortBlock(blk, m.blockType);   % may append _N if name clashes
 
         % apply characteristics
         set_param(blk, 'OutDataTypeStr', m.dataType);
@@ -109,10 +109,14 @@ function build_rc40_model(cfg)
             if isempty(dir), continue; end
             if strcmp(dir,'Out'), blockType='Outport'; else, blockType='Inport'; end
             sub = ensureSubsystem(name, grp, subs);
-            portName = sanitize(S.name);                          % signal-level name
+            if isfield(cfg,'canPortNaming') && strcmpi(cfg.canPortNaming,'message')
+                portName = sanitize(sprintf('%s_%s', S.message, S.name));
+            else
+                portName = sanitize(S.name);                      % signal-level name
+            end
             portName = appendTypeSuffix(portName, S.dataType, cfg); % e.g. _u8, _u16
             blk = sprintf('%s/%s', sub, portName);
-            addPortBlock(blk, blockType);
+            blk = addPortBlock(blk, blockType);   % may append _N if name clashes
             dt = S.dataType;                 % already a Simulink type string
             set_param(blk,'OutDataTypeStr',dt);
             setPortDims(blk, cfg);             % PortDimensions (e.g. '1')
@@ -251,12 +255,30 @@ function sub = ensureSubsystem(model, grp, subs)
     subs(grp) = sub; %#ok<NASGU>
 end
 
-function addPortBlock(blk, blockType)
-    % robust add for Inport/Outport across releases
+function blk = addPortBlock(blk, blockType)
+    % Add an Inport/Outport using the always-valid built-in path.
+    % If the name already exists in this subsystem (possible with 450+ CAN
+    % signals sharing a name across messages), append _2, _3, ... to keep it
+    % unique instead of erroring out.
+    orig = blk; n = 1;
+    while getSimulinkBlockExists(blk)
+        n = n + 1;
+        blk = sprintf('%s_%d', orig, n);
+    end
+    add_block(['built-in/' blockType], blk);
+end
+
+function tf = getSimulinkBlockExists(blk)
+    tf = false;
     try
-        add_block(['built-in/' blockType], blk);
+        tf = getSimulinkBlockHandle(blk) > 0;   % R2018a+
     catch
-        add_block(['simulink/Ports & Subsystems/' blockType], blk);
+        try
+            find_system(blk,'SearchDepth',0);  %#ok<FNDSB>
+            tf = true;
+        catch
+            tf = false;
+        end
     end
 end
 

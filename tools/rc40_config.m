@@ -59,8 +59,17 @@ cfg.canSource = 'excel';
 cfg.portSelection      = 'all';
 
 % Include the Power section (Power Supply / Ground / SensorSupply / SensorGND)
-% as ports. Usually OFF - supply/ground pins are not model I/O.
+% as ports. OFF - supply/ground pins are not model I/O.
 cfg.includePowerPins   = false;
+
+% HW port grouping (Signal section pins):
+%   'nested'  - two-level hierarchy: top HwInp / HwOutp subsystem, and under
+%               it one child subsystem per HW class chosen from the pin's
+%               setting (Type). e.g. HwInp/AnU, HwInp/Dig, HwOutp/PropPwr.
+%               Mirrors the header structure (HwInp_s.AnU_as[], ...). DEFAULT.
+%   'hwinout' - flat: all HW inputs in one HwInp, all HW outputs in one HwOutp.
+%   'byclass' - one subsystem per HW class (Input_AnU, Output_PropPwr, ...).
+cfg.hwGrouping         = 'nested';
 
 % Include the Communication section (LIN / CAN / Ethernet) as CAN Tx/Rx ports.
 cfg.includeCommPins     = true;
@@ -84,6 +93,15 @@ cfg.canValueMode       = 'raw';
 % Port dimensions to stamp on every generated port (PortDimensions param).
 % Manual model uses scalar signals -> 1.
 cfg.portDimensions     = '1';
+
+% CAN port naming:
+%   'signal'  - use the signal name only (e.g. SteeringAngle_u16). If two
+%               signals share a name, a numeric suffix (_2,...) is appended
+%               to keep block names unique. DEFAULT.
+%   'message' - prefix with the message name (e.g. VDC2_SteerWheelAngle_u16),
+%               guaranteeing uniqueness and matching the manual model style
+%               where the message context is part of the name.
+cfg.canPortNaming      = 'signal';
 
 % HS/LS suffix on OUTPUT index names (e.g. DevOutp_A03LS_D).
 % NOTE: HS/LS is a MASAR-internal naming convenience (not a hardware property),

@@ -152,20 +152,29 @@ function sigs = loadCanSignals(cfg)
 %   Each element: .message .node .name .dataType(Simulink) .id .extended
 %                 .startBit .length .signed .byteOrder .factor .offset
 %                 .min .max .unit .dir('Tx'|'Rx' when known)
-    sigs = struct('message',{},'node',{},'name',{},'dataType',{},'id',{}, ...
-        'extended',{},'startBit',{},'length',{},'signed',{},'byteOrder',{}, ...
-        'factor',{},'offset',{},'min',{},'max',{},'unit',{},'dir',{});
+    % Fixed field set. Every element is built via makeSig() so struct-array
+    % assignment never fails on mismatched/extra fields.
+    sigs = makeSig();   % 0x0 template
 
     switch lower(cfg.canSource)
         case 'excel'
+            if exist(cfg.canExcel,'file')~=2
+                warning('rc40:CanExcelMissing', ...
+                    'CAN Excel not found: %s -- skipping CAN ports. Set cfg.canExcel or cfg.includeCommPins=false.', ...
+                    cfg.canExcel);
+                return;
+            end
             raw = rc40_read_can_excel(cfg.canExcel, cfg.canExcelSheet);
             for i=1:numel(raw)
-                r = raw(i); s = r;
+                r = raw(i);
                 if strcmpi(cfg.canValueMode,'raw')
-                    s.dataType = masarTypeToSimulink(r.dataType, 1, 0);  % raw integer type
+                    dt = masarTypeToSimulink(r.dataType, 1, 0);          % raw integer type
                 else
-                    s.dataType = masarTypeToSimulink(r.dataType, r.factor, r.offset);
+                    dt = masarTypeToSimulink(r.dataType, r.factor, r.offset);
                 end
+                s = makeSig(r.message, r.node, r.name, dt, r.id, r.extended, ...
+                    r.startBit, r.length, r.signed, r.byteOrder, ...
+                    r.factor, r.offset, r.min, r.max, r.unit, r.dir, {});
                 sigs(end+1) = s; %#ok<AGROW>
             end
         case 'dbc'
@@ -176,14 +185,11 @@ function sigs = loadCanSignals(cfg)
                     M=msgs(mi);
                     for si=1:numel(M.signals)
                         S=M.signals(si);
-                        s.message=M.name; s.node=M.txNode; s.name=S.name;
-                        s.id=M.id; s.extended=M.extended;
-                        s.startBit=S.startBit; s.length=S.len; s.signed=S.signed;
-                        if S.byteOrder==1, s.byteOrder='Intel'; else, s.byteOrder='Motorola'; end
-                        s.factor=S.factor; s.offset=S.offset; s.min=S.min; s.max=S.max;
-                        s.unit=S.unit; s.dir='';                 % unknown -> node mode decides
-                        s.dataType = canSignalDataType(S, cfg);
-                        s.receivers = S.receivers; s.txNode = M.txNode; %#ok<STRNU>
+                        if S.byteOrder==1, bo='Intel'; else, bo='Motorola'; end
+                        dt = canSignalDataType(S, cfg);
+                        s = makeSig(M.name, M.txNode, S.name, dt, M.id, M.extended, ...
+                            S.startBit, S.len, S.signed, bo, ...
+                            S.factor, S.offset, S.min, S.max, S.unit, '', S.receivers);
                         sigs(end+1) = s; %#ok<AGROW>
                     end
                 end
@@ -191,6 +197,22 @@ function sigs = loadCanSignals(cfg)
         otherwise
             error('rc40:CanSource','Unknown cfg.canSource: %s', cfg.canSource);
     end
+end
+
+function s = makeSig(message,node,name,dataType,id,extended,startBit,length_, ...
+                     signed,byteOrder,factor,offset,mn,mx,unit,dir,receivers)
+%MAKESIG  Build a normalized CAN-signal struct with a FIXED field set.
+%   makeSig() with no args returns a 0x0 struct template (for preallocation).
+    if nargin==0
+        s = struct('message',{},'node',{},'name',{},'dataType',{},'id',{}, ...
+            'extended',{},'startBit',{},'length',{},'signed',{},'byteOrder',{}, ...
+            'factor',{},'offset',{},'min',{},'max',{},'unit',{},'dir',{},'receivers',{});
+        return;
+    end
+    s = struct('message',message,'node',node,'name',name,'dataType',dataType, ...
+        'id',id,'extended',extended,'startBit',startBit,'length',length_, ...
+        'signed',signed,'byteOrder',byteOrder,'factor',factor,'offset',offset, ...
+        'min',mn,'max',mx,'unit',unit,'dir',dir,'receivers',{receivers});
 end
 
 function dt = masarTypeToSimulink(masarType, factor, offset)

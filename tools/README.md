@@ -89,6 +89,15 @@ Name | Type | In/Out | Description | Pin Assignment (MASAR) | Connect to
 입력 핀 Description이 `Pull-Down`/`Pull-Up`이면 포트명에 `PD_`/`PU_` 접두사를
 붙입니다. `PD_`=Pull-Down. 예: `PD_A13_u16`, `PU_A14_u16`.
 
+## HwOutp HS_/LS_ 접두사 (`cfg.useHsLsOutPrefix`, 기본 on)
+
+출력 포트 이름 앞에 High Side / Low Side 구분을 붙입니다(RC40 데이터시트 =
+Description의 High Side/Low Side 근거). 예: `HS_A31_u16`, `LS_A03_u16`.
+
+- 적용 대상: 스위칭/파워 출력(`PropPwr`, `DigSig`, `PropSig`)
+- 제외: 아날로그 전압 출력(`AbsltU`: A12, K25, K62) — HS/LS 개념 없음 → 접두사 없음
+- Description에 side 표기가 없는 핀(K17)은 `cfg.overrides`로 보정(HS)
+
 ## 블록 파라미터 설정 (수작업 모델과 동일하게)
 
 생성되는 각 Inport/Outport에 다음 블록 파라미터를 명시적으로 설정합니다:

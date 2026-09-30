@@ -98,6 +98,39 @@ Description의 High Side/Low Side 근거). 예: `HS_A31_u16`, `LS_A03_u16`.
 - 제외: 아날로그 전압 출력(`AbsltU`: A12, K25, K62) — HS/LS 개념 없음 → 접두사 없음
 - Description에 side 표기가 없는 핀(K17)은 `cfg.overrides`로 보정(HS)
 
+## BSW 통합 지원
+
+코드 생성 결과를 BSW와 통합하기 쉽도록 다음을 지원합니다.
+
+### 포트명은 타입 접미사 없이 (`cfg.appendTypeSuffix=false`)
+포트 이름이 C 식별자로 그대로 쓰이므로 `_u16`/`_l` 접미사를 붙이지 않습니다.
+포트명은 `LS_K81`, `HS_A31`, `PD_A13` 처럼 깨끗하게 유지되고, 데이터타입은
+HW 구조체 필드(`dutyCycSp_perml_u16`)에 이미 있습니다.
+
+### 클래스 가이드 주석 (`cfg.addClassGuide`, 기본 on)
+각 HW 클래스 서브시스템 안에 방향·타입·범위 + **HW 구조체 접근 경로/필드 +
+사용 스니펫**을 문서화합니다(`rc40_class_guide.m`). 예: `HwOutp/PropSig`
+```
+PropSig  (Proportional Signal Output)
+DataType: u16   Range: 0~1000 (duty 0.1%)
+Write: HwOutp_s.PropSig_as[DevOutp_<pin>_D].inp_s
+  .flgSp_l             = TRUE;
+  .dutyCycSp_perml_u16 = <duty 0.1%>;
+  .stErrReactn_e       = <ErrReactn>;
+```
+
+### MASAR 인덱스 자동 활용 + 통합 코드 생성 (`cfg.genBswSnippets`, 기본 on)
+- 각 포트의 **Description**에 MASAR 인덱스가 기록됩니다
+  (`MASAR=PropSig_as[DevOutp_K81_D]`).
+- 전 핀의 **바로 붙여쓰는 통합 코드**를 `<modelName>_bsw_integration.c`로
+  자동 생성합니다. 출력은 `.inp_s`에 쓰고, 입력은 `.outp_s`에서 읽는 형태:
+```c
+HwOutp_s.PropSig_as[DevOutp_K81_D].inp_s.flgSp_l = TRUE;
+HwOutp_s.PropSig_as[DevOutp_K81_D].inp_s.dutyCycSp_perml_u16 = /* <LS_K81 duty 0.1%> */;
+HwOutp_s.PropSig_as[DevOutp_K81_D].inp_s.stErrReactn_e = /* <ErrReactn> */;
+```
+→ 통합 시 인덱스를 손으로 타이핑할 필요 없이 복사해서 값만 채우면 됩니다.
+
 ## 블록 파라미터 설정 (수작업 모델과 동일하게)
 
 생성되는 각 Inport/Outport에 다음 블록 파라미터를 명시적으로 설정합니다:

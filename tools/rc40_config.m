@@ -59,8 +59,17 @@ cfg.canSource = 'excel';
 cfg.portSelection      = 'all';
 
 % Include the Power section (Power Supply / Ground / SensorSupply / SensorGND)
-% as ports. Usually OFF - supply/ground pins are not model I/O.
+% as ports. OFF - supply/ground pins are not model I/O.
 cfg.includePowerPins   = false;
+
+% HW port grouping (Signal section pins):
+%   'nested'  - two-level hierarchy: top HwInp / HwOutp subsystem, and under
+%               it one child subsystem per HW class chosen from the pin's
+%               setting (Type). e.g. HwInp/AnU, HwInp/Dig, HwOutp/PropPwr.
+%               Mirrors the header structure (HwInp_s.AnU_as[], ...). DEFAULT.
+%   'hwinout' - flat: all HW inputs in one HwInp, all HW outputs in one HwOutp.
+%   'byclass' - one subsystem per HW class (Input_AnU, Output_PropPwr, ...).
+cfg.hwGrouping         = 'nested';
 
 % Include the Communication section (LIN / CAN / Ethernet) as CAN Tx/Rx ports.
 cfg.includeCommPins     = true;

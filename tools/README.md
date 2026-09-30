@@ -148,6 +148,31 @@ CAN 방향 로직은 `rc40_can_direction.m` 한 곳에 있으며, 데이터 소�
 동일 이름 블록이 이미 있으면 `addPortBlock`이 `_N`을 붙여 자동으로 유일하게
 만들므로, 어떤 명명 방식이든 생성이 중단되지 않습니다.
 
+## HW 포트 그룹핑 (`cfg.hwGrouping`, 기본 `'nested'`)
+
+HW 신호 포트는 방향별 최상위 서브시스템(`HwInp`/`HwOutp`) 아래에, 핀 설정값
+(Type→HW 클래스)에 따라 하위 서브시스템으로 배치됩니다. 헤더 구조
+(`HwInp_s.AnU_as[]`, `HwOutp_s.PropPwr_as[]` ...)와 동일한 계층입니다.
+
+```
+RC27_18_Model
+├── HwInp
+│   ├── AnU     (36 Inport)   ├── Dig  (8)   ├── FrqStd (14)
+│   ├── R       (6)           └── Sent (2)
+├── HwOutp
+│   ├── PropPwr (35 Outport)  ├── DigSig (16)
+│   ├── PropSig (4)           └── AbsltU (1)
+├── CAN_Rx     (299 Inport)   ← CAN은 HW와 별개
+└── CAN_Tx     (152 Outport)
+```
+
+옵션:
+- `'nested'` (기본): 위처럼 `HwInp/<class>`, `HwOutp/<class>` 2단계
+- `'hwinout'`: `HwInp`/`HwOutp` 하나에 전부 평면 배치
+- `'byclass'`: `Input_AnU`, `Output_PropPwr` 등 클래스별 단일 서브시스템
+
+Power/Ground/SensorSupply 핀은 포트로 만들지 않습니다(`cfg.includePowerPins=false`).
+
 ## 포트 선택 정책 (`cfg.portSelection`)
 
 - `'all'` (기본): 모든 Signal 핀 포트화. `Pin Assignment (MASAR)`가 채워지면

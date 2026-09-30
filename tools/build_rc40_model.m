@@ -74,8 +74,20 @@ function build_rc40_model(cfg)
         portName = choosePortName(p, cfg);
         portName = appendTypeSuffix(portName, m.dataType, cfg);   % e.g. _u16, _l
 
-        % --- subsystem group (e.g. Input_AnU, Output_PropPwr) ---
-        grp = sprintf('%s_%s', ternary(m.direction,"In","Input","Output"), m.hwArray);
+        % --- subsystem group (path relative to model) ---
+        top = ternary(m.direction,"In","HwInp","HwOutp");
+        switch lower(getfielddef(cfg,'hwGrouping','nested'))
+            case 'byclass'
+                % flat, one subsystem per HW class (Input_AnU, Output_PropPwr, ...)
+                grp = sprintf('%s_%s', ternary(m.direction,"In","Input","Output"), m.hwArray);
+            case 'hwinout'
+                % flat, single HwInp / HwOutp for everything
+                grp = top;
+            otherwise % 'nested'
+                % two-level: HwInp/<class> or HwOutp/<class>, chosen by the
+                % pin setting (Type -> HW class), mirroring the header layout.
+                grp = sprintf('%s/%s', top, m.hwArray);
+        end
         sub = ensureSubsystem(name, grp, subs);
 
         % --- create the port block (robust across releases) ---
@@ -243,16 +255,27 @@ function m = applyOverride(m, pinName, cfg)
 end
 
 function sub = ensureSubsystem(model, grp, subs)
+    % grp may be a nested path relative to the model, e.g. 'HwInp/AnU'.
+    % Each level is created once; parents are created before children.
     if isKey(subs, grp)
         sub = subs(grp); return;
     end
-    sub = sprintf('%s/%s', model, grp);
-    add_block('built-in/Subsystem', sub);
-    % clear the default In1->Out1 that Simulink adds
-    try, delete_line(sub,'In1/1','Out1/1'); catch, end
-    try, delete_block([sub '/In1']); catch, end
-    try, delete_block([sub '/Out1']); catch, end
-    subs(grp) = sub; %#ok<NASGU>
+    parts = strsplit(grp, '/');
+    path = model;
+    for i = 1:numel(parts)
+        rel = strjoin(parts(1:i), '/');           % path relative to model
+        if ~isKey(subs, rel)
+            full = sprintf('%s/%s', model, rel);
+            add_block('built-in/Subsystem', full);
+            % clear the default In1->Out1 that Simulink adds to a new Subsystem
+            try, delete_line(full,'In1/1','Out1/1'); catch, end
+            try, delete_block([full '/In1']); catch, end
+            try, delete_block([full '/Out1']); catch, end
+            subs(rel) = full; %#ok<NASGU>
+        end
+        path = subs(rel); %#ok<NASGU>
+    end
+    sub = subs(grp);
 end
 
 function blk = addPortBlock(blk, blockType)
@@ -369,5 +392,9 @@ end
 
 function out = ternary(val, testTrue, a, b)
     if strcmp(val, testTrue), out=a; else, out=b; end
+end
+
+function v = getfielddef(s, f, def)
+    if isfield(s,f) && ~isempty(s.(f)), v = s.(f); else, v = def; end
 end
 function out = tern(c,a,b), if c, out=a; else, out=b; end, end

@@ -100,6 +100,11 @@ cfg.canValueMode       = 'raw';
 % Manual model uses scalar signals -> 1.
 cfg.portDimensions     = '1';
 
+% Add a short usage-guide annotation inside each HW class subsystem
+% (e.g. inside HwOutp/PropSig: "PropSig ...\nu16 = 0~1000"), so each pin
+% group documents its data type / unit / range. See rc40_class_guide.m.
+cfg.addClassGuide      = true;
+
 % CAN port naming:
 %   'signal'  - use the signal name only (e.g. SteeringAngle_u16). If two
 %               signals share a name, a numeric suffix (_2,...) is appended

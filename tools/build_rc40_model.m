@@ -88,7 +88,7 @@ function build_rc40_model(cfg)
                 % pin setting (Type -> HW class), mirroring the header layout.
                 grp = sprintf('%s/%s', top, m.hwArray);
         end
-        sub = ensureSubsystem(name, grp, subs);
+        sub = ensureSubsystem(name, grp, subs, cfg);
 
         % --- create the port block (robust across releases) ---
         blk = sprintf('%s/%s', sub, portName);
@@ -120,7 +120,7 @@ function build_rc40_model(cfg)
             [dir, grp] = rc40_can_direction(S, cfg);
             if isempty(dir), continue; end
             if strcmp(dir,'Out'), blockType='Outport'; else, blockType='Inport'; end
-            sub = ensureSubsystem(name, grp, subs);
+            sub = ensureSubsystem(name, grp, subs, cfg);
             if isfield(cfg,'canPortNaming') && strcmpi(cfg.canPortNaming,'message')
                 portName = sanitize(sprintf('%s_%s', S.message, S.name));
             else
@@ -254,7 +254,7 @@ function m = applyOverride(m, pinName, cfg)
     m.valid = true;
 end
 
-function sub = ensureSubsystem(model, grp, subs)
+function sub = ensureSubsystem(model, grp, subs, cfg)
     % grp may be a nested path relative to the model, e.g. 'HwInp/AnU'.
     % Each level is created once; parents are created before children.
     if isKey(subs, grp)
@@ -272,10 +272,37 @@ function sub = ensureSubsystem(model, grp, subs)
             try, delete_block([full '/In1']); catch, end
             try, delete_block([full '/Out1']); catch, end
             subs(rel) = full; %#ok<NASGU>
+            % add a short usage guide annotation for HW class leaf subsystems
+            if nargin>=4 && isfield(cfg,'addClassGuide') && cfg.addClassGuide
+                addClassGuide(full, parts{i});
+            end
         end
         path = subs(rel); %#ok<NASGU>
     end
     sub = subs(grp);
+end
+
+function addClassGuide(subsysPath, leafName)
+    % Place a short usage-guide annotation inside a HW class subsystem
+    % (e.g. inside HwOutp/PropSig -> "PropSig  (...)\nu16 = 0~1000").
+    txt = rc40_class_guide(leafName);
+    if isempty(txt), return; end
+    try
+        a = Simulink.Annotation([subsysPath '/guide']);
+        a.Text = txt;
+        a.Position = [180 120];          % upper-left area of the canvas
+        a.FontSize = 12;
+        a.BackgroundColor = 'lightBlue';
+        a.DropShadow = 'on';
+    catch
+        % Fallback for older releases: add_block a Note-style annotation.
+        try
+            add_block('built-in/Note', [subsysPath '/guide'], ...
+                'Text', txt, 'Position', [180 120]);
+        catch
+            % annotations are non-critical; ignore if unsupported
+        end
+    end
 end
 
 function blk = addPortBlock(blk, blockType)

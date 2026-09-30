@@ -98,6 +98,27 @@ Description의 High Side/Low Side 근거). 예: `HS_A31_u16`, `LS_A03_u16`.
 - 제외: 아날로그 전압 출력(`AbsltU`: A12, K25, K62) — HS/LS 개념 없음 → 접두사 없음
 - Description에 side 표기가 없는 핀(K17)은 `cfg.overrides`로 보정(HS)
 
+## 클래스 가이드 주석 (`cfg.addClassGuide`, 기본 on)
+
+각 HW 클래스 하위 서브시스템 안에 데이터타입·단위·범위를 요약한 주석을
+넣습니다(`rc40_class_guide.m`). 예: `HwOutp/PropSig` 안에
+```
+PropSig  (Proportional Signal Out)
+u16 = 0~1000  (duty 0.1%)
+```
+
+| 클래스 | 가이드 |
+|--------|--------|
+| AnU | Analog Voltage In / u16 = 0~40000 mV |
+| Dig | Digital In / boolean (0/1) |
+| FrqStd | Frequency In / u32 = 0~20000 (0.1 Hz) |
+| R | Resistance In / u32 = 0~700000 Ohm |
+| Sent | SENT In (SAE J2716) / u16 |
+| PropPwr | Proportional Power Out / u16 = 0~4000 mA |
+| DigSig | Digital Signal Out / boolean (0/1) |
+| PropSig | Proportional Signal Out / u16 = 0~1000 |
+| AbsltU | Analog Voltage Out / u16 = 0~10000 mV |
+
 ## 블록 파라미터 설정 (수작업 모델과 동일하게)
 
 생성되는 각 Inport/Outport에 다음 블록 파라미터를 명시적으로 설정합니다:

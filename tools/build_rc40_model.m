@@ -68,10 +68,11 @@ function build_rc40_model(cfg)
         end
 
         % --- port selection policy ---
-        portName = choosePortName(p, cfg);
         if strcmp(cfg.portSelection,'assigned') && isempty(strtrim(p.masar))
             nSkipped=nSkipped+1; continue;
         end
+        portName = choosePortName(p, cfg);
+        portName = appendTypeSuffix(portName, m.dataType, cfg);   % e.g. _u16, _l
 
         % --- subsystem group (e.g. Input_AnU, Output_PropPwr) ---
         grp = sprintf('%s_%s', ternary(m.direction,"In","Input","Output"), m.hwArray);
@@ -107,7 +108,8 @@ function build_rc40_model(cfg)
             if isempty(dir), continue; end
             if strcmp(dir,'Out'), blockType='Outport'; else, blockType='Inport'; end
             sub = ensureSubsystem(name, grp, subs);
-            portName = sanitize(sprintf('%s_%s', S.message, S.name));
+            portName = sanitize(S.name);                          % signal-level name
+            portName = appendTypeSuffix(portName, S.dataType, cfg); % e.g. _u8, _u16
             blk = sprintf('%s/%s', sub, portName);
             addPortBlock(blk, blockType);
             dt = S.dataType;                 % already a Simulink type string
@@ -229,10 +231,30 @@ function placePort(blk, direction, cfg, counters, sub)
 end
 
 function nm = choosePortName(p, cfg)
+    % base name: MASAR assignment when present, else physical pin name
     if strcmp(cfg.portSelection,'all')
-        if ~isempty(strtrim(p.masar)), nm = sanitize(p.masar); else, nm = p.name; end
+        if ~isempty(strtrim(p.masar)), base = sanitize(p.masar); else, base = p.name; end
     else
-        nm = sanitize(p.masar);
+        base = sanitize(p.masar);
+    end
+    % optional Pull-Down / Pull-Up prefix from Description (PD_ / PU_)
+    if isfield(cfg,'usePullPrefix') && cfg.usePullPrefix
+        d = lower(p.desc);
+        if contains(d,'pull-down') || contains(d,'pull down') || contains(d,'pulldown')
+            base = ['PD_' base];
+        elseif contains(d,'pull-up') || contains(d,'pull up') || contains(d,'pullup')
+            base = ['PU_' base];
+        end
+    end
+    nm = base;
+end
+
+function nm = appendTypeSuffix(nm, dataType, cfg)
+    % Append data-type suffix to a port name, e.g. SteeringAngle -> SteeringAngle_u16.
+    if ~(isfield(cfg,'appendTypeSuffix') && cfg.appendTypeSuffix), return; end
+    sfx = rc40_type_suffix(dataType);
+    if ~isempty(sfx) && ~endsWith(nm, ['_' sfx])
+        nm = [nm '_' sfx];
     end
 end
 

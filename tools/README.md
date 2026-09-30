@@ -70,6 +70,26 @@ Name | Type | In/Out | Description | Pin Assignment (MASAR) | Connect to
 - `low side ... switching output` + `power` 없음 → `PropSig` (예: K80~K83, 200mA 저전력)
 - 그 외(현재제어/스위칭 파워/설명 없음) → `PropPwr` (예: K17은 설명 `-` 이지만 파워)
 
+## 포트명 데이터타입 접미사 (`cfg.appendTypeSuffix`, 기본 on)
+
+실제 모델처럼 포트 이름 끝에 데이터타입 접미사를 붙입니다
+(`rc40_type_suffix.m`):
+
+| DataType | 접미사 | 예시 |
+|----------|--------|------|
+| boolean | `_l` | `HydraulicFailure_l` |
+| uint8 | `_u8` | `MC_EPSO1_u8` |
+| uint16 | `_u16` | `SteeringAngle_u16` |
+| uint32 | `_u32` | |
+| int16 | `_i16` | |
+| single | `_f32` | `SteerWheelAngle_f32` (스케일 신호) |
+
+## Pull-Down / Pull-Up 접두사 (`cfg.usePullPrefix`, 기본 off)
+
+아날로그 입력의 Description이 `Pull-Down`/`Pull-Up`이면 포트명에 `PD_`/`PU_`
+접두사를 붙입니다(예: `PD_K38_APP_Sig1`). `PD_`=Pull-Down. 전 핀 규칙이 확정되면
+`true`로 켜세요.
+
 ## MASAR 명명 규칙
 
 - 입력: `<배열>_as[DevInp_<핀>_D]`

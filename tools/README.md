@@ -44,8 +44,9 @@ DBC를 쓰려면 `<repo>/can/` 폴더에 `.dbc`를 두거나 `cfg.dbcFiles`에 �
 3개 섹션이 세로로 이어집니다. 각 섹션은 제목행 + 헤더행으로 시작합니다.
 
 ```
-Name | Type | In/Out | Description | Pin Assignment (MASAR) | Connect to
+Name | Type | In/Out | Description | Pin Assignment (MASAR) | Connect to | Use
 ```
+(B~H열, Use는 Signal 섹션만)
 
 - **Signal**: 실제 I/O 신호 핀 (122개)
 - **Power**: Power Supply / Ground / SensorSupply / SensorGND (기본 포트화 안 함)
@@ -230,6 +231,46 @@ RC27_18_Model
 - `'byclass'`: `Input_AnU`, `Output_PropPwr` 등 클래스별 단일 서브시스템
 
 Power/Ground/SensorSupply 핀은 포트로 만들지 않습니다(`cfg.includePowerPins=false`).
+
+## 핀 사용 여부 (H열 `Use`: ON / OFF)
+
+`RC40_Pinmap.xlsx`의 **H열 `Use`** 드롭다운으로 핀 사용 여부를 정합니다.
+
+| Use | 생성 위치 | BSW 통합 코드 |
+|-----|----------|---------------|
+| `ON` (기본, 빈칸도 ON) | `HwInp/<class>`, `HwOutp/<class>` | 포함 |
+| `OFF` | `Unused/HwInp/<class>`, `Unused/HwOutp/<class>` | 제외 |
+
+서브시스템 이름은 `cfg.unusedGroup`(기본 `'Unused'`)으로 바꿀 수 있습니다.
+
+## 멀티포트 기능 선택 (C열 `Type` 드롭다운)
+
+여러 기능을 가진 핀(Description이 `Digital, Voltage, Current, Resistance`처럼 쉼표나
+`/`로 나열된 핀)은 **C열에서 기능을 선택**할 수 있습니다. 목록은 Description에서 만들어집니다.
+
+| Description 키워드 | 선택 값(C열) | 생성 위치 |
+|-------------------|-------------|----------|
+| Digital | `DigitalSignal` | `HwInp/Dig` |
+| Voltage, Analog | `AnalogSignal` | `HwInp/AnU` |
+| Current | `CurrentSignal` | `HwInp/AnI` (u16, 0~25000 uA) |
+| Resistance | `ResistanceMeasurementSignal` | `HwInp/R` |
+| Frequency, DSM1/DST1 | `Frequency` | `HwInp/FrqStd` |
+| SENT | `SENTSignal` | `HwInp/Sent` |
+| Analog output | `PWMSignal` | `HwOutp/AbsltU` |
+
+- 멀티포트 핀의 방향은 선택한 기능을 따릅니다. 예: K62에서 `DigitalSignal`을 고르면
+  입력(`HwInp/Dig`), `PWMSignal`(Analog output)을 고르면 출력(`HwOutp/AbsltU`)이 됩니다.
+- Description에 없는 기능을 C열에 넣으면(복사·붙여넣기 등) 빌드 시 경고가 나옵니다.
+- **선택한 기능은 easyConfig의 핀 설정과 같아야 합니다.**
+
+### 드롭다운 다시 만들기
+
+Description을 고치거나 행을 추가한 뒤에는 드롭다운을 다시 만드세요(기존 ON/OFF 값은 유지,
+원본은 `.bak`으로 백업):
+
+```bash
+python tools/add_pinmap_dropdowns.py RC40_Pinmap.xlsx
+```
 
 ## F열(Pin Assignment) 이름 붙이기
 

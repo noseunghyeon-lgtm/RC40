@@ -69,6 +69,12 @@ function m = rc40_typemap(excelType, inout, description)
                 m.hwArray='DigSig'; m.hwClass='HwOutpDigSig';
             end
 
+        case 'currentsignal'
+            % Analog current input (4..20 mA sensors), HwInpAnI: i_uA_u16 0..25000 uA
+            m.valid=true; m.direction='In'; m.blockType='Inport';
+            m.dataType='uint16'; m.unit='uA'; m.physMin=0; m.physMax=25000;
+            m.hwArray='AnI'; m.hwClass='HwInpAnI';
+
         case 'frequency'
             m.valid=true; m.direction='In'; m.blockType='Inport';
             m.dataType='uint32'; m.unit='0.1Hz'; m.physMin=0; m.physMax=200000; % 0..20000Hz in 0.1Hz

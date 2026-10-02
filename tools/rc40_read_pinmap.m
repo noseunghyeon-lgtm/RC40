@@ -15,6 +15,7 @@ function pins = rc40_read_pinmap(xlsxPath)
 %     .desc      Description text
 %     .masar     Pin Assignment (MASAR) text (may be empty)
 %     .connectTo 'Connect to' text (may be empty)
+%     .use       'Use' column: 'ON' / 'OFF' (empty = ON)
 %
 %   Uses readcell when available (Simulink/MATLAB always ships it). No
 %   Vehicle Network Toolbox or other add-on is required.
@@ -33,7 +34,7 @@ function pins = rc40_read_pinmap(xlsxPath)
 
     section = '';
     pins = struct('section',{},'name',{},'type',{},'inout',{}, ...
-                  'desc',{},'masar',{},'connectTo',{});
+                  'desc',{},'masar',{},'connectTo',{},'use',{});
 
     for r = 1:size(raw,1)
         c = @(k) strip1(cellval(raw, r, base-1+k));   % k=1..7 relative to base
@@ -59,6 +60,7 @@ function pins = rc40_read_pinmap(xlsxPath)
         p.desc      = c4;
         p.masar     = c5;
         p.connectTo = c6;
+        p.use       = c7;                     % 'ON' / 'OFF' (empty -> ON)
         pins(end+1) = p; %#ok<AGROW>
     end
 end

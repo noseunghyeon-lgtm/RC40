@@ -386,7 +386,7 @@ function emitPinSnippet(fid, hp)
                 fprintf(fid, '%s.flgSp_l = (bool)%s;\n', base, srcDO);
             case 'RelU'
                 fprintf(fid, '%s.stErrReactn_e = %s;\n', base, errR);
-                fprintf(fid, '%s.uRel_perml_u16 = /* <%s 0~1000> */;\n', base, hp.portName);
+                fprintf(fid, '%s.uRel_perml_u16 = /* <%s 0.1%% of Ubat, 0~750> */;\n', base, hp.portName);
         end
     else
         base = sprintf('HwInp_s.%s_as[%s].outp_s', hp.hwArray, idx);

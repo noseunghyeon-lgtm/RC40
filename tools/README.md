@@ -64,10 +64,12 @@ Name | Type | In/Out | Description | Pin Assignment (MASAR) | Connect to | Use
 | DigitalSignal | OUT | Out | `boolean` | state | `HwOutpDigSig` (`DigSig_as`) |
 | PWMSignal (power) | OUT | Out | `uint16` | mA, 0..4000 | `HwOutpPropPwr` (`PropPwr_as`) |
 | PWMSignal (low-power signal) | OUT | Out | `uint16` | ‰, 0..1000 | `HwOutpPropSig` (`PropSig_as`) |
-| PWMSignal (analog output) | OUT | Out | `uint16` | mV, 0..10000 | `HwOutpAbsltU` (`AbsltU_as`) |
+| PWMSignal (Ubat 대비 PWM 출력, A12/K25) | OUT | Out | `uint16` | 0.1% Ubat, 0..750 | `HwOutpRelU` (`RelU_as`) |
+| PWMSignal (0~10 V analog output, K62) | OUT | Out | `uint16` | mV, 0..10000 | `HwOutpAbsltU` (`AbsltU_as`) |
 
 **PWMSignal 세부 분류(Description 기준):**
-- `analog output` 포함 → `AbsltU` (예: A12, K25, K62)
+- `Ubat` / `analog voltage output` 포함 → `RelU` (A12, K25: 배터리 전압 대비 PWM 출력)
+- `analog output` 포함 → `AbsltU` (K62: 0~10 V 아날로그 출력)
 - `low side ... switching output` + `power` 없음 → `PropSig` (예: K80~K83, 200mA 저전력)
 - 그 외(현재제어/스위칭 파워/설명 없음) → `PropPwr` (예: K17은 설명 `-` 이지만 파워)
 
@@ -102,7 +104,7 @@ Name | Type | In/Out | Description | Pin Assignment (MASAR) | Connect to | Use
 Description의 High Side/Low Side 근거). 예: `HS_A31_u16`, `LS_A03_u16`.
 
 - 적용 대상: 스위칭/파워 출력(`PropPwr`, `DigSig`, `PropSig`)
-- 제외: 아날로그 전압 출력(`AbsltU`: A12, K25, K62) — HS/LS 개념 없음 → 접두사 없음
+- 제외: 아날로그/PWM 신호 출력(`RelU`: A12, K25 / `AbsltU`: K62) — HS/LS 개념 없음 → 접두사 없음
 - Description에 side 표기가 없는 핀(K17)은 `cfg.overrides`로 보정(HS)
 
 ## BSW 통합 지원

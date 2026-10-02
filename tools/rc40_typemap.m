@@ -93,7 +93,8 @@ function m = rc40_typemap(excelType, inout, description)
         % ---------------- PWM (output) ----------------
         case 'pwmsignal'
             % PWM can be:
-            %  - analog voltage output ("Analog output" A12/K25/K62) -> AbsltU (HwOutpAbsltU)
+            %  - PWM output relative to Ubat (A12, K25) -> RelU (HwOutpRelU)
+            %  - 0..10 V analog output (K62)          -> AbsltU (HwOutpAbsltU)
             %  - low-power signal PWM ("Low side ... switching outputs", 200 mA,
             %    NO "power") -> PropSig (HwOutpPropSig)
             %  - proportional power output (everything else, incl. empty "-" desc
@@ -101,7 +102,13 @@ function m = rc40_typemap(excelType, inout, description)
             m.direction='Out'; m.blockType='Outport';
             isLowPowerSignal = (contains(d,'low side') || contains(d,'lowside')) ...
                 && contains(d,'switching output') && ~contains(d,'power');
-            if contains(d,'analog output') || contains(d,'analog voltage output')
+            if contains(d,'ubat') || contains(d,'analog voltage output')
+                % PWM signal output relative to battery voltage (A12, K25):
+                % HwOutpRelU uRel_perml_u16, 0..750 permil of Ubat (datasheet p.21/24)
+                m.valid=true; m.dataType='uint16'; m.unit='permil Ubat'; m.physMin=0; m.physMax=750;
+                m.hwArray='RelU'; m.hwClass='HwOutpRelU';
+            elseif contains(d,'analog output')
+                % 0..10 V absolute analog output, alternative use of input pin K62
                 m.valid=true; m.dataType='uint16'; m.unit='mV'; m.physMin=0; m.physMax=10000;
                 m.hwArray='AbsltU'; m.hwClass='HwOutpAbsltU';
             elseif isLowPowerSignal

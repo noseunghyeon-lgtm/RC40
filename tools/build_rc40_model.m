@@ -35,7 +35,7 @@ function build_rc40_model(cfg)
     subs = containers.Map('KeyType','char','ValueType','char');
     counters = containers.Map('KeyType','char','ValueType','double'); % y position per subsystem
 
-    nMade = 0; nSkipped = 0; report = {};
+    nMade = 0; nSkipped = 0; nUnused = 0; report = {};
     hwPins = struct('dir',{},'hwArray',{},'index',{},'portName',{});  % for BSW snippets
 
     % ---- 3. signal ports --------------------------------------------------------
@@ -55,7 +55,25 @@ function build_rc40_model(cfg)
             continue;
         end
 
-        m = rc40_typemap(p.type, p.inout, p.desc);
+        % --- multi-port: the C-column (Type) selects the pin function ---
+        % Warn if the selected Type is not one of the functions this pin supports,
+        % and derive the direction from the selected function for multi-port pins
+        % (e.g. K62: Digital/Voltage -> IN, Analog output -> OUT).
+        [allowed, isMulti] = rc40_pin_functions(p.desc, '');   % Description-derived only
+        io = p.inout;
+        if isMulti
+            if strcmpi(p.type,'PWMSignal'), io = 'OUT'; else, io = 'IN'; end
+            if ~any(strcmpi(allowed, p.type))
+                warning('rc40:FuncNotSupported', ...
+                    '%s: Type "%s" is not a function of this pin (allowed: %s)', ...
+                    p.name, p.type, strjoin(allowed, ', '));
+            end
+        end
+
+        % --- Use flag (H column): OFF -> generated into the Unused subsystem ---
+        isUsed = ~strcmpi(strtrim(getfielddef(p,'use','ON')), 'OFF');
+
+        m = rc40_typemap(p.type, io, p.desc);
         m = applyOverride(m, p.name, cfg);   % per-pin corrections (Excel gaps / MASAR reconfig)
         if ~m.valid
             msg = sprintf('Unrecognized Type/IO: %s (Type=%s, IO=%s)', p.name, p.type, p.inout);
@@ -89,6 +107,9 @@ function build_rc40_model(cfg)
                 % pin setting (Type -> HW class), mirroring the header layout.
                 grp = sprintf('%s/%s', top, m.hwArray);
         end
+        if ~isUsed
+            grp = sprintf('%s/%s', getfielddef(cfg,'unusedGroup','Unused'), grp);
+        end
         sub = ensureSubsystem(name, grp, subs, cfg);
 
         % --- create the port block (robust across releases) ---
@@ -103,17 +124,22 @@ function build_rc40_model(cfg)
         set_param(blk, 'Description', sprintf(['Pin=%s\nType=%s\nMASAR=%s\n' ...
             'HW=%s (%s)\nUnit=%s'], p.name, p.type, masarRef, m.hwClass, m.hwArray, m.unit));
 
-        % remember for BSW snippet generation
-        idx = regexp(masarRef, '\[(.*)\]', 'tokens', 'once');
-        hwPins(end+1) = struct('dir',m.direction,'hwArray',m.hwArray, ...
-            'index',idx{1},'portName',portName); %#ok<AGROW>
+        % remember for BSW snippet generation (used pins only)
+        if isUsed
+            idx = regexp(masarRef, '\[(.*)\]', 'tokens', 'once');
+            hwPins(end+1) = struct('dir',m.direction,'hwArray',m.hwArray, ...
+                'index',idx{1},'portName',portName); %#ok<AGROW>
+        else
+            nUnused = nUnused + 1;
+        end
 
         % auto layout
         placePort(blk, m.direction, cfg, counters, sub);
 
         nMade = nMade + 1;
-        report{end+1} = sprintf('%-4s %-6s -> %-10s %-8s %-14s %s', ...
-            m.direction, p.name, portName, m.dataType, m.hwClass, masarRef); %#ok<AGROW>
+        report{end+1} = sprintf('%-4s %-6s -> %-22s %-8s %-14s %s%s', ...
+            m.direction, p.name, portName, m.dataType, m.hwClass, masarRef, ...
+            tern(isUsed,'','  [UNUSED]')); %#ok<AGROW>
     end
 
     % ---- 4. CAN ports (MASAR Excel primary; DBC fallback) -----------------------
@@ -155,7 +181,8 @@ function build_rc40_model(cfg)
 
     % ---- 5. save + report -------------------------------------------------------
     save_system(name, cfg.outputSlx);
-    fprintf('\nSaved %s  (ports created: %d, skipped: %d)\n', cfg.outputSlx, nMade, nSkipped);
+    fprintf('\nSaved %s  (ports created: %d, of which unused: %d, skipped: %d)\n', ...
+        cfg.outputSlx, nMade, nUnused, nSkipped);
     fprintf('---- generation report ----\n%s\n', strjoin(report, sprintf('\n')));
     close_system(name, 1);
 end
@@ -365,6 +392,7 @@ function emitPinSnippet(fid, hp)
         base = sprintf('HwInp_s.%s_as[%s].outp_s', hp.hwArray, idx);
         switch hp.hwArray
             case 'AnU',    fprintf(fid, '/* %s */ x = %s.u_mV_u16;\n',   hp.portName, base);
+            case 'AnI',    fprintf(fid, '/* %s */ x = %s.i_uA_u16;\n',   hp.portName, base);
             case 'Dig',    fprintf(fid, '/* %s */ x = %s.flg_l;\n',      hp.portName, base);
             case 'FrqStd', fprintf(fid, '/* %s */ x = %s.frq_p1Hz_u32;\n',hp.portName, base);
             case 'R',      fprintf(fid, '/* %s */ x = %s.r_Ohm_u32;\n',  hp.portName, base);
@@ -491,6 +519,12 @@ function ref = masarReference(p, m, cfg)
     %   PropPwr_as[DevOutp_A31HS_D] (output, HS/LS suffix per convention)
     pin = p.name;
     if strcmp(m.direction,'In')
+        % Analog current inputs (AnI) use the '_VI' pin id, e.g. AnI_as[DevInp_K42_VI_D]
+        % (matches HwInp_getPinIdxAnI_DU16(K42_VI) in the Os*Proc pin lists).
+        if strcmp(m.hwArray,'AnI')
+            sfx = getfielddef(cfg,'currentIndexSuffix','_VI');
+            if ~endsWith(pin, sfx), pin = [pin sfx]; end
+        end
         ref = sprintf('%s_as[DevInp_%s_D]', m.hwArray, pin);
     else
         % HS/LS suffix is a MASAR-internal convention applied ONLY to

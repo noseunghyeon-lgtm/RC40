@@ -58,6 +58,16 @@ cfg.canSource = 'excel';
 %   'assigned' - only pins whose "Pin Assignment (MASAR)" cell is non-empty.
 cfg.portSelection      = 'all';
 
+% Use column (H) of RC40_Pinmap.xlsx: ON = generate normally in HwInp/HwOutp,
+% OFF = generate into this subsystem instead (kept out of BSW snippets).
+% Empty Use cell is treated as ON.
+cfg.unusedGroup        = 'Unused';
+
+% MASAR index suffix for analog current inputs (CurrentSignal -> HwInp/AnI).
+% The current function of a pin is addressed through its '_VI' pin id:
+%   K42 (CurrentSignal) -> HwInp_s.AnI_as[DevInp_K42_VI_D]
+cfg.currentIndexSuffix = '_VI';
+
 % Include the Power section (Power Supply / Ground / SensorSupply / SensorGND)
 % as ports. OFF - supply/ground pins are not model I/O.
 cfg.includePowerPins   = false;

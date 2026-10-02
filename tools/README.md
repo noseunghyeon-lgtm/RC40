@@ -262,6 +262,9 @@ Power/Ground/SensorSupply 핀은 포트로 만들지 않습니다(`cfg.includePo
   입력(`HwInp/Dig`), `PWMSignal`(Analog output)을 고르면 출력(`HwOutp/AbsltU`)이 됩니다.
 - Description에 없는 기능을 C열에 넣으면(복사·붙여넣기 등) 빌드 시 경고가 나옵니다.
 - **선택한 기능은 easyConfig의 핀 설정과 같아야 합니다.**
+- `CurrentSignal`(전류)은 `_VI` 핀 ID로 인덱스를 만듭니다: K42 → `HwInp_s.AnI_as[DevInp_K42_VI_D]`
+  (`cfg.currentIndexSuffix`, 기본 `'_VI'`).
+- 멀티포트 Description은 데이터시트(RE 95208, p.13~14, 17~20) 기준입니다.
 
 ### 드롭다운 다시 만들기
 

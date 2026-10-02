@@ -519,6 +519,12 @@ function ref = masarReference(p, m, cfg)
     %   PropPwr_as[DevOutp_A31HS_D] (output, HS/LS suffix per convention)
     pin = p.name;
     if strcmp(m.direction,'In')
+        % Analog current inputs (AnI) use the '_VI' pin id, e.g. AnI_as[DevInp_K42_VI_D]
+        % (matches HwInp_getPinIdxAnI_DU16(K42_VI) in the Os*Proc pin lists).
+        if strcmp(m.hwArray,'AnI')
+            sfx = getfielddef(cfg,'currentIndexSuffix','_VI');
+            if ~endsWith(pin, sfx), pin = [pin sfx]; end
+        end
         ref = sprintf('%s_as[DevInp_%s_D]', m.hwArray, pin);
     else
         % HS/LS suffix is a MASAR-internal convention applied ONLY to

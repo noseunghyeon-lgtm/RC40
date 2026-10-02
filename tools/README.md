@@ -88,7 +88,13 @@ Name | Type | In/Out | Description | Pin Assignment (MASAR) | Connect to | Use
 ## Pull-Down / Pull-Up 접두사 (`cfg.usePullPrefix`, 기본 on)
 
 입력 핀 Description이 `Pull-Down`/`Pull-Up`이면 포트명에 `PD_`/`PU_` 접두사를
-붙입니다. `PD_`=Pull-Down. 예: `PD_A13_u16`, `PU_A14_u16`.
+붙입니다. 데이터시트(p.14, p.20) 기준 구분:
+
+| 핀 | Description | 하드웨어 | 접두사 |
+|----|-------------|---------|--------|
+| K10, K31, K34, K74~K78 | `Pull-Up_32V` | 0~32 V, Ubat로 Pull-up 14.7 kΩ + Pull-down 80.2 kΩ | `PU_` |
+| A13, A25~A27, A40~A42 | `Pull-Down_32V` | 0~32 V, Pull-down 80.2 kΩ만 | `PD_` |
+| A14, A28, A29, A57, K11, K35 | `Pull-Up_5V` | 0~5 V, 5 V로 Pull-up 4.7 kΩ | `PU_` |
 
 ## HwOutp HS_/LS_ 접두사 (`cfg.useHsLsOutPrefix`, 기본 on)
 

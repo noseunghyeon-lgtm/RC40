@@ -231,10 +231,26 @@ RC27_18_Model
 
 Power/Ground/SensorSupply 핀은 포트로 만들지 않습니다(`cfg.includePowerPins=false`).
 
+## F열(Pin Assignment) 이름 붙이기
+
+`RC40_Pinmap.xlsx`의 **F열(`Pin Assignment (MASAR)`)**에 이름을 적으면, 자동 생성되는
+포트명 뒤에 `_<이름>`이 붙습니다. 물리 핀 이름과 HS_/LS_/PD_/PU_ 접두사는 유지됩니다.
+
+| 핀 | F열 | 생성 포트명 |
+|----|-----|------------|
+| A31 | `PWR_LED` | `HS_A31_PWR_LED` |
+| K12 | `IGN_GA` | `LS_K12_IGN_GA` |
+| K84 | `FL_SHFT_SEL` | `LS_K84_FL_SHFT_SEL` |
+| K80 | (비어 있음) | `LS_K80` |
+
+- F열에 전체 이름(예: `HS_A31_PWR_LED`)을 그대로 적어도 중복되지 않고 그대로 사용됩니다.
+- 이 포트명은 BSW 통합 코드의 소스 신호명(`Veh_s.GW1_Core_s.outp_s.DO_s.HS_A31_PWR_LED`)과
+  같아지므로, `_bsw_integration.c`를 수정 없이 사용할 수 있습니다.
+- MASAR 인덱스(`DevOutp_A31HS_D`)는 물리 핀 기준이므로 F열과 관계없이 유지됩니다.
+
 ## 포트 선택 정책 (`cfg.portSelection`)
 
-- `'all'` (기본): 모든 Signal 핀 포트화. `Pin Assignment (MASAR)`가 채워지면
-  그 이름을, 없으면 물리 핀 이름(`A01`)을 포트명으로 사용.
+- `'all'` (기본): 모든 Signal 핀 포트화. F열 이름이 있으면 핀 이름 뒤에 붙임.
 - `'assigned'`: `Pin Assignment (MASAR)`가 채워진 핀만 포트화.
 
 ## 생성 요약 (현재 Excel 기준)

@@ -36,7 +36,7 @@ function build_rc40_model(cfg)
     counters = containers.Map('KeyType','char','ValueType','double'); % y position per subsystem
 
     nMade = 0; nSkipped = 0; nUnused = 0; report = {};
-    hwPins = struct('dir',{},'hwArray',{},'index',{},'portName',{});  % for BSW snippets
+    hwPins = struct('dir',{},'hwArray',{},'index',{},'portName',{},'used',{});  % for BSW snippets
 
     % ---- 3. signal ports --------------------------------------------------------
     for i = 1:numel(pins)
@@ -124,14 +124,12 @@ function build_rc40_model(cfg)
         set_param(blk, 'Description', sprintf(['Pin=%s\nType=%s\nMASAR=%s\n' ...
             'HW=%s (%s)\nUnit=%s'], p.name, p.type, masarRef, m.hwClass, m.hwArray, m.unit));
 
-        % remember for BSW snippet generation (used pins only)
-        if isUsed
-            idx = regexp(masarRef, '\[(.*)\]', 'tokens', 'once');
-            hwPins(end+1) = struct('dir',m.direction,'hwArray',m.hwArray, ...
-                'index',idx{1},'portName',portName); %#ok<AGROW>
-        else
-            nUnused = nUnused + 1;
-        end
+        % remember for BSW snippet generation (both used and unused pins,
+        % so the .c file shows a matching Unused section, same as the model)
+        idx = regexp(masarRef, '\[(.*)\]', 'tokens', 'once');
+        hwPins(end+1) = struct('dir',m.direction,'hwArray',m.hwArray, ...
+            'index',idx{1},'portName',portName,'used',isUsed); %#ok<AGROW>
+        if ~isUsed, nUnused = nUnused + 1; end
 
         % auto layout
         placePort(blk, m.direction, cfg, counters, sub);
@@ -332,24 +330,62 @@ function writeBswSnippets(hwPins, cfg)
 
     fprintf(fid, '/* Auto-generated BSW integration snippets for %s\n', cfg.modelName);
     fprintf(fid, '   Outputs: write setpoints to .inp_s   Inputs: read measured from .outp_s\n');
-    fprintf(fid, '   Replace <...> placeholders with application signals. */\n\n');
+    fprintf(fid, '   Replace <...> placeholders with application signals.\n');
+    fprintf(fid, '   Pins with Use=OFF in RC40_Pinmap.xlsx are listed, commented out, in the\n');
+    fprintf(fid, '   "Unused" section at the end -- same split as the Unused/* subsystems. */\n\n');
 
+    usedPins   = hwPins(logical([hwPins.used]));
+    unusedPins = hwPins(~logical([hwPins.used]));
+
+    fprintf(fid, '/* ================= Used pins (Use=ON) ================= */\n\n');
+    emitSnippetSections(fid, usedPins, false);
+
+    if ~isempty(unusedPins)
+        fprintf(fid, '/* ================= Unused pins (Use=OFF in RC40_Pinmap.xlsx) =================\n');
+        fprintf(fid, '   Commented out: these pins live in the Unused/HwInp|HwOutp subsystems and are\n');
+        fprintf(fid, '   not wired into BSW integration. Set Use=ON and re-generate to activate. */\n\n');
+        emitSnippetSections(fid, unusedPins, true);
+    end
+
+    fprintf('BSW snippets written: %s  (used: %d, unused: %d)\n', ...
+        outFile, numel(usedPins), numel(unusedPins));
+end
+
+function emitSnippetSections(fid, pinsList, commentOut)
     % stable order: outputs first then inputs, grouped by class
     dirs = {'Out','In'};
     for di = 1:numel(dirs)
         D = dirs{di};
-        classes = uniqueClasses(hwPins, D);
+        classes = uniqueClasses(pinsList, D);
         for ci = 1:numel(classes)
             cls = classes{ci};
-            fprintf(fid, '/* ===== %s / %s ===== */\n', ternary(D,'Out','HwOutp','HwInp'), cls);
-            for i = 1:numel(hwPins)
-                if ~strcmp(hwPins(i).dir,D) || ~strcmp(hwPins(i).hwArray,cls), continue; end
-                emitPinSnippet(fid, hwPins(i));
+            fprintf(fid, '/* ----- %s / %s %s----- */\n', ternary(D,'Out','HwOutp','HwInp'), cls, ...
+                tern(commentOut,'[UNUSED] ',''));
+            for i = 1:numel(pinsList)
+                if ~strcmp(pinsList(i).dir,D) || ~strcmp(pinsList(i).hwArray,cls), continue; end
+                if commentOut
+                    emitPinSnippetCommented(fid, pinsList(i));
+                else
+                    emitPinSnippet(fid, pinsList(i));
+                end
             end
             fprintf(fid, '\n');
         end
     end
-    fprintf('BSW snippets written: %s\n', outFile);
+end
+
+function emitPinSnippetCommented(fid, hp)
+    % Capture emitPinSnippet's output and prefix every line with "// ".
+    tmp = [tempname() '.c'];
+    tfid = fopen(tmp,'w');
+    emitPinSnippet(tfid, hp);
+    fclose(tfid);
+    txt = fileread(tmp);
+    delete(tmp);
+    lines = regexp(txt, '\r\n|\r|\n', 'split');
+    for i = 1:numel(lines)
+        if isempty(lines{i}), fprintf(fid,'\n'); else, fprintf(fid, '// %s\n', lines{i}); end
+    end
 end
 
 function emitPinSnippet(fid, hp)

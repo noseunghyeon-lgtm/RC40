@@ -146,6 +146,7 @@ function build_rc40_model(cfg)
     if cfg.includeCommPins
         canSigs = loadCanSignals(cfg);   % normalized list regardless of source
         fprintf('CAN signals loaded (%s): %d\n', cfg.canSource, numel(canSigs));
+        canSigs = sortCanSignals(canSigs, cfg);   % per-message ordering (e.g. alphabetical)
         for i = 1:numel(canSigs)
             S = canSigs(i);
             % Tx/Rx decision delegated to the single pluggable function.
@@ -199,6 +200,28 @@ function setPortDims(blk, cfg)
     catch
         % Outport (or a release without the param): ignore.
     end
+end
+
+function sigs = sortCanSignals(sigs, cfg)
+%SORTCANSIGNALS  Order CAN signals within each message.
+%   The ASW Bus Assignment blocks list a message's signals alphabetically
+%   (case-insensitive) by signal name, regardless of their DBC/Excel
+%   declaration order. Sorting here makes the generated Inport/Outport
+%   stack match that Bus Assignment order 1:1.
+%   cfg.canSignalOrder: 'alpha' (default) | 'declared' (keep source order).
+    if isempty(sigs), return; end
+    mode = lower(getfielddef(cfg,'canSignalOrder','alpha'));
+    if strcmp(mode,'declared'), return; end
+
+    messages = {sigs.message};
+    names    = lower({sigs.name});
+    % stable sort: primary key = message (keeps messages grouped together in
+    % their first-seen order), secondary key = signal name (alphabetical).
+    [~,~,msgIdx] = unique(messages,'stable');
+    [~, nameOrder] = sort(names);
+    [~, order] = sort(msgIdx(nameOrder));
+    order = nameOrder(order);
+    sigs = sigs(order);
 end
 
 function sigs = loadCanSignals(cfg)

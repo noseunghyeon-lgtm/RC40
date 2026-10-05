@@ -140,6 +140,16 @@ cfg.genBswSnippets     = true;
 %               where the message context is part of the name.
 cfg.canPortNaming      = 'signal';
 
+% Order of signals within each CAN message when creating ports:
+%   'alpha'    - alphabetical by signal name (case-insensitive). Matches the
+%                ASW Bus Assignment block order (e.g. VC_Streaming_Status:
+%                VC_RS_Data_Route_Connected, VC_RS_Streaming_Route_Connected,
+%                VC_Status_FAKRA_1..6, VC_Streaming_Mode, VC_Streaming_Reserved).
+%                DEFAULT.
+%   'declared' - keep the DBC/MASAR Excel declaration order (bit-position
+%                order), which does NOT match the Bus Assignment order.
+cfg.canSignalOrder     = 'alpha';
+
 % HS/LS suffix on OUTPUT index names (e.g. DevOutp_A03LS_D).
 % NOTE: HS/LS is a MASAR-internal naming convenience (not a hardware property),
 % derived from "High Side" / "Low Side" in the Description column.

@@ -36,14 +36,14 @@ BS_:
 BU_: BrakeActuator Chassis Chassis_uC Control_Computer EPS FSM_uC GearActuator GearSelector Video_Computer
 
 
-BO_ 170 CC_ESTOP_Cmd: 4 Control_Computer
+BO_ 170 RS_E_STOP1: 4 Control_Computer
  SG_ CRC_AA : 24|8@1+ (1,0) [0|255] ""  Chassis_uC
  SG_ MC_AA : 20|4@1+ (1,0) [0|15] ""  Chassis_uC
- SG_ E_STOP_Reserved : 16|4@1+ (1,0) [0|15] ""  Chassis_uC
- SG_ CC_AEBS : 8|8@1+ (1,0) [0|255] ""  Chassis_uC
- SG_ CC_E_STOP : 0|8@1+ (1,0) [0|255] ""  Chassis_uC
+ SG_ E_STOP_Rsvd_AA : 16|4@1+ (1,0) [0|15] ""  Chassis_uC
+ SG_ AEBS_AA : 8|8@1+ (1,0) [0|255] ""  Chassis_uC
+ SG_ E_STOP_AA : 0|8@1+ (1,0) [0|255] ""  Chassis_uC
 
-BO_ 2633994444 CC_NET_Status: 2 Control_Computer
+BO_ 2633994444 CC_Net_Status: 2 Control_Computer
  SG_ CC_AliveCounter : 12|4@1+ (1,0) [0|15] ""  Chassis_uC
  SG_ CC_Net_Link_Count : 8|4@1+ (1,0) [0|15] ""  Chassis_uC
  SG_ CC_Net_Level : 0|8@1+ (1,0) [0|10] ""  Chassis_uC
@@ -51,30 +51,30 @@ BO_ 2633994444 CC_NET_Status: 2 Control_Computer
 BO_ 2566869708 CC_Streaming_Status: 2 Control_Computer
  SG_ CC_Status_FireGunCAM : 14|2@1+ (1,0) [0|3] ""  Chassis_uC
  SG_ CC_Status_ThermalCAM : 12|2@1+ (1,0) [0|3] ""  Chassis_uC
- SG_ CC_Streaming_Reserved : 8|4@1+ (1,0) [0|0] ""  Chassis_uC
+ SG_ CC_Streaming_Rsvd : 8|4@1+ (1,0) [0|0] ""  Chassis_uC
  SG_ CC_RS_Data_Route_Connected : 6|2@1+ (1,0) [0|3] ""  Chassis_uC
  SG_ CC_RS_Streaming_Route_Connected : 4|2@1+ (1,0) [0|3] ""  Chassis_uC
  SG_ CC_Streaming_Mode : 0|4@1+ (1,0) [0|15] ""  Chassis_uC
 
-BO_ 2365542604 CC_Chassis_Cmd: 8 Control_Computer
- SG_ CRC_CC_Cmd : 56|8@1+ (1,0) [0|255] ""  Chassis_uC
- SG_ MC_CC_Cmd : 52|4@1+ (1,0) [0|15] ""  Chassis_uC
- SG_ Command_Reserved2 : 48|4@1+ (1,0) [0|15] ""  Chassis_uC
- SG_ Command_Reserved1 : 40|8@1+ (1,0) [0|0] ""  Chassis_uC
- SG_ Steering_Angle_Position : 24|16@1+ (0.1,-800) [-800|800] "deg"  Chassis_uC
- SG_ Brake_Position : 16|8@1+ (1,0) [0|101] "%"  Chassis_uC
- SG_ Throttle_Position : 8|8@1+ (1,0) [0|101] "%"  Chassis_uC
- SG_ Gear_Position : 4|4@1+ (1,0) [0|7] ""  Chassis_uC
- SG_ Chassis_Op_Mode : 0|4@1+ (1,0) [0|15] ""  Chassis_uC
+BO_ 2365542604 RS_Chassis_Command1: 8 Control_Computer
+ SG_ CRC_FF50 : 56|8@1+ (1,0) [0|255] ""  Chassis_uC
+ SG_ MC_FF50 : 52|4@1+ (1,0) [0|15] ""  Chassis_uC
+ SG_ Command_Rsvd2_FF50 : 48|4@1+ (1,0) [0|15] ""  Chassis_uC
+ SG_ Command_Rsvd1_FF50 : 40|8@1+ (1,0) [0|0] ""  Chassis_uC
+ SG_ Steering_Angle_Position_CC : 24|16@1+ (0.1,-800) [-800|800] "deg"  Chassis_uC
+ SG_ Brake_Position_CC : 16|8@1+ (1,0) [0|101] "%"  Chassis_uC
+ SG_ Throttle_Position_CC : 8|8@1+ (1,0) [0|101] "%"  Chassis_uC
+ SG_ Gear_Position_CC : 4|4@1+ (1,0) [0|7] ""  Chassis_uC
+ SG_ Chassis_Op_Mode_CC : 0|4@1+ (1,0) [0|15] ""  Chassis_uC
 
-BO_ 171 VC_ESTOP_Cmd: 4 Video_Computer
- SG_ CRC : 24|8@1+ (1,0) [0|255] ""  Chassis_uC
- SG_ MC : 20|4@1+ (1,0) [0|15] ""  Chassis_uC
- SG_ E_STOP_Reserved : 16|4@1+ (1,0) [0|15] ""  Chassis_uC
- SG_ VC_AEBS : 8|8@1+ (1,0) [0|255] ""  Chassis_uC
- SG_ E_STOP : 0|8@1+ (1,0) [0|255] ""  Chassis_uC
+BO_ 171 RS_E_STOP2: 4 Video_Computer
+ SG_ CRC_AB : 24|8@1+ (1,0) [0|255] ""  Chassis_uC
+ SG_ MC_AB : 20|4@1+ (1,0) [0|15] ""  Chassis_uC
+ SG_ E_STOP_Rsvd_AB : 16|4@1+ (1,0) [0|15] ""  Chassis_uC
+ SG_ AEBS_AB : 8|8@1+ (1,0) [0|255] ""  Chassis_uC
+ SG_ E_STOP_AB : 0|8@1+ (1,0) [0|255] ""  Chassis_uC
 
-BO_ 2633994428 VC_NET_Status: 2 Video_Computer
+BO_ 2633994428 VC_Net_Status: 2 Video_Computer
  SG_ VC_AliveCounter : 12|4@1+ (1,0) [0|15] ""  Chassis_uC
  SG_ VC_Net_Link_Count : 8|4@1+ (1,0) [0|15] ""  Chassis_uC
  SG_ VC_Net_Level : 0|8@1+ (1,0) [0|10] ""  Chassis_uC
@@ -86,49 +86,49 @@ BO_ 2566873532 VC_Streaming_Status: 3 Video_Computer
  SG_ VC_Status_FAKRA_3 : 16|2@1+ (1,0) [0|3] ""  Chassis_uC
  SG_ VC_Status_FAKRA_2 : 14|2@1+ (1,0) [0|3] ""  Chassis_uC
  SG_ VC_Status_FAKRA_1 : 12|2@1+ (1,0) [0|3] ""  Chassis_uC
- SG_ VC_Streaming_Reserved : 8|4@1+ (1,0) [0|0] ""  Chassis_uC
+ SG_ VC_Streaming_Rsvd : 8|4@1+ (1,0) [0|0] ""  Chassis_uC
  SG_ VC_RS_Data_Route_Connected : 6|2@1+ (1,0) [0|3] ""  Chassis_uC
  SG_ VC_RS_Streaming_Route_Connected : 4|2@1+ (1,0) [0|3] ""  Chassis_uC
  SG_ VC_Streaming_Mode : 0|4@1+ (1,0) [0|15] ""  Chassis_uC
 
-BO_ 2365546684 VC_Chassis_Cmd: 8 Video_Computer
- SG_ CRC_VC_C_Cmd : 56|8@1+ (1,0) [0|255] ""  Chassis_uC
- SG_ MC_VC_C_Cmd : 52|4@1+ (1,0) [0|15] ""  Chassis_uC
- SG_ Command_Reserved2 : 48|4@1+ (1,0) [0|15] ""  Chassis_uC
- SG_ Command_Reserved1 : 40|8@1+ (1,0) [0|0] ""  Chassis_uC
- SG_ Steering_Angle_Position : 24|16@1+ (0.1,-800) [-800|800] "deg"  Chassis_uC
- SG_ Brake_Position : 16|8@1+ (1,0) [0|101] "%"  Chassis_uC
- SG_ Throttle_Position : 8|8@1+ (1,0) [0|101] "%"  Chassis_uC
- SG_ Gear_Position : 4|4@1+ (1,0) [0|7] ""  Chassis_uC
- SG_ Chassis_Op_Mode : 0|4@1+ (1,0) [0|15] ""  Chassis_uC
+BO_ 2365546684 RS_Chassis_Command2: 8 Video_Computer
+ SG_ CRC_FF60 : 56|8@1+ (1,0) [0|255] ""  Chassis_uC
+ SG_ MC_FF60 : 52|4@1+ (1,0) [0|15] ""  Chassis_uC
+ SG_ Command_Rsvd2_FF60 : 48|4@1+ (1,0) [0|15] ""  Chassis_uC
+ SG_ Command_Rsvd1_FF60 : 40|8@1+ (1,0) [0|0] ""  Chassis_uC
+ SG_ Steering_Angle_Position_VC : 24|16@1+ (0.1,-800) [-800|800] "deg"  Chassis_uC
+ SG_ Brake_Position_VC : 16|8@1+ (1,0) [0|101] "%"  Chassis_uC
+ SG_ Throttle_Position_VC : 8|8@1+ (1,0) [0|101] "%"  Chassis_uC
+ SG_ Gear_Position_VC : 4|4@1+ (1,0) [0|7] ""  Chassis_uC
+ SG_ Chassis_Op_Mode_VC : 0|4@1+ (1,0) [0|15] ""  Chassis_uC
 
-BO_ 2566877423 Chassis_VC_Status_1: 8 Chassis_uC
- SG_ Chassis_Status_Reserved3 : 56|8@1+ (1,0) [0|0] ""  Video_Computer
- SG_ Chassis_Status_Reserved2 : 52|4@1+ (1,0) [0|0] ""  Video_Computer
+BO_ 2566877423 Chassis_Status1: 8 Chassis_uC
+ SG_ Chassis_Status_Rsvd3 : 56|8@1+ (1,0) [0|0] ""  Video_Computer
+ SG_ Chassis_Status_Rsvd2 : 52|4@1+ (1,0) [0|0] ""  Video_Computer
  SG_ SideBrake_Position_FB : 48|4@1+ (1,0) [0|3] ""  Video_Computer
  SG_ Steering_Angle_Position_FB : 32|16@1+ (0.1,-800) [-800|800] "deg"  Video_Computer
  SG_ Brake_Position_FB : 24|8@1+ (1,0) [0|101] "%"  Video_Computer
  SG_ Throttle_Position_FB : 16|8@1+ (1,0) [0|101] "%"  Video_Computer
  SG_ Gear_Position_FB : 12|4@1+ (1,0) [0|7] ""  Video_Computer
- SG_ Chassis_Status_Reserved1 : 4|8@1+ (1,0) [0|0] ""  Video_Computer
+ SG_ Chassis_Status_Rsvd1 : 4|8@1+ (1,0) [0|0] ""  Video_Computer
  SG_ Chassis_Op_Mode_Status : 0|4@1+ (1,0) [0|15] ""  Video_Computer
 
-BO_ 2566877679 Chassis_VC_Status_2: 8 Chassis_uC
- SG_ Chassis_Status_Reserved6 : 60|4@1+ (1,0) [0|0] ""  Video_Computer
+BO_ 2566877679 Chassis_Status2: 8 Chassis_uC
+ SG_ Chassis_Status_Rsvd6 : 60|4@1+ (1,0) [0|0] ""  Video_Computer
  SG_ Battery_Status : 56|4@1+ (1,0) [0|15] ""  Video_Computer
  SG_ Engine_Mission_Status : 52|4@1+ (1,0) [0|15] ""  Video_Computer
  SG_ Fuel_Warning : 48|4@1+ (1,0) [0|15] ""  Video_Computer
- SG_ Chassis_Status_Reserved5 : 40|8@1+ (1,0) [0|0] ""  Video_Computer
- SG_ Chassis_Status_Reserved4 : 34|6@1+ (1,0) [0|0] ""  Video_Computer
+ SG_ Chassis_Status_Rsvd5 : 40|8@1+ (1,0) [0|0] ""  Video_Computer
+ SG_ Chassis_Status_Rsvd4 : 34|6@1+ (1,0) [0|0] ""  Video_Computer
  SG_ Battery_Voltage : 24|10@1+ (0.1,0) [0|102.3] "V"  Video_Computer
  SG_ Coolant_Temp : 16|8@1+ (1,-40) [-40|215] "degC"  Video_Computer
  SG_ Mission_Fluid_Temp : 8|8@1+ (1,-40) [-40|215] "degC"  Video_Computer
  SG_ Vehicle_Velocity : 0|8@1+ (0.5,0) [0|127.5] "kph"  Video_Computer
 
-BO_ 2566877935 Chassis_VC_Status_3: 6 Chassis_uC
- SG_ Chassis_Status_Reserved9 : 40|8@1+ (1,0) [0|0] ""  Video_Computer
- SG_ Chassis_Status_Reserved8 : 32|8@1+ (1,0) [0|0] ""  Video_Computer
- SG_ Chassis_Status_Reserved7 : 24|8@1+ (1,0) [0|0] ""  Video_Computer
+BO_ 2566877935 Chassis_Status3: 6 Chassis_uC
+ SG_ Chassis_Status_Rsvd9 : 40|8@1+ (1,0) [0|0] ""  Video_Computer
+ SG_ Chassis_Status_Rsvd8 : 32|8@1+ (1,0) [0|0] ""  Video_Computer
+ SG_ Chassis_Status_Rsvd7 : 24|8@1+ (1,0) [0|0] ""  Video_Computer
  SG_ ABS_Status : 20|4@1+ (1,0) [0|15] ""  Video_Computer
  SG_ APC_Status : 16|4@1+ (1,0) [0|15] ""  Video_Computer
  SG_ Steering_Control_Unit_Status : 12|4@1+ (1,0) [0|15] ""  Video_Computer
@@ -136,23 +136,23 @@ BO_ 2566877935 Chassis_VC_Status_3: 6 Chassis_uC
  SG_ Brake_Actuator_Status : 4|4@1+ (1,0) [0|15] ""  Video_Computer
  SG_ Gear_Actuator_Status : 0|4@1+ (1,0) [0|15] ""  Video_Computer
 
-BO_ 2566878191 Chassis_OP_Status: 2 Chassis_uC
+BO_ 2566878191 Chassis_Operation_Status: 2 Chassis_uC
  SG_ Chassis_uC_Status_Error : 12|4@1+ (1,0) [0|15] ""  Video_Computer
- SG_ Chassis_uC_AliveCounter : 8|4@1+ (1,0) [0|15] ""  Video_Computer
- SG_ Chassis_State_Machine_Status : 4|4@1+ (1,0) [0|15] ""  Video_Computer
- SG_ Chassis_Operation_Status_Reserve : 0|4@1+ (1,0) [0|0] ""  Video_Computer
+ SG_ Chassis_uC_AliveCounter_VC : 8|4@1+ (1,0) [0|15] ""  Video_Computer
+ SG_ Chassis_State_Machine_Status_VC : 4|4@1+ (1,0) [0|15] ""  Video_Computer
+ SG_ Chassis_Op_Status_Rsvd1 : 0|4@1+ (1,0) [0|0] ""  Video_Computer
 
-BO_ 2566882026 FSM_Chassis_Status: 8 FSM_uC
- SG_ FSMuC_Reserved2 : 60|4@1+ (1,0) [0|15] ""  Chassis_uC
+BO_ 2566882026 FSM_uC_Status: 8 FSM_uC
+ SG_ FSMuC_Rsvd2 : 60|4@1+ (1,0) [0|15] ""  Chassis_uC
  SG_ FSMuC_AliveCounter : 56|4@1+ (1,0) [0|15] ""  Chassis_uC
- SG_ FSMuC_Reserved1 : 4|52@1+ (1,0) [0|0] ""  Chassis_uC
+ SG_ FSMuC_Rsvd1 : 4|52@1+ (1,0) [0|0] ""  Chassis_uC
  SG_ FSM_State_Machine_Status : 0|4@1+ (1,0) [0|15] ""  Chassis_uC
 
-BO_ 2566878447 Chassis_FSM_Status: 8 Chassis_uC
- SG_ Chassis_uC_Reserved2 : 60|4@1+ (1,0) [0|15] ""  FSM_uC
- SG_ Chassis_uC_AliveCounter : 56|4@1+ (1,0) [0|15] ""  FSM_uC
- SG_ Chassis_uC_Reserved1 : 4|52@1+ (1,0) [0|0] ""  FSM_uC
- SG_ Chassis_State_Machine_Status : 0|4@1+ (1,0) [0|15] ""  FSM_uC
+BO_ 2566878447 Chassis_uC_Status: 8 Chassis_uC
+ SG_ Chassis_uC_Rsvd2 : 60|4@1+ (1,0) [0|15] ""  FSM_uC
+ SG_ Chassis_uC_AliveCounter_FSM : 56|4@1+ (1,0) [0|15] ""  FSM_uC
+ SG_ Chassis_uC_Rsvd1 : 4|52@1+ (1,0) [0|0] ""  FSM_uC
+ SG_ Chassis_State_Machine_Status_FSM : 0|4@1+ (1,0) [0|15] ""  FSM_uC
 
 BO_ 1129 BRK_Pos_CMD: 4 Chassis_uC
  SG_ BRK_CMD_Pos : 7|32@0- (0.0001,0) [-36000|36000] "deg"  BrakeActuator
@@ -236,7 +236,7 @@ BO_ 2147494248 GA_Status: 8 GearActuator
 
 BO_ 2566844683 CCVS1_CAR: 8 Chassis
  SG_ Brake_Switch : 28|2@1+ (1,0) [0|0] ""  Chassis_uC
- SG_ ParkingBrakeSwitch : 0|2@1+ (1,0) [0|0] ""  Chassis_uC
+ SG_ ParkingBrakeSwitch_CAR : 0|2@1+ (1,0) [0|0] ""  Chassis_uC
 
 BO_ 160 EngFrzFrm1: 8 Chassis
  SG_ PID_0Ch : 48|16@1+ (0.25,0) [0|16383.75] ""  Chassis_uC
@@ -307,7 +307,7 @@ BO_ 790 EMS1: 8 Chassis
  SG_ RATIO_TQI_BAS_MAX_STND : 56|8@1+ (0.0078,0) [0|2] ""  Chassis_uC
  SG_ VS_Vehicle_Speed : 48|8@1+ (1,0) [0|254] "km/h"  Chassis_uC
  SG_ TQFR : 40|8@1+ (0.390625,0) [0|99.6094] "%"  Chassis_uC
- SG_ TQI : 32|8@1+ (0.390625,0) [0|99.6094] "%"  Chassis_uC
+ SG_ TQI_EMS1 : 32|8@1+ (0.390625,0) [0|99.6094] "%"  Chassis_uC
  SG_ N_EngSpeed : 16|16@1+ (0.25,0) [0|16384] "RPM"  Chassis_uC
  SG_ TQI_ACOR : 8|8@1+ (0.390625,0) [0|99.6094] "%"  Chassis_uC
  SG_ F_SUB_TQI_MAF_Signal_Error : 7|1@1+ (1,0) [0|1] ""  Chassis_uC
@@ -348,7 +348,7 @@ BO_ 672 EMS5: 8 Chassis
  SG_ IntAirTemp : 16|8@1+ (0.75,-48) [-48|143.25] ""  Chassis_uC
  SG_ FA_PV_CAN : 8|8@1+ (0.3906,0) [0|99.2] "%"  Chassis_uC
  SG_ Byte0Parity : 7|1@1+ (1,0) [0|1] ""  Chassis_uC
- SG_ AliveCounter : 5|2@1+ (1,0) [0|3] ""  Chassis_uC
+ SG_ AliveCounter_EMS5 : 5|2@1+ (1,0) [0|3] ""  Chassis_uC
  SG_ BLECFail : 4|1@1+ (1,0) [0|1] ""  Chassis_uC
  SG_ SwitchOffCondExt : 3|1@1+ (1,0) [0|1] ""  Chassis_uC
  SG_ ECFail : 2|1@1+ (1,0) [0|1] ""  Chassis_uC
@@ -357,7 +357,7 @@ BO_ 672 EMS5: 8 Chassis
 
 BO_ 608 EMS6: 8 Chassis
  SG_ CF_Ems_AclAct : 62|2@1+ (1,0) [0|3] ""  Chassis_uC
- SG_ AliveCounter : 60|2@1+ (1,0) [0|3] ""  Chassis_uC
+ SG_ AliveCounter_EMS6 : 60|2@1+ (1,0) [0|3] ""  Chassis_uC
  SG_ Checksum : 56|4@1+ (1,0) [0|15] ""  Chassis_uC
  SG_ SPK_TIME_CUR : 48|8@1+ (0.375,-35.625) [-35.625|60] ""  Chassis_uC
  SG_ TQI_MAX : 40|8@1+ (0.390625,0) [0|99.6094] "%"  Chassis_uC
@@ -369,7 +369,7 @@ BO_ 608 EMS6: 8 Chassis
  SG_ CRUISE_LAMP_M : 25|1@1+ (1,0) [0|1] ""  Chassis_uC
  SG_ GLOW_STAT : 24|1@1+ (1,0) [0|1] ""  Chassis_uC
  SG_ TQI_TARGET : 16|8@1+ (0.390625,0) [0|99.6094] "%"  Chassis_uC
- SG_ TQI : 8|8@1+ (0.390625,0) [0|99.6094] "%"  Chassis_uC
+ SG_ TQI_EMS6 : 8|8@1+ (0.390625,0) [0|99.6094] "%"  Chassis_uC
  SG_ TQI_MIN : 0|8@1+ (0.390625,0) [0|99.6094] "%"  Chassis_uC
 
 BO_ 161 EngFrzFrm2: 8 Chassis
@@ -400,7 +400,7 @@ BO_ 1064 TCCU_4WD: 8 Chassis
  SG_ TYPE_4WD : 0|2@1+ (1,0) [0|3] ""  Chassis_uC
 
 BO_ 1087 TCU1: 8 Chassis
- SG_ TQI_TCU_INC : 56|8@1+ (0.390625,0) [0|99.6094] ""  Chassis_uC
+ SG_ TQI_TCU_INC_TCU1 : 56|8@1+ (0.390625,0) [0|99.6094] ""  Chassis_uC
  SG_ N_TC : 40|16@1+ (0.25,0) [0|16383.5] ""  Chassis_uC
  SG_ TEMP_AT : 32|8@1+ (1,-40) [0|214] ""  Chassis_uC
  SG_ TQI_TCU : 24|8@1+ (0.390625,0) [0|99.6094] "%"  Chassis_uC
@@ -426,7 +426,7 @@ BO_ 880 TCU3: 8 Chassis
  SG_ CF_Tcu_ChkSum3 : 60|4@1+ (1,0) [0|15] ""  Chassis_uC
  SG_ CF_Tcu_Alive3 : 58|2@1+ (1,0) [0|3] ""  Chassis_uC
  SG_ CF_Tcu_SptRdy : 57|1@1+ (1,0) [0|1] ""  Chassis_uC
- SG_ TQI_TCU_INC : 48|8@1+ (0.390625,0) [0|99.6094] "%"  Chassis_uC
+ SG_ TQI_TCU_INC_TCU3 : 48|8@1+ (0.390625,0) [0|99.6094] "%"  Chassis_uC
  SG_ CF_Tcu_TqGrdLim : 32|8@1+ (10,0) [0|2540] "Nm/s"  Chassis_uC
  SG_ CF_Tcu_PRelReq : 29|1@1+ (1,0) [0|1] ""  Chassis_uC
  SG_ CF_Tcu_ShfPatt : 24|4@1+ (1,0) [0|15] ""  Chassis_uC
@@ -444,14 +444,12 @@ BO_ 2565867006 ETC2: 8 Chassis_uC
  SG_ TransActualGearRatio : 8|16@1+ (0.001,0) [0|64.255] ""  EPS
  SG_ TransSelectedGear : 0|8@1+ (1,-125) [-125|125] ""  EPS
 
-BO_ 2566831883 EBC2: 8 Chassis
- SG_ RelativeSpeedRearAxle2RightWheel : 56|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  Chassis_uC
- SG_ RelativeSpeedRearAxle2LeftWheel : 48|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  Chassis_uC
- SG_ RelativeSpeedRearAxle1RightWheel : 40|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  Chassis_uC
- SG_ RelativeSpeedRearAxle1LeftWheel : 32|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  Chassis_uC
- SG_ RelativeSpeedFrontAxleRightWheel : 24|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  Chassis_uC
- SG_ RelativeSpeedFrontAxleLeftWheel : 16|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  Chassis_uC
- SG_ FrontAxleSpeed : 0|16@1+ (0.00390625,0) [0|250.996] ""  Chassis_uC
+BO_ 2566831883 EBC2_CAR: 8 Chassis
+ SG_ Relative_Speed_RR : 40|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  Chassis_uC
+ SG_ Relative_Speed_RL : 32|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  Chassis_uC
+ SG_ Relative_Speed_FR : 24|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  Chassis_uC
+ SG_ Relative_Speed_FL : 16|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  Chassis_uC
+ SG_ FrontAxleSpeed_CAR : 0|16@1+ (0.00390625,0) [0|250.996] ""  Chassis_uC
 
 BO_ 2566848766 EPSI1: 8 Chassis_uC
  SG_ CRC_EPSI1 : 56|8@1+ (1,0) [0|255] ""  EPS
@@ -476,13 +474,13 @@ BO_ 2566849278 EPSI3: 8 Chassis_uC
  SG_ SteeringWheelVibrationModeReq : 0|4@1+ (1,0) [0|15] ""  EPS
 
 BO_ 2566832126 EBC2_EPS: 8 Chassis_uC
- SG_ RelativeSpeedFrontAxle2RightWhee : 56|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  EPS
- SG_ RelativeSpeedFrontAxle2LeftWheel : 48|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  EPS
- SG_ RelativeSpeedFrontAxle1RightWhee : 40|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  EPS
- SG_ RelativeSpeedFrontAxle1LeftWheel : 32|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  EPS
- SG_ RelativeSpeedFrontAxleRightWheel : 24|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  EPS
- SG_ RelativeSpeedFrontAxleLeftWheel : 16|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  EPS
- SG_ FrontAxleSpeed : 0|16@1+ (0.00390625,0) [0|250.996] "km/h"  EPS
+ SG_ RelSpeedFrontAxle2RightWheel : 56|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  EPS
+ SG_ RelSpeedFrontAxle2LeftWheel : 48|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  EPS
+ SG_ RelSpeedFrontAxle1RightWheel : 40|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  EPS
+ SG_ RelSpeedFrontAxle1LeftWheel : 32|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  EPS
+ SG_ RelSpeedFrontAxleRightWheel : 24|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  EPS
+ SG_ RelSpeedFrontAxleLeftWheel : 16|8@1+ (0.0625,-7.8125) [-7.8125|7.8125] "km/h"  EPS
+ SG_ FrontAxleSpeed_EPS : 0|16@1+ (0.00390625,0) [0|250.996] "km/h"  EPS
 
 BO_ 2565868030 VDC2: 8 Chassis_uC
  SG_ LongitudinalAcceleration : 56|8@1+ (0.1,-12.5) [-12.5|12.5] "m/s^2"  EPS
@@ -507,14 +505,8 @@ BO_ 2566832638 VDHR: 8 Chassis_uC
  SG_ HghRsolutionTotalVehicleDistance : 0|32@1+ (5,0) [0|2105540600] "m"  EPS
 
 BO_ 2364540158 EEC1: 8 Chassis_uC
- SG_ EngDemandPercentTorque : 56|8@1+ (1,-125) [-125|125] "%"  EPS
  SG_ EngStarterMode : 48|4@1+ (1,0) [0|15] ""  EPS
- SG_ SrcAddrssOfCntrlIngDvcForEngCtrl : 40|8@1+ (1,0) [0|253] ""  EPS
- SG_ EngSpeed : 24|16@1+ (0.01,-327.67) [-327.67|327.68] "rpm"  EPS
- SG_ ActualEngPercenTorque : 16|8@1+ (1,-125) [0|125] "%"  EPS
- SG_ DriversDemandEngPercentTorque : 8|8@1+ (1,-125) [0|125] "%"  EPS
- SG_ ActIEngPrcntTorqueHighResolution : 4|4@1+ (0.125,0) [0|0.875] "%"  EPS
- SG_ EngTorqueMode : 0|4@1+ (1,0) [0|15] ""  EPS
+ SG_ EngSpeed : 24|16@1+ (0.125,0) [0|8031.875] "rpm"  EPS
 
 BO_ 2365484286 TCO1: 8 Chassis_uC
  SG_ TachographVehicleSpeed : 48|16@1+ (0.00390625,0) [0|250.996] "km/h"  EPS
@@ -557,12 +549,12 @@ BO_ 2566844926 CCVS1_EPS: 8 Chassis_uC
  SG_ WheelBasedVehicleSpeed : 8|16@1+ (0.00390625,0) [0|250.996] "km/h"  EPS
  SG_ ParkBrakeReleaseInhibitRq : 6|2@1+ (1,0) [0|3] ""  EPS
  SG_ CruiseCtrlPauseSwitch : 4|2@1+ (1,0) [0|3] ""  EPS
- SG_ ParkingBrakeSwitch : 2|2@1+ (1,0) [0|3] ""  EPS
+ SG_ ParkingBrakeSwitch_EPS : 2|2@1+ (1,0) [0|3] ""  EPS
  SG_ TwoSpeedAxleSwitch : 0|2@1+ (1,0) [0|3] ""  EPS
 
-BO_ 2566849811 EPS01: 8 EPS
- SG_ CRC_EPS01 : 56|8@1+ (1,0) [0|255] ""  Chassis_uC
- SG_ MC_EPS01 : 52|4@1+ (1,0) [0|15] ""  Chassis_uC
+BO_ 2566849811 EPSO1: 8 EPS
+ SG_ CRC_EPSO1 : 56|8@1+ (1,0) [0|255] ""  Chassis_uC
+ SG_ MC_EPSO1 : 52|4@1+ (1,0) [0|15] ""  Chassis_uC
  SG_ SysState : 48|4@1+ (1,0) [0|16] ""  Chassis_uC
  SG_ HydraulicFailure : 47|1@1+ (1,0) [0|1] ""  Chassis_uC
  SG_ LossOfTorque : 46|1@1+ (1,0) [0|1] ""  Chassis_uC
@@ -572,9 +564,9 @@ BO_ 2566849811 EPS01: 8 EPS
  SG_ SteeringAngleSpeed : 16|16@1+ (0.1,-3212.7) [-3212.7|3212.8] "deg/s"  Chassis_uC
  SG_ SteeringAngle : 0|16@1+ (0.1,-3212.7) [-3212.7|3212.8] "deg"  Chassis_uC
 
-BO_ 2566850067 EPS02: 8 EPS
- SG_ CRC_EPS02 : 56|8@1+ (1,0) [0|255] ""  Chassis_uC
- SG_ MC_EPS02 : 52|4@1+ (1,0) [0|15] ""  Chassis_uC
+BO_ 2566850067 EPSO2: 8 EPS
+ SG_ CRC_EPSO2 : 56|8@1+ (1,0) [0|255] ""  Chassis_uC
+ SG_ MC_EPSO2 : 52|4@1+ (1,0) [0|15] ""  Chassis_uC
  SG_ ReservedData2_EPSO2 : 48|4@1+ (1,0) [0|15] ""  Chassis_uC
  SG_ ReservedData1_EPSO2 : 44|4@1+ (1,0) [0|15] ""  Chassis_uC
  SG_ ExtcontrolMode : 40|4@1+ (1,0) [0|15] ""  Chassis_uC
@@ -632,141 +624,141 @@ BO_ 2566834707 DM01_EPS: 24 EPS
 
 
 
-CM_ SG_ 170 E_STOP_Reserved "A18 ë‹µ (2026-09-09): MC ê°€ 4ë¹„íŠ¸ë¡œ ì¤„ë©´ì„œ ê·¸ ë°”ì�´íŠ¸ì�˜ í•˜ìœ„ ë‹ˆë¸”ì�´ ë¹„ì—ˆë‹¤";
-CM_ SG_ 170 CC_E_STOP "11-bit í‘œì¤€ ID. Priority í•„ë“œê°€ ì—†ìœ¼ë¯€ë¡œ ê·¸ëŒ€ë¡œ ë‘”ë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” A1 RS E_STOP1). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2633994444 CC_AliveCounter "ìˆœí™˜ ì¹´ìš´í„°. ìˆ˜ì‹  ì¸¡ì�€ ì¦�ê°€í•˜ì§€ ì•Šìœ¼ë©´ ë‚¡ì�€ ê²ƒìœ¼ë¡œ ë³¸ë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FE00CC CC_Net_Status). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A14 ë‹µ (2026-09-08): ë‘˜ ë‹¤ ìœ íš¨í•  ë•Œ CC ìš°ì„  / VC ë³´ì¡°ë¡œ ë’¤ì§‘í˜”ê³  E-STOP ë�„ CC ìš°ì„ ì�´ë‹¤. ìœ íš¨ì„± íŒ�ì • ìž…ë ¥ì�´ ì�´ ë‘˜ì—�ì„œ CRC ë¡œ ì˜®ê²¨ê°ˆ ì˜ˆì •ì�´ë©° ê·¸ê²ƒì�€ ë³´ë¥˜ë‹¤ (A8 ë�„ CRC ë³´ë¥˜). ì¤‘ìž¬ëŠ” Chassis_uC êµ¬í˜„ì�´ê³  Data Line ì�€ ì�´ ê°’ì�„ ë§Œë“¤ì–´ ë‚¼ ë¿�ì�´ë‹¤ | A18 ë‹µ (2026-09-09): ì„ íƒ� 3 - 4ë¹„íŠ¸ ê·¸";
-CM_ SG_ 2633994444 CC_Net_Link_Count "Net_Link_Count. ì�´ 4ë¹„íŠ¸ëŠ” ë²¤ë�” ì‹œíŠ¸ê°€ SRS_Condition ì�´ë�¼ê³  ì �ê³  ì•„ë¬´ë�„ ëœ»ì�„ ì •í•˜ì§€ ì•Šì�€ ìž�ë¦¬ë‹¤ (ìœ ì�¼í•œ ë‹¨ì„œì�¸ ì°¨ëŸ‰ ê·œê²© ì£¼ì„� 'IP ì²´í�¬ í›„ ìž˜ ë°°ë‹¹ë°›ì•˜ëŠ”ì§€ ì—¬ë¶€?' ì—�ëŠ” ìž‘ì„±ìž�ë�„ ë¬¼ì�Œí‘œë¥¼ ë‹¬ì•˜ë‹¤) | A10 ë‹µ (2026-09-08): 'ë„ˆê°€ ê¶Œìž¥í•˜ëŠ” DBë¥¼ ì„¤ê³„í•´ë‹¬ë�¼'. ê·¸ëž˜ì„œ ì�´ ì €ìž¥ì†Œê°€ ìž¬ê³  ìžˆìœ¼ë©´ì„œ ì•„ë¬´ ë�°ë�„ ë³´ê³ í•˜ì§€ ì•Šë�˜ ê°’ í•˜ë‚˜ë¥¼ ë‹´ì•˜ë‹¤ â€” ë³¸ë”© ê·¸ë£¹ì—�ì„œ ì‹¤ì œë¡œ ë�°ì�´í„°ë¥¼ ë‚˜ë¥´ëŠ” Link ì�˜ ìˆ˜ (srt_group_data + srt_bistats, DataLineSock";
-CM_ SG_ 2633994444 CC_Net_Level "ë§�í�¬ í†µê³„ì�´ë¯€ë¡œ ìµœì € ìš°ì„ ìˆœìœ„ 7. ê³µìš© PGN 0x0FF40, SA ë¡œ ë°œì‹ ìž� êµ¬ë¶„ | í˜¼ìž¡ë�„ ë“±ê¸‰. ê°� ë…¸ë“œê°€ ìž�ê¸° SRT ë³¸ë”© ê·¸ë£¹ì�˜ í†µê³„ì—�ì„œ ì‚°ì¶œí•´ ìž�ê¸° ë¡œì»¬ CAN ë²„ìŠ¤ì—� ë°œí–‰í•œë‹¤ â€” ë§�í�¬ë¡œ ì‹¤ì–´ ì˜¬ë¦¬ì§€ ì•ŠëŠ”ë‹¤ (ADR 0007) | A9 ë‹µ (2026-09-08): í™•ì�¸ì�´ ì•„ë‹ˆë�¼ ì„¤ê³„ ìš”ì²­ìœ¼ë¡œ ì™”ê³  ê°’í‘œëŠ” ì�´ ì €ìž¥ì†Œê°€ ì •í–ˆë‹¤. \"ìˆ˜ì‹ ê°•ë�„\" ëŠ” ì² íšŒí•œë‹¤ â€” ì €ìž¥ì†Œì—� ëª¨ëŽ€ RSSI ë¥¼ ì�½ëŠ” ì½”ë“œê°€ ì—†ê³  ìž¬ëŠ” ê²ƒì�€ í˜¼ìž¡ë�„ë¿�ì�´ë‹¤ (srt_bistats ì�˜ msRTT, pktSndLoss/pktS";
-CM_ SG_ 2566869708 CC_Status_FireGunCAM "ë°©ìˆ˜í�¬ ì¹´ë©”ë�¼ ë§�í�¬ ìƒ�íƒœ. Eth ë¡œëŠ” OPSTS2_Status_FireGunCAM ìœ¼ë¡œ ì˜¬ë�¼ê°„ë‹¤ | A7 (2026-09-08) ì�€ ì¹´ë©”ë�¼ ê³ ìž¥ íƒ€ìž… ì„¤ê³„ë¥¼ ìš°ë¦¬ì—�ê²Œ ë„˜ê²¼ê³  ê·¸ ëŒ€ìƒ�ì—� ì�´ ë‘� ì‹œê·¸ë„�ì�´ ë“¤ì–´ ìžˆì—ˆë‹¤. VC ìª½ 6 ì‹œê·¸ë„�ì�€ 2 ë¥¼ No Camera ë¡œ ì�¼ì§€ë§Œ(issues/15) ì—¬ê¸°ëŠ” Reserved ë¡œ ë‘”ë‹¤ - CC ëŠ” ì—´í™”ìƒ�ê³¼ ë°©ìˆ˜í�¬ ì¹´ë©”ë�¼ 2 ëŒ€ê°€ ê³ ì •ì�´ë�¼ ì»¤ë„¥í„°ê°€ ë¹„ëŠ” ê²½ìš°ê°€ ì—†ë‹¤. ì •ë³¸ ì•ˆì—� 2bit ì¹´ë©”ë�¼ ê°’í‘œê°€ ë‘˜ì�¸ ê²ƒì�€ ì�˜ë�„ì�´ë©°, ì†Œìœ ìž�ì™€ ìž¥ì°© ì¡°ê±´ì�´ ë‹¤ë¥´ê¸° ë•Œë¬¸ì�´ë‹¤ (i";
-CM_ SG_ 2566869708 CC_Status_ThermalCAM "ì—´í™”ìƒ� ì¹´ë©”ë�¼ ë§�í�¬ ìƒ�íƒœ. Eth ë¡œëŠ” OPSTS2_Status_ThermalCAM ìœ¼ë¡œ ì˜¬ë�¼ê°„ë‹¤ | A7 (2026-09-08) ì�€ ì¹´ë©”ë�¼ ê³ ìž¥ íƒ€ìž… ì„¤ê³„ë¥¼ ìš°ë¦¬ì—�ê²Œ ë„˜ê²¼ê³  ê·¸ ëŒ€ìƒ�ì—� ì�´ ë‘� ì‹œê·¸ë„�ì�´ ë“¤ì–´ ìžˆì—ˆë‹¤. VC ìª½ 6 ì‹œê·¸ë„�ì�€ 2 ë¥¼ No Camera ë¡œ ì�¼ì§€ë§Œ(issues/15) ì—¬ê¸°ëŠ” Reserved ë¡œ ë‘”ë‹¤ - CC ëŠ” ì—´í™”ìƒ�ê³¼ ë°©ìˆ˜í�¬ ì¹´ë©”ë�¼ 2 ëŒ€ê°€ ê³ ì •ì�´ë�¼ ì»¤ë„¥í„°ê°€ ë¹„ëŠ” ê²½ìš°ê°€ ì—†ë‹¤. ì •ë³¸ ì•ˆì—� 2bit ì¹´ë©”ë�¼ ê°’í‘œê°€ ë‘˜ì�¸ ê²ƒì�€ ì�˜ë�„ì�´ë©°, ì†Œìœ ìž�ì™€ ìž¥ì°© ì¡°ê±´ì�´ ë‹¤ë¥´ê¸° ë•Œë¬¸ì�´ë‹¤";
-CM_ SG_ 2566869708 CC_Streaming_Reserved "ì†¡ì‹  ì¸¡ì�€ 0 ìœ¼ë¡œ ì±„ìš°ê³  ìˆ˜ì‹  ì¸¡ì�€ ë¬´ì‹œí•œë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FE01CC CC_Streaming_Status). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566869708 CC_RS_Data_Route_Connected "ë�°ì�´íƒ€(ì œì–´,ìƒ�íƒœ) ì»¤ë„¥ì…˜ ì—¬ë¶€. Chassis_uC ì�˜ ì§€ë ¹ì›� ì¤‘ìž¬ê°€ ì�´ ë¹„íŠ¸ë¥¼ ì�½ëŠ”ë‹¤ (ADR 0008) | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FE01CC CC_Streaming_Status). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A15 ë‹µ (2026-09-08): ê°’í‘œëŠ” ë„¤ ì‹œê·¸ë„� ëª¨ë‘� ì�´ ê°’ìœ¼ë¡œ í†µì�¼ í™•ì • | A15 ë‘� ë²ˆì§¸ ë‹µ (2026-09-09): 2 = Fail ì�€ í•˜ë“œì›¨ì–´ê°€ ì�¸ì‹�ë�˜ì§€ ì•ŠëŠ” ìƒ�íƒœë‹¤ - ë�°ì�´í„°ê·¸ëž¨ì�´ ëŠ™ì—ˆë‹¤ëŠ” ì�½ê¸°ëŠ” ìƒ�ëŒ€ì¸¡ì�´ ê±°ë¶€í–ˆë‹¤. VC ìª½ íŒ�ì •ì�€ dataRouteConnected() ì�´ë©° ì‚´ì•„ ìžˆëŠ” ";
-CM_ SG_ 2566869708 CC_RS_Streaming_Route_Connected "ìŠ¤íŠ¸ë¦¬ë°� ì»¤ë„¥ì…˜ ì—¬ë¶€ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FE01CC CC_Streaming_Status). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A15 ë‹µ (2026-09-08): ê°’í‘œëŠ” ë„¤ ì‹œê·¸ë„� ëª¨ë‘� ì�´ ê°’ìœ¼ë¡œ í†µì�¼ í™•ì • | A15 ë‘� ë²ˆì§¸ ë‹µ (2026-09-09): 2 = Fail ì�€ í•˜ë“œì›¨ì–´ê°€ ì�¸ì‹�ë�˜ì§€ ì•ŠëŠ” ìƒ�íƒœë‹¤ - ë�°ì�´í„°ê·¸ëž¨ì�´ ëŠ™ì—ˆë‹¤ëŠ” ì�½ê¸°ëŠ” ìƒ�ëŒ€ì¸¡ì�´ ê±°ë¶€í–ˆë‹¤. VC ìª½ íŒ�ì •ì�€ dataRouteConnected() ì�´ë©° ì‚´ì•„ ìžˆëŠ” Link ê°€ í•˜ë‚˜ë�„ ì—†ê±°ë‚˜ í•˜í–‰ì�´ ì¹¨ë¬µí•˜ë©´ Fail ì�´ê³ , Link ì�¼ë¶€ë�";
-CM_ SG_ 2566869708 CC_Streaming_Mode "CC ê°€ ìš´ìš© ì¤‘ì�¸ ì¹´ë©”ë�¼ ëª¨ë“œ. 0: Invalid ëŠ” ë¬¸ì„œ ì „ë°˜ì�˜ ê´€ë¡€ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FE01CC CC_Streaming_Status). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2365542604 Command_Reserved2 "A18 ë‹µ (2026-09-09): MC ê°€ 4ë¹„íŠ¸ë¡œ ì¤„ë©´ì„œ ê·¸ ë°”ì�´íŠ¸ì�˜ í•˜ìœ„ ë‹ˆë¸”ì�´ ë¹„ì—ˆë‹¤";
-CM_ SG_ 2365542604 Command_Reserved1 "ë¯¸ì‚¬ìš©. ì†¡ì‹  ì¸¡ì�€ 0 ìœ¼ë¡œ ì±„ìš°ê³  ìˆ˜ì‹  ì¸¡ì�€ ë¬´ì‹œí•œë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC00CC RS Chassis Command1). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A18 ë‹µ (2026-09-09): ê°™ì�€ í”„ë ˆìž„ì—� Reserved ê°€ ë‘˜ì�´ ë�˜ì–´ ë²ˆí˜¸ë¥¼ ë§žì·„ë‹¤";
-CM_ SG_ 2365542604 Steering_Angle_Position "-800~800ë²”ìœ„ / 1ë�„ -> 0.1ë�„ ë¶„í•´ëŠ¥; raw 0..16000 | ì°¨ëŸ‰ ê·œê²© ì£¼ì„�: 0~800 ì�€ ìŠ¤í‹°ì–´ë§� ê°�ë�„ì�´ê³  ë°”í€´ ê°�ë�„ê°€ ì•„ë‹ˆë‹¤ - Â§3 ì�˜ +-800 ìž¬ìŠ¤ì¼€ì�¼ë§� ê·¼ê±° | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC00CC RS Chassis Command1). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A16 í™•ì�¸ ì™„ë£Œ: ìž¬ìŠ¤ì¼€ì�¼ë§� ì±„íƒ� (2026-09-08)";
-CM_ SG_ 2365542604 Brake_Position "VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC00CC RS Chassis Command1). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2365542604 Throttle_Position "VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC00CC RS Chassis Command1). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2365542604 Gear_Position "4bit / Max 7 ì�¸ë�° ê°’í‘œê°€ ì—†ì—ˆë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC00CC RS Chassis Command1). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A1 í™•ì�¸ ì™„ë£Œ: ê°’í‘œ ì±„íƒ� (2026-09-08) | ë¬´íš¨(0)ë¥¼ ë°›ì�€ Chassis_uC ì�˜ ë�™ìž‘ì�€ ê·œê²©ì—� ì—†ë‹¤ â€” A14 ì—�ì„œ ë¬»ëŠ”ë‹¤";
-CM_ SG_ 2365542604 Chassis_Op_Mode "ì§€ë ¹ì�´ë¯€ë¡œ ìš°ì„ ìˆœìœ„ 3. ì „ìš© PGN 0x0FF11 ìœ¼ë¡œ ë¶„ë¦¬ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC00CC RS Chassis Command1). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A23 (2026-09-09): ìš´ìš© ëª¨ë“œëŠ” ì»´í“¨í„°ë³„ì�´ë¯€ë¡œ Chassis_ ì ‘ë‘�ë¥¼ ë¶™ì—¬ FSM ê²ƒê³¼ êµ¬ë¶„í•œë‹¤. ë¹„íŠ¸ëŠ” ì›€ì§�ì�´ì§€ ì•ŠëŠ”ë‹¤ | A23 ë‹µ (2026-09-09): ìŠ¹ì�¸ - ìš´ìš© ëª¨ë“œëŠ” ì»´í“¨í„°ë³„ì�´ë‹¤. RSVC-VC ì™€ RSCC-CC ë‘� ì§�ì�´ ê°�ê°� ìž�ê¸° ëª¨ë“œë¥¼ ë§�í•˜ë©° Chassis_ ëŠ” êµ¬ë�™ë¶€, FSM_ ì�€ ì†Œë°©íŠ¹ìž¥ ì§€ë ¹ì�´ë‹¤. RSuC ì™€ FSM uC íŽŒì›¨ì–´ ìž¬ë";
-CM_ SG_ 171 CRC "CRC-8 SAE J1850 (poly 0x1D, init 0xFF, xorout 0xFF), ìž�ê¸° ë°”ì�´íŠ¸ë¥¼ ëº€ ì•žì�˜ ëª¨ë“  ë°”ì�´íŠ¸ì—� ëŒ€í•´ ê³„ì‚° | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” A2 RS E_STOP2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A8 ë³´ë¥˜ (2026-09-08): ìƒ�ëŒ€ì¸¡ì�´ ì°¨í›„ ê°œì„ ìœ¼ë¡œ ë¯¸ë¤˜ë‹¤. ì‚°ì‹�ì�€ ê·¸ëŒ€ë¡œ ë‘�ê³  í™•ì�¸ë§Œ ë¯¸ì •ì�´ë¯€ë¡œ TBD ë‹¤";
-CM_ SG_ 171 MC "8bit í•„ë“œì—� Max 15 ëŠ” ìž�ê¸°ëª¨ìˆœ; ìˆœí™˜ ì¹´ìš´í„°. ìˆ˜ì‹  ì¸¡ì�€ ì¦�ê°€í•˜ì§€ ì•Šìœ¼ë©´ ë‚¡ì�€ ê²ƒìœ¼ë¡œ ë³¸ë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” A2 RS E_STOP2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A18 ë‹µ (2026-09-09): ì„ íƒ� 3 - *_AliveCounter ëŠ” ì „ë¶€ 4ë¹„íŠ¸ ê·¸ëŒ€ë¡œ ë‘�ê³ , MC ë¥¼ 8ë¹„íŠ¸ì—�ì„œ 4ë¹„íŠ¸ë¡œ ì¤„ì—¬ CRC ë°”ë¡œ ì•ž ë°”ì�´íŠ¸ì�˜ ìƒ�ìœ„ ë‹ˆë¸”ì—� ë‘”ë‹¤. EPS í”„ë ˆìž„ ë‹¤ì„¯ì�´ ì�´ë¯¸ ê·¸ ë°°ì¹˜ë‹¤(byte 6.4). ì�´ë¡œì�¨ MC ì™€ *_AliveCounter ì™€ DG_AliveCounter ê°€ ì „ë¶€ 4ë¹„íŠ¸ê°€ ë�œë‹¤";
-CM_ SG_ 171 E_STOP_Reserved "A18 ë‹µ (2026-09-09): MC ê°€ 4ë¹„íŠ¸ë¡œ ì¤„ë©´ì„œ ê·¸ ë°”ì�´íŠ¸ì�˜ í•˜ìœ„ ë‹ˆë¸”ì�´ ë¹„ì—ˆë‹¤";
-CM_ SG_ 171 E_STOP "11-bit í‘œì¤€ ID. Priority í•„ë“œê°€ ì—†ìœ¼ë¯€ë¡œ ê·¸ëŒ€ë¡œ ë‘”ë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” A2 RS E_STOP2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2633994428 VC_AliveCounter "ìˆœí™˜ ì¹´ìš´í„°. ìˆ˜ì‹  ì¸¡ì�€ ì¦�ê°€í•˜ì§€ ì•Šìœ¼ë©´ ë‚¡ì�€ ê²ƒìœ¼ë¡œ ë³¸ë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FB00BC VC_Net_Status). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A14 ë‹µ (2026-09-08): ë‘˜ ë‹¤ ìœ íš¨í•  ë•Œ CC ìš°ì„  / VC ë³´ì¡°ë¡œ ë’¤ì§‘í˜”ê³  E-STOP ë�„ CC ìš°ì„ ì�´ë‹¤. ìœ íš¨ì„± íŒ�ì • ìž…ë ¥ì�´ ì�´ ë‘˜ì—�ì„œ CRC ë¡œ ì˜®ê²¨ê°ˆ ì˜ˆì •ì�´ë©° ê·¸ê²ƒì�€ ë³´ë¥˜ë‹¤ (A8 ë�„ CRC ë³´ë¥˜). ì¤‘ìž¬ëŠ” Chassis_uC êµ¬í˜„ì�´ê³  Data Line ì�€ ì�´ ê°’ì�„ ë§Œë“¤ì–´ ë‚¼ ë¿�ì�´ë‹¤ | A18 ë‹µ (2026-09-09): ì„ íƒ� 3 - 4ë¹„íŠ¸ ê·¸";
-CM_ SG_ 2633994428 VC_Net_Link_Count "Net_Link_Count. ì�´ 4ë¹„íŠ¸ëŠ” ë²¤ë�” ì‹œíŠ¸ê°€ SRS_Condition ì�´ë�¼ê³  ì �ê³  ì•„ë¬´ë�„ ëœ»ì�„ ì •í•˜ì§€ ì•Šì�€ ìž�ë¦¬ë‹¤ (ìœ ì�¼í•œ ë‹¨ì„œì�¸ ì°¨ëŸ‰ ê·œê²© ì£¼ì„� 'IP ì²´í�¬ í›„ ìž˜ ë°°ë‹¹ë°›ì•˜ëŠ”ì§€ ì—¬ë¶€?' ì—�ëŠ” ìž‘ì„±ìž�ë�„ ë¬¼ì�Œí‘œë¥¼ ë‹¬ì•˜ë‹¤) | A10 ë‹µ (2026-09-08): 'ë„ˆê°€ ê¶Œìž¥í•˜ëŠ” DBë¥¼ ì„¤ê³„í•´ë‹¬ë�¼'. ê·¸ëž˜ì„œ ì�´ ì €ìž¥ì†Œê°€ ìž¬ê³  ìžˆìœ¼ë©´ì„œ ì•„ë¬´ ë�°ë�„ ë³´ê³ í•˜ì§€ ì•Šë�˜ ê°’ í•˜ë‚˜ë¥¼ ë‹´ì•˜ë‹¤ â€” ë³¸ë”© ê·¸ë£¹ì—�ì„œ ì‹¤ì œë¡œ ë�°ì�´í„°ë¥¼ ë‚˜ë¥´ëŠ” Link ì�˜ ìˆ˜ (srt_group_data + srt_bistats, DataLineSock";
-CM_ SG_ 2633994428 VC_Net_Level "ë§�í�¬ í†µê³„ì�´ë¯€ë¡œ ìµœì € ìš°ì„ ìˆœìœ„ 7. ê³µìš© PGN 0x0FF40, SA ë¡œ ë°œì‹ ìž� êµ¬ë¶„ | í˜¼ìž¡ë�„ ë“±ê¸‰. ê°� ë…¸ë“œê°€ ìž�ê¸° SRT ë³¸ë”© ê·¸ë£¹ì�˜ í†µê³„ì—�ì„œ ì‚°ì¶œí•´ ìž�ê¸° ë¡œì»¬ CAN ë²„ìŠ¤ì—� ë°œí–‰í•œë‹¤ â€” ë§�í�¬ë¡œ ì‹¤ì–´ ì˜¬ë¦¬ì§€ ì•ŠëŠ”ë‹¤ (ADR 0007) | A9 ë‹µ (2026-09-08): í™•ì�¸ì�´ ì•„ë‹ˆë�¼ ì„¤ê³„ ìš”ì²­ìœ¼ë¡œ ì™”ê³  ê°’í‘œëŠ” ì�´ ì €ìž¥ì†Œê°€ ì •í–ˆë‹¤. \"ìˆ˜ì‹ ê°•ë�„\" ëŠ” ì² íšŒí•œë‹¤ â€” ì €ìž¥ì†Œì—� ëª¨ëŽ€ RSSI ë¥¼ ì�½ëŠ” ì½”ë“œê°€ ì—†ê³  ìž¬ëŠ” ê²ƒì�€ í˜¼ìž¡ë�„ë¿�ì�´ë‹¤ (srt_bistats ì�˜ msRTT, pktSndLoss/pktS";
-CM_ SG_ 2566873532 VC_Status_FAKRA_6 "Lower_4. Eth ë¡œëŠ” OPSTS1_Status_FAKRA_6 ìœ¼ë¡œ ì˜¬ë�¼ê°„ë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FB01BC VC_Streaming_Status). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A7 ë‹µ (2026-09-08): íŒ�ì • ëŒ€ìƒ�ì�€ 'ì¹´ë©”ë�¼ ê³ ìž¥ ì—¬ë¶€' ë¡œ í™•ì •ë�˜ì—ˆê³  (ì�´ ì €ìž¥ì†Œê°€ ì�½ì�€ ì˜�ìƒ� ìœ ìž…ê³¼ ê°™ì�€ ë°©í–¥ì�´ë‹¤), ê³ ìž¥ íƒ€ìž…ì�€ 'ë„ˆì�˜ ê¶Œìž¥ì�„ ì �ê·¹ ë”°ë¥´ê² ë‹¤' ë¡œ ìš°ë¦¬ì—�ê²Œ ë„˜ì–´ì™”ë‹¤ â€” ê°’ 2 ëŠ” ì�´ ì €ìž¥ì†Œê°€ ê³¨ëž�ê³  ìƒ�ëŒ€ì¸¡ì�€ ì•„ì§� ê·¸ê²ƒì�„ ë³´ì§€ ëª»í–ˆë‹¤ | 2bit ì—� ë¹ˆ ì¹¸ì�´ ";
-CM_ SG_ 2566873532 VC_Status_FAKRA_5 "Lower_3. Eth ë¡œëŠ” OPSTS1_Status_FAKRA_5 ë¡œ ì˜¬ë�¼ê°„ë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FB01BC VC_Streaming_Status). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A7 ë‹µ (2026-09-08): íŒ�ì • ëŒ€ìƒ�ì�€ 'ì¹´ë©”ë�¼ ê³ ìž¥ ì—¬ë¶€' ë¡œ í™•ì •ë�˜ì—ˆê³  (ì�´ ì €ìž¥ì†Œê°€ ì�½ì�€ ì˜�ìƒ� ìœ ìž…ê³¼ ê°™ì�€ ë°©í–¥ì�´ë‹¤), ê³ ìž¥ íƒ€ìž…ì�€ 'ë„ˆì�˜ ê¶Œìž¥ì�„ ì �ê·¹ ë”°ë¥´ê² ë‹¤' ë¡œ ìš°ë¦¬ì—�ê²Œ ë„˜ì–´ì™”ë‹¤ â€” ê°’ 2 ëŠ” ì�´ ì €ìž¥ì†Œê°€ ê³¨ëž�ê³  ìƒ�ëŒ€ì¸¡ì�€ ì•„ì§� ê·¸ê²ƒì�„ ë³´ì§€ ëª»í–ˆë‹¤ | 2bit ì—� ë¹ˆ ì¹¸ì�´ í•�";
-CM_ SG_ 2566873532 VC_Status_FAKRA_4 "Lower_2. Eth ë¡œëŠ” OPSTS1_Status_FAKRA_4 ë¡œ ì˜¬ë�¼ê°„ë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FB01BC VC_Streaming_Status). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A7 ë‹µ (2026-09-08): íŒ�ì • ëŒ€ìƒ�ì�€ 'ì¹´ë©”ë�¼ ê³ ìž¥ ì—¬ë¶€' ë¡œ í™•ì •ë�˜ì—ˆê³  (ì�´ ì €ìž¥ì†Œê°€ ì�½ì�€ ì˜�ìƒ� ìœ ìž…ê³¼ ê°™ì�€ ë°©í–¥ì�´ë‹¤), ê³ ìž¥ íƒ€ìž…ì�€ 'ë„ˆì�˜ ê¶Œìž¥ì�„ ì �ê·¹ ë”°ë¥´ê² ë‹¤' ë¡œ ìš°ë¦¬ì—�ê²Œ ë„˜ì–´ì™”ë‹¤ â€” ê°’ 2 ëŠ” ì�´ ì €ìž¥ì†Œê°€ ê³¨ëž�ê³  ìƒ�ëŒ€ì¸¡ì�€ ì•„ì§� ê·¸ê²ƒì�„ ë³´ì§€ ëª»í–ˆë‹¤ | 2bit ì—� ë¹ˆ ì¹¸ì�´ í•�";
-CM_ SG_ 2566873532 VC_Status_FAKRA_3 "Lower_1. Eth ë¡œëŠ” OPSTS1_Status_FAKRA_3 ìœ¼ë¡œ ì˜¬ë�¼ê°„ë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FB01BC VC_Streaming_Status). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A7 ë‹µ (2026-09-08): íŒ�ì • ëŒ€ìƒ�ì�€ 'ì¹´ë©”ë�¼ ê³ ìž¥ ì—¬ë¶€' ë¡œ í™•ì •ë�˜ì—ˆê³  (ì�´ ì €ìž¥ì†Œê°€ ì�½ì�€ ì˜�ìƒ� ìœ ìž…ê³¼ ê°™ì�€ ë°©í–¥ì�´ë‹¤), ê³ ìž¥ íƒ€ìž…ì�€ 'ë„ˆì�˜ ê¶Œìž¥ì�„ ì �ê·¹ ë”°ë¥´ê² ë‹¤' ë¡œ ìš°ë¦¬ì—�ê²Œ ë„˜ì–´ì™”ë‹¤ â€” ê°’ 2 ëŠ” ì�´ ì €ìž¥ì†Œê°€ ê³¨ëž�ê³  ìƒ�ëŒ€ì¸¡ì�€ ì•„ì§� ê·¸ê²ƒì�„ ë³´ì§€ ëª»í–ˆë‹¤ | 2bit ì—� ë¹ˆ ì¹¸ì�´ ";
-CM_ SG_ 2566873532 VC_Status_FAKRA_2 "Upper_2. Eth ë¡œëŠ” OPSTS1_Status_FAKRA_2 ë¡œ ì˜¬ë�¼ê°„ë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FB01BC VC_Streaming_Status). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A7 ë‹µ (2026-09-08): íŒ�ì • ëŒ€ìƒ�ì�€ 'ì¹´ë©”ë�¼ ê³ ìž¥ ì—¬ë¶€' ë¡œ í™•ì •ë�˜ì—ˆê³  (ì�´ ì €ìž¥ì†Œê°€ ì�½ì�€ ì˜�ìƒ� ìœ ìž…ê³¼ ê°™ì�€ ë°©í–¥ì�´ë‹¤), ê³ ìž¥ íƒ€ìž…ì�€ 'ë„ˆì�˜ ê¶Œìž¥ì�„ ì �ê·¹ ë”°ë¥´ê² ë‹¤' ë¡œ ìš°ë¦¬ì—�ê²Œ ë„˜ì–´ì™”ë‹¤ â€” ê°’ 2 ëŠ” ì�´ ì €ìž¥ì†Œê°€ ê³¨ëž�ê³  ìƒ�ëŒ€ì¸¡ì�€ ì•„ì§� ê·¸ê²ƒì�„ ë³´ì§€ ëª»í–ˆë‹¤ | 2bit ì—� ë¹ˆ ì¹¸ì�´ í•�";
-CM_ SG_ 2566873532 VC_Status_FAKRA_1 "Upper_1. Eth ë¡œëŠ” OPSTS1_Status_FAKRA_1 ë¡œ ì˜¬ë�¼ê°„ë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FB01BC VC_Streaming_Status). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A7 ë‹µ (2026-09-08): íŒ�ì • ëŒ€ìƒ�ì�€ 'ì¹´ë©”ë�¼ ê³ ìž¥ ì—¬ë¶€' ë¡œ í™•ì •ë�˜ì—ˆê³  (ì�´ ì €ìž¥ì†Œê°€ ì�½ì�€ ì˜�ìƒ� ìœ ìž…ê³¼ ê°™ì�€ ë°©í–¥ì�´ë‹¤), ê³ ìž¥ íƒ€ìž…ì�€ 'ë„ˆì�˜ ê¶Œìž¥ì�„ ì �ê·¹ ë”°ë¥´ê² ë‹¤' ë¡œ ìš°ë¦¬ì—�ê²Œ ë„˜ì–´ì™”ë‹¤ â€” ê°’ 2 ëŠ” ì�´ ì €ìž¥ì†Œê°€ ê³¨ëž�ê³  ìƒ�ëŒ€ì¸¡ì�€ ì•„ì§� ê·¸ê²ƒì�„ ë³´ì§€ ëª»í–ˆë‹¤ | 2bit ì—� ë¹ˆ ì¹¸ì�´ í•�";
-CM_ SG_ 2566873532 VC_Streaming_Reserved "ì†¡ì‹  ì¸¡ì�€ 0 ìœ¼ë¡œ ì±„ìš°ê³  ìˆ˜ì‹  ì¸¡ì�€ ë¬´ì‹œí•œë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FB01BC VC_Streaming_Status). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566873532 VC_RS_Data_Route_Connected "ë�°ì�´íƒ€(ì œì–´,ìƒ�íƒœ) ì»¤ë„¥ì…˜ ì—¬ë¶€. Chassis_uC ì�˜ ì§€ë ¹ì›� ì¤‘ìž¬ê°€ ì�´ ë¹„íŠ¸ë¥¼ ì�½ëŠ”ë‹¤ (ADR 0008) | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FB01BC VC_Streaming_Status). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A15 ë‹µ (2026-09-08): ê°’í‘œëŠ” ë„¤ ì‹œê·¸ë„� ëª¨ë‘� ì�´ ê°’ìœ¼ë¡œ í†µì�¼ í™•ì • | A15 ë‘� ë²ˆì§¸ ë‹µ (2026-09-09): 2 = Fail ì�€ í•˜ë“œì›¨ì–´ê°€ ì�¸ì‹�ë�˜ì§€ ì•ŠëŠ” ìƒ�íƒœë‹¤ - ë�°ì�´í„°ê·¸ëž¨ì�´ ëŠ™ì—ˆë‹¤ëŠ” ì�½ê¸°ëŠ” ìƒ�ëŒ€ì¸¡ì�´ ê±°ë¶€í–ˆë‹¤. VC ìª½ íŒ�ì •ì�€ dataRouteConnected() ì�´ë©° ì‚´ì•„ ìžˆëŠ” ";
-CM_ SG_ 2566873532 VC_RS_Streaming_Route_Connected "ìŠ¤íŠ¸ë¦¬ë°� ì»¤ë„¥ì…˜ ì—¬ë¶€. ì›�ë³¸ ê°’í‘œê°€ ë¹„ì–´ ìžˆì–´ CC ìª½ê³¼ ê°™ê²Œ ë§žì¶¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FB01BC VC_Streaming_Status). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A15 ë‹µ (2026-09-08): ê°’í‘œëŠ” ë„¤ ì‹œê·¸ë„� ëª¨ë‘� ì�´ ê°’ìœ¼ë¡œ í†µì�¼ í™•ì • | A15 ë‘� ë²ˆì§¸ ë‹µ (2026-09-09): 2 = Fail ì�€ í•˜ë“œì›¨ì–´ê°€ ì�¸ì‹�ë�˜ì§€ ì•ŠëŠ” ìƒ�íƒœë‹¤ - ë�°ì�´í„°ê·¸ëž¨ì�´ ëŠ™ì—ˆë‹¤ëŠ” ì�½ê¸°ëŠ” ìƒ�ëŒ€ì¸¡ì�´ ê±°ë¶€í–ˆë‹¤. VC ìª½ íŒ�ì •ì�€ dataRouteConnected() ì�´ë©° ì‚´ì•„ ìžˆëŠ” Link ê°€ í•˜ë‚˜ë�„ ì�";
-CM_ SG_ 2566873532 VC_Streaming_Mode "CC_Streaming_Mode ì™€ ê°™ì�€ ê°’í‘œ. ì›�ë³¸ì�€ ë¹„ì–´ ìžˆì—ˆë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FB01BC VC_Streaming_Status). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A6 í™•ì�¸ ì™„ë£Œ: ê°’í‘œ ìˆ˜ì • (2026-09-08). ì�´ì „ ì œì•ˆì�€ 1 Thermal Mode / 2 Visible Mode ì˜€ë‹¤";
-CM_ SG_ 2365546684 Command_Reserved2 "A18 ë‹µ (2026-09-09): MC ê°€ 4ë¹„íŠ¸ë¡œ ì¤„ë©´ì„œ ê·¸ ë°”ì�´íŠ¸ì�˜ í•˜ìœ„ ë‹ˆë¸”ì�´ ë¹„ì—ˆë‹¤";
-CM_ SG_ 2365546684 Command_Reserved1 "ë¯¸ì‚¬ìš©. ì†¡ì‹  ì¸¡ì�€ 0 ìœ¼ë¡œ ì±„ìš°ê³  ìˆ˜ì‹  ì¸¡ì�€ ë¬´ì‹œí•œë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FCA0BC RS Chassis Command2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A18 ë‹µ (2026-09-09): ê°™ì�€ í”„ë ˆìž„ì—� Reserved ê°€ ë‘˜ì�´ ë�˜ì–´ ë²ˆí˜¸ë¥¼ ë§žì·„ë‹¤";
-CM_ SG_ 2365546684 Steering_Angle_Position "-800~800ë²”ìœ„ / 1ë�„ -> 0.1ë�„ ë¶„í•´ëŠ¥; raw 0..16000 | ì°¨ëŸ‰ ê·œê²© ì£¼ì„�: 0~800 ì�€ ìŠ¤í‹°ì–´ë§� ê°�ë�„ì�´ê³  ë°”í€´ ê°�ë�„ê°€ ì•„ë‹ˆë‹¤ - Â§3 ì�˜ +-800 ìž¬ìŠ¤ì¼€ì�¼ë§� ê·¼ê±° | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FCA0BC RS Chassis Command2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A16 í™•ì�¸ ì™„ë£Œ: ìž¬ìŠ¤ì¼€ì�¼ë§� ì±„íƒ� (2026-09-08)";
-CM_ SG_ 2365546684 Brake_Position "VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FCA0BC RS Chassis Command2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2365546684 Throttle_Position "VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FCA0BC RS Chassis Command2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2365546684 Gear_Position "4bit / Max 7 ì�¸ë�° ê°’í‘œê°€ ì—†ì—ˆë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FCA0BC RS Chassis Command2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A1 í™•ì�¸ ì™„ë£Œ: ê°’í‘œ ì±„íƒ� (2026-09-08) | ë¬´íš¨(0)ë¥¼ ë°›ì�€ Chassis_uC ì�˜ ë�™ìž‘ì�€ ê·œê²©ì—� ì—†ë‹¤ â€” A14 ì—�ì„œ ë¬»ëŠ”ë‹¤";
-CM_ SG_ 2365546684 Chassis_Op_Mode "ì§€ë ¹ì�´ë¯€ë¡œ ìš°ì„ ìˆœìœ„ 3. ì „ìš© PGN 0x0FF11 ìœ¼ë¡œ ë¶„ë¦¬ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FCA0BC RS Chassis Command2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A23 (2026-09-09): ìš´ìš© ëª¨ë“œëŠ” ì»´í“¨í„°ë³„ì�´ë¯€ë¡œ Chassis_ ì ‘ë‘�ë¥¼ ë¶™ì—¬ FSM ê²ƒê³¼ êµ¬ë¶„í•œë‹¤. ë¹„íŠ¸ëŠ” ì›€ì§�ì�´ì§€ ì•ŠëŠ”ë‹¤ | A23 ë‹µ (2026-09-09): ìŠ¹ì�¸ - ìš´ìš© ëª¨ë“œëŠ” ì»´í“¨í„°ë³„ì�´ë‹¤. RSVC-VC ì™€ RSCC-CC ë‘� ì§�ì�´ ê°�ê°� ìž�ê¸° ëª¨ë“œë¥¼ ë§�í•˜ë©° Chassis_ ëŠ” êµ¬ë�™ë¶€, FSM_ ì�€ ì†Œë°©íŠ¹ìž¥ ì§€ë ¹ì�´ë‹¤. RSuC ì™€ FSM uC íŽŒì›¨ì–´ ìž¬ë";
-CM_ SG_ 2566877423 Chassis_Status_Reserved3 "ë¯¸ì‚¬ìš©. ì†¡ì‹  ì¸¡ì�€ 0 ìœ¼ë¡œ ì±„ìš°ê³  ìˆ˜ì‹  ì¸¡ì�€ ë¬´ì‹œí•œë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC01EF Chassis Status1). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566877423 Chassis_Status_Reserved2 "ë¯¸ì‚¬ìš©. ì†¡ì‹  ì¸¡ì�€ 0 ìœ¼ë¡œ ì±„ìš°ê³  ìˆ˜ì‹  ì¸¡ì�€ ë¬´ì‹œí•œë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC01EF Chassis Status1). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566877423 SideBrake_Position_FB "Max 3 ì�´ë¯€ë¡œ 3ê°’ enum | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC01EF Chassis Status1). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566877423 Steering_Angle_Position_FB "1ë�„ -> 0.1ë�„ ë¶„í•´ëŠ¥; raw 0..16000 | ì°¨ëŸ‰ ê·œê²© ì£¼ì„�: 0~800 ì�€ ìŠ¤í‹°ì–´ë§� ê°�ë�„ì�´ê³  ë°”í€´ ê°�ë�„ê°€ ì•„ë‹ˆë‹¤ - Â§3 ì�˜ +-800 ìž¬ìŠ¤ì¼€ì�¼ë§� ê·¼ê±° | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC01EF Chassis Status1). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A16 í™•ì�¸ ì™„ë£Œ: ìž¬ìŠ¤ì¼€ì�¼ë§� ì±„íƒ� (2026-09-08)";
-CM_ SG_ 2566877423 Brake_Position_FB "ëª…ë ¹ê³¼ ê°™ì�€ Invalid ê´€ë¡€ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC01EF Chassis Status1). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566877423 Throttle_Position_FB "ëª…ë ¹ê³¼ ê°™ì�€ Invalid ê´€ë¡€ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC01EF Chassis Status1). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566877423 Gear_Position_FB "Gear_Position ê³¼ ê°™ì�€ ê°’í‘œ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC01EF Chassis Status1). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A1 í™•ì�¸ ì™„ë£Œ: ê°’í‘œ ì±„íƒ� (2026-09-08)";
-CM_ SG_ 2566877423 Chassis_Status_Reserved1 "ë¯¸ì‚¬ìš©. ì†¡ì‹  ì¸¡ì�€ 0 ìœ¼ë¡œ ì±„ìš°ê³  ìˆ˜ì‹  ì¸¡ì�€ ë¬´ì‹œí•œë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC01EF Chassis Status1). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566877423 Chassis_Op_Mode_Status "ìƒ�íƒœì�´ë¯€ë¡œ ìš°ì„ ìˆœìœ„ 6 | Op_Mode ëª…ë ¹ì�˜ ë�˜ìš¸ë¦¼ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC01EF Chassis Status1). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A23 (2026-09-09): ìš´ìš© ëª¨ë“œëŠ” ì»´í“¨í„°ë³„ì�´ë¯€ë¡œ Chassis_ ì ‘ë‘�ë¥¼ ë¶™ì—¬ FSM ê²ƒê³¼ êµ¬ë¶„í•œë‹¤. ë¹„íŠ¸ëŠ” ì›€ì§�ì�´ì§€ ì•ŠëŠ”ë‹¤ | A23 ë‹µ (2026-09-09): ìŠ¹ì�¸ - ìš´ìš© ëª¨ë“œëŠ” ì»´í“¨í„°ë³„ì�´ë‹¤. RSVC-VC ì™€ RSCC-CC ë‘� ì§�ì�´ ê°�ê°� ìž�ê¸° ëª¨ë“œë¥¼ ë§�í•˜ë©° Chassis_ ëŠ” êµ¬ë�™ë¶€, FSM_ ì�€ ì†Œë°©íŠ¹ìž¥ ì§€ë ¹ì�´ë‹¤. RSuC ì™€ FSM uC íŽŒì›¨ì–´ ìž¬ë°°ì�";
-CM_ SG_ 2566877679 Chassis_Status_Reserved6 "ë¯¸ì‚¬ìš©. ì†¡ì‹  ì¸¡ì�€ 0 ìœ¼ë¡œ ì±„ìš°ê³  ìˆ˜ì‹  ì¸¡ì�€ ë¬´ì‹œí•œë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC02EF Chassis Status2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566877679 Battery_Status "VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC02EF Chassis Status2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566877679 Engine_Mission_Status "VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC02EF Chassis Status2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566877679 Fuel_Warning "VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC02EF Chassis Status2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566877679 Chassis_Status_Reserved5 "ë¯¸ì‚¬ìš©. ì†¡ì‹  ì¸¡ì�€ 0 ìœ¼ë¡œ ì±„ìš°ê³  ìˆ˜ì‹  ì¸¡ì�€ ë¬´ì‹œí•œë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC02EF Chassis Status2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566877679 Chassis_Status_Reserved4 "ë¯¸ì‚¬ìš©. ì†¡ì‹  ì¸¡ì�€ 0 ìœ¼ë¡œ ì±„ìš°ê³  ìˆ˜ì‹  ì¸¡ì�€ ë¬´ì‹œí•œë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC02EF Chassis Status2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566877679 Battery_Voltage "1V -> 0.1V; 10bit raw 1023 ì�„ ì •í™•ížˆ ì‚¬ìš© | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC02EF Chassis Status2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A16 í™•ì�¸ ì™„ë£Œ: ìž¬ìŠ¤ì¼€ì�¼ë§� ì±„íƒ� (2026-09-08)";
-CM_ SG_ 2566877679 Coolant_Temp "ì˜�í•˜ í‘œí˜„ ê°€ëŠ¥ (J1939 ê´€ë¡€) | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC02EF Chassis Status2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A16 í™•ì�¸ ì™„ë£Œ: ìž¬ìŠ¤ì¼€ì�¼ë§� ì±„íƒ� (2026-09-08)";
-CM_ SG_ 2566877679 Mission_Fluid_Temp "ì˜�í•˜ í‘œí˜„ ê°€ëŠ¥ (J1939 ê´€ë¡€) | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC02EF Chassis Status2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A16 í™•ì�¸ ì™„ë£Œ: ìž¬ìŠ¤ì¼€ì�¼ë§� ì±„íƒ� (2026-09-08)";
-CM_ SG_ 2566877679 Vehicle_Velocity "ìƒ�íƒœì�´ë¯€ë¡œ ìš°ì„ ìˆœìœ„ 6 | 1kph -> 0.5kph ë¶„í•´ëŠ¥ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC02EF Chassis Status2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566877935 Chassis_Status_Reserved9 "ë¯¸ì‚¬ìš©. ì†¡ì‹  ì¸¡ì�€ 0 ìœ¼ë¡œ ì±„ìš°ê³  ìˆ˜ì‹  ì¸¡ì�€ ë¬´ì‹œí•œë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC03EF Chassis Status3). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566877935 Chassis_Status_Reserved8 "ë¯¸ì‚¬ìš©. ì†¡ì‹  ì¸¡ì�€ 0 ìœ¼ë¡œ ì±„ìš°ê³  ìˆ˜ì‹  ì¸¡ì�€ ë¬´ì‹œí•œë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC03EF Chassis Status3). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566877935 Chassis_Status_Reserved7 "ë¯¸ì‚¬ìš©. ì†¡ì‹  ì¸¡ì�€ 0 ìœ¼ë¡œ ì±„ìš°ê³  ìˆ˜ì‹  ì¸¡ì�€ ë¬´ì‹œí•œë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC03EF Chassis Status3). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566877935 ABS_Status "VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC03EF Chassis Status3). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566877935 APC_Status "VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC03EF Chassis Status3). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566877935 Steering_Control_Unit_Status "VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC03EF Chassis Status3). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566877935 Gear_Selector_Status "VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC03EF Chassis Status3). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566877935 Brake_Actuator_Status "VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC03EF Chassis Status3). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566877935 Gear_Actuator_Status "ìƒ�íƒœì�´ë¯€ë¡œ ìš°ì„ ìˆœìœ„ 6 | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC03EF Chassis Status3). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤";
-CM_ SG_ 2566878191 Chassis_uC_Status_Error "A11 í™•ì�¸ ì™„ë£Œ: RS Bus ì�˜ Chassis_uC_Status ì™€ ê°™ì�€ í•„ë“œë‹¤ - ê°’í‘œë¥¼ ìƒ�ì†�í•œë‹¤ (2026-09-08). ì�´ì „ ì�´ë¦„ Chassis_uC_Status_Error | bit4 -> bit12 ì�´ë�™ (2026-09-22): bit4 ê°€ Chassis State Machine Status ê°€ ë�˜ë©´ì„œ ì�´ ë“±ê¸‰ì�´ ìž�ë¦¬ë¥¼ ì˜®ê²¼ë‹¤. ê°’í‘œì™€ ì‹ í˜¸ ì�´ë¦„ì�€ A11/A12 ë¡œ ë‹«ížŒ ê²ƒì�„ ê·¸ëŒ€ë¡œ ê°€ì ¸ì™”ê³  ë°”ë€� ê²ƒì�€ ìž�ë¦¬ë¿�ì�´ë‹¤. ì†Œì§„í•œ ê²ƒì�€ Reserved2 ì�´ë¯€ë¡œ DLC 2 ì™€ ê±°ìš¸ ê´€ê³„ëŠ” ë¶ˆë³€ì�´ë‹¤. ìž�ë¦¬ë¥¼ ê³ ë¥¸ ê²ƒì�€ ì�´ ì €ìž¥ì†Œì�´ë¯€ë¡œ Confirm ì�„ CONFIRM ìœ¼ë¡œ ë‘”ë‹¤ | A19 ë‹µ (2026-09-09): ì±„íƒ� - *Operation Status ì§� ë‘˜ì";
-CM_ SG_ 2566878191 Chassis_uC_AliveCounter "ìˆœí™˜ ì¹´ìš´í„°. ìˆ˜ì‹  ì¸¡ì�€ ì¦�ê°€í•˜ì§€ ì•Šìœ¼ë©´ ë‚¡ì�€ ê²ƒìœ¼ë¡œ ë³¸ë‹¤. Chassis_uC ì�˜ ì§€ë ¹ì›� ì¤‘ìž¬ì™€ ë¬´ê´€ - ì�´ìª½ì�€ Chassis_uC ìž�ì‹ ì�˜ ë°•ë�™ì�´ë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FC11EF Chassis_uC_Status1). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A11 ê°œëª… (2026-09-08): ì�´ì „ ì�´ë¦„ Chassis_uC_AliveCounter, ë²¤ë�” doc name ì˜¤íƒ€ Chassis_uC_AliveConter";
-CM_ SG_ 2566878191 Chassis_State_Machine_Status "Chassis State Machine Status ë¡œ ì •ì�˜ (2026-09-22): ì�´ 4ë¹„íŠ¸ê°€ ë§ˆì�´ì»´ ìƒ�íƒœ ê¸°ê³„ì�˜ í˜„ìž¬ ìƒ�íƒœë‹¤. ì�´ ìž�ë¦¬ì—� ìžˆë�˜ ê³ ìž¥ ë“±ê¸‰(Chassis uC Status Error)ì�€ ì�´ë¦„ê³¼ ê°’í‘œê°€ ì–´ê¸‹ë‚˜ ìžˆì—ˆìœ¼ë¯€ë¡œ ê°™ì�€ í”„ë ˆìž„ì�˜ bit12 ë¡œ ì˜®ê²¼ë‹¤ - ë“±ê¸‰ì�„ ë²„ë¦¬ì§€ ì•Šì�€ ì�´ìœ ëŠ” ê·¸ê²ƒì�´ ìŠ¤í…Œì�´ì…˜ì�´ ë§ˆì�´ì»´ ê±´ì „ì„±ì�„ ì�½ëŠ” ìœ ì�¼í•œ ì±„ë„�ì�´ê¸° ë•Œë¬¸ì�´ë‹¤ (DESIGN Â§14). ìƒ�íƒœ ì—´ê±°ëŠ” ë§ˆì�´ì»´ íŽŒì›¨ì–´ì�˜ ì‚¬ì‹¤ì�´ë�¼ ì�´ ì €ìž¥ì†Œê°€ ë§Œë“¤ ìˆ˜ ì—†ë‹¤: ê°’í‘œë¥¼ ë¹„ìš°ê³  Confirm ì�„ TBD ë¡œ ì˜";
-CM_ SG_ 2566878191 Chassis_Operation_Status_Reserve "ë©”ì‹œì§€ ê°œëª… (2026-09-22): * uC Status1 -> * Operation Status. RS Bus ì™€ ì°¨ëŸ‰ ë²„ìŠ¤ì™€ ë�°ì�´í„°ê·¸ëž¨ì�´ ê°™ì�€ 2ë°”ì�´íŠ¸ ë ˆì�´ì•„ì›ƒì�˜ ê±°ìš¸ì�´ë¯€ë¡œ(docs/adr/0013) ì„¸ ê³³ì�˜ ì�´ë¦„ì�„ í•˜ë‚˜ë¡œ ë§žì·„ë‹¤. DBC ì�´ë¦„ë�„ ì˜› ë©”ì‹œì§€ ì�´ë¦„(_Status_)ì�„ ë–¼ê³  ìƒˆ ì�´ë¦„ì�„ ë”°ë¥¸ë‹¤ | A19 (2026-09-09, ì •ì •): ì�´ ìž�ë¦¬ì—� ìžˆë�˜ Op_Mode_Status ë¥¼ ì‚­ì œí–ˆë‹¤. ì„€ì‹œì�˜ ìš´ìš© ëª¨ë“œëŠ” Chassis Status1 ì�˜ Op. Mode Status ê°€ ë‚˜ë¥´ëŠ” ì‹¤ì œ ë�˜ë¨¹ìž„ì�´ê³ , ì—¬ê¸° ìžˆë�˜ ê²ƒì�€ ê·¸ ê°’ì�˜ ë‘� ë²ˆì§¸ ì‚¬ë³¸(\"Op_Mode ëª…ë ¹ì�˜ ë�˜ìš¸ë¦¼\")ì�´ì—ˆë‹¤";
-CM_ SG_ 2566882026 FSMuC_Reserved2 "ì†¡ì‹  ì¸¡ì�€ 0 ìœ¼ë¡œ ì±„ìš°ê³  ìˆ˜ì‹  ì¸¡ì�€ ë¬´ì‹œí•œë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FE03EA FSMuC_Status). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | ë©”ì‹œì§€ ê°œëª… (2026-09-22): * uC Status2 -> * uC Status. ì§�ì�´ë�˜ * uC Status1 ì�´ * Operation Status ë¡œ ì˜®ê²¨ ê°€ë©´ì„œ ë²ˆí˜¸ 2 ê°€ ê°€ë¦¬í‚¬ 1 ì�´ ì—†ì–´ì¡Œë‹¤";
-CM_ SG_ 2566882026 FSMuC_AliveCounter "FSM uC ì™€ Chassis uC ê°€ GCAN ìœ¼ë¡œ ì§�ì ‘ ì£¼ê³ ë°›ëŠ” ê±´ì „ì„± ì¹´ìš´í„°. ë²¤ë�” FSMuc_CAN.csv ì�˜ 18FE03EA(GCAN íŒ�)ë¥¼ Â§8 PS ëŒ€ì—­(0x8x=FSMuC)ìœ¼ë¡œ ìž¬ë°°ì¹˜í–ˆë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FE03EA FSMuC_Status). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | ë©”ì‹œì§€ ê°œëª… (2026-09-22): * uC Status2 -> * uC Status. ì§�ì�´ë�˜ * uC Status1 ì�´ * Operation Status ë¡œ ì˜®ê²¨ ê°€ë©´ì„œ ë²ˆí˜¸ 2 ê°€ ê°€ë¦¬í‚¬ 1 ì�´ ì—†ì–´ì¡Œë‹¤";
-CM_ SG_ 2566882026 FSMuC_Reserved1 "ì†¡ì‹  ì¸¡ì�€ 0 ìœ¼ë¡œ ì±„ìš°ê³  ìˆ˜ì‹  ì¸¡ì�€ ë¬´ì‹œí•œë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FE03EA FSMuC_Status). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | 56 -> 52 ë¹„íŠ¸ (2026-09-22): ì•ž 4ë¹„íŠ¸ë¥¼ State Machine Status ì—� ë‚´ì£¼ì—ˆë‹¤. Start Bit 0 -> 4, Byte No 0 -> 0.4 | ë©”ì‹œì§€ ê°œëª… (2026-09-22): * uC Status2 -> * uC Status. ì§�ì�´ë�˜ * uC Status1 ì�´ * Operation Status ë¡œ ì˜®ê²¨ ê°€ë©´ì„œ ë²ˆí˜¸ 2 ê°€ ê°€ë¦¬í‚¬ 1 ì�´ ì—†ì–´ì¡Œë‹¤";
-CM_ SG_ 2566882026 FSM_State_Machine_Status "FSM State Machine Status ë¡œ ì •ì�˜ (2026-09-22): 56ë¹„íŠ¸ Reserved1 ì�˜ ì•ž 4ë¹„íŠ¸ë¥¼ ìƒ�íƒœ ê¸°ê³„ ìƒ�íƒœì—� ì�¼ë‹¤. í�­ì�„ FSM Operation Status ì�˜ ê°™ì�€ ì‹ í˜¸ì™€ ë§žì¶˜ ê²ƒì�€ ë‘� í”„ë ˆìž„ì�´ ê°™ì�€ ì‚¬ì‹¤ì�„ ë‚˜ë¥´ê¸° ë•Œë¬¸ì�´ë‹¤. ê°’í‘œëŠ” ê°™ì�€ ì�´ìœ ë¡œ ë¹„ì›Œ ë‘�ê³  Confirm ì�„ TBD ë¡œ ì˜¬ë¦°ë‹¤. ë‘� í”„ë ˆìž„ì�˜ ê°’ì�´ ì–´ê¸‹ë‚  ë•Œ ì–´ëŠ� ìª½ì�„ ë¯¿ì�„ì§€ëŠ” ì•„ì§� ê·œì¹™ì�´ ì—†ë‹¤ - OPEN_QUESTIONS_proposed2.md ì°¸ì¡° | ë©”ì‹œì§€ ê°œëª… (2026-09-22): * uC Status2 -> * uC Status. ì§�ì�´ë�˜ * uC Status1 ì�´ * Operation Status ë¡œ ì˜®ê²¨ ê°€ë©´ì„œ ë²ˆí˜¸ 2 ê°€ ê°€ë¦¬�";
-CM_ SG_ 2566878447 Chassis_uC_Reserved2 "ì†¡ì‹  ì¸¡ì�€ 0 ìœ¼ë¡œ ì±„ìš°ê³  ìˆ˜ì‹  ì¸¡ì�€ ë¬´ì‹œí•œë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FE04EF Chassis_uC_Status2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A11 ê°œëª… (2026-09-08): ì�´ì „ ì�´ë¦„ Chassis_uC_Reserved2 | ë©”ì‹œì§€ ê°œëª… (2026-09-22): * uC Status2 -> * uC Status. ì§�ì�´ë�˜ * uC Status1 ì�´ * Operation Status ë¡œ ì˜®ê²¨ ê°€ë©´ì„œ ë²ˆí˜¸ 2 ê°€ ê°€ë¦¬í‚¬ 1 ì�´ ì—†ì–´ì¡Œë‹¤";
-CM_ SG_ 2566878447 Chassis_uC_AliveCounter "Chassis uC ê°€ FSM uC ì—� ë�Œë ¤ì£¼ëŠ” ê±´ì „ì„± ì¹´ìš´í„°. ë²¤ë�” 18FE04EF ë¥¼ Â§8 PS ëŒ€ì—­(0x7x=Chassis_uC)ìœ¼ë¡œ ìž¬ë°°ì¹˜í–ˆë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FE04EF Chassis_uC_Status2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A11 ê°œëª… (2026-09-08): ì�´ì „ ì�´ë¦„ Chassis_uC_AliveCounter, ë²¤ë�” doc name ì˜¤íƒ€ Chassis_uC_AliveConter | ë©”ì‹œì§€ ê°œëª… (2026-09-22): * uC Status2 -> * uC Status. ì§�ì�´ë�˜ * uC Status1 ì�´ * Operation Status ë¡œ ì˜®ê²¨ ê°€ë©´ì„œ ë²ˆí˜¸ 2 ê°€ ê°€ë¦¬í‚¬ 1 ì�´ ì—†ì–´ì¡Œë‹¤";
-CM_ SG_ 2566878447 Chassis_uC_Reserved1 "ì†¡ì‹  ì¸¡ì�€ 0 ìœ¼ë¡œ ì±„ìš°ê³  ìˆ˜ì‹  ì¸¡ì�€ ë¬´ì‹œí•œë‹¤ | VEH_CAN_Matrix_proposed2.csv ì—�ì„œ ìƒ�ì†� (ë²¤ë�” 18FE04EF Chassis_uC_Status2). ë‘� ì •ë³¸ì�´ ê°ˆë�¼ì§€ì§€ ì•Šê²Œ ì†�ìœ¼ë¡œ ì“°ì§€ ì•ŠëŠ”ë‹¤ | A11 ê°œëª… (2026-09-08): ì�´ì „ ì�´ë¦„ Chassis_uC_Reserved1 | 56 -> 52 ë¹„íŠ¸ (2026-09-22): ì•ž 4ë¹„íŠ¸ë¥¼ State Machine Status ì—� ë‚´ì£¼ì—ˆë‹¤. Start Bit 0 -> 4, Byte No 0 -> 0.4 | ë©”ì‹œì§€ ê°œëª… (2026-09-22): * uC Status2 -> * uC Status. ì§�ì�´ë�˜ * uC Status1 ì�´ * Operation Status ë¡œ ì˜®ê²¨ ê°€ë©´ì„œ ë²ˆí˜¸ 2 ê°€ ê°€ë¦¬í‚¬ 1 ì�´ ì—†ì–´ì¡Œë‹¤";
-CM_ SG_ 2566878447 Chassis_State_Machine_Status "Chassis State Machine Status ë¡œ ì •ì�˜ (2026-09-22): 56ë¹„íŠ¸ Reserved1 ì�˜ ì•ž 4ë¹„íŠ¸ë¥¼ ìƒ�íƒœ ê¸°ê³„ ìƒ�íƒœì—� ì�¼ë‹¤. í�­ì�„ Chassis Operation Status ì�˜ ê°™ì�€ ì‹ í˜¸ì™€ ë§žì¶˜ ê²ƒì�€ ë‘� í”„ë ˆìž„ì�´ ê°™ì�€ ì‚¬ì‹¤ì�„ ë‚˜ë¥´ê¸° ë•Œë¬¸ì�´ë‹¤. ê°’í‘œëŠ” ê°™ì�€ ì�´ìœ ë¡œ ë¹„ì›Œ ë‘�ê³  Confirm ì�„ TBD ë¡œ ì˜¬ë¦°ë‹¤. ë‘� í”„ë ˆìž„ì�˜ ê°’ì�´ ì–´ê¸‹ë‚  ë•Œ ì–´ëŠ� ìª½ì�„ ë¯¿ì�„ì§€ëŠ” ì•„ì§� ê·œì¹™ì�´ ì—†ë‹¤ - OPEN_QUESTIONS_proposed2.md ì°¸ì¡° | ë©”ì‹œì§€ ê°œëª… (2026-09-22): * uC Status2 -> * uC Status. ì§�ì�´ë�˜ * uC Status1 ì�´ * Operation Status ë¡œ ì˜®ê²¨ ê°€ë©´ì„œ ë²ˆí˜¸ 2 ê°€ ê°�";
-CM_ SG_ 1129 BRK_CMD_Pos "Range: -360,000,000 to 360,000,000 (-36,000Â° to 36,000Â°) / ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 2147494249 BRK_WU_ErrorCode "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 2147494249 BRK_WU_Temperature "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 2147494249 BRK_WU_Current "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 2147494249 BRK_WU_Speed "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 2147494249 BRK_WU_Position "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 394 Status_Center_Push "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 394 Stauts_Button_6 "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 394 Stauts_Button_5 "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 394 Stauts_Button_4 "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 394 Stauts_Button_3 "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 394 Stauts_Button_2 "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 394 Stauts_Button_1 "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 394 Encoder_Direction "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 394 Encoder_Position_Value "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 522 Button_6_3rd_Indicator "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 522 Button_6_2nd_Indicator "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 522 Button_6_1st_Indicator "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 522 Button_5_3rd_Indicator "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 522 Button_5_2nd_Indicator "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 522 Button_5_1st_Indicator "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 522 Button_4_3rd_Indicator "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 522 Button_4_2nd_Indicator "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 522 Button_4_1st_Indicator "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 522 Button_3_3rd_Indicator "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 522 Button_3_2nd_Indicator "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 522 Button_3_1st_Indicator "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 522 Button_2_3rd_Indicator "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 522 Button_2_2nd_Indicator "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 522 Button_2_1st_Indicator "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 522 Button_1_3rd_Indicator "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 522 Button_1_2nd_Indicator "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 522 Button_1_1st_Indicator "Controls indicator states / ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 778 Backlight "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 778 Indicator_Intensity "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 1128 GA_CMD_Pos "Range: -360,000,000 to 360,000,000 (-36,000Â° to 36,000Â°) / ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 2147494248 GA_WU_ErrorCode "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 2147494248 GA_WU_Temperature "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 2147494248 GA_WU_Current "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 2147494248 GA_WU_Speed "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 2147494248 GA_WU_Position "ë²¤ë�” ë¬¸ì„œê°€ ì£¼ê¸°ë¥¼ TBD ë¡œ ë‚¨ê²¼ë‹¤";
-CM_ SG_ 2566844683 Brake_Switch "ë²¤ë�” ë¬¸ì„œê°€ Max ë¥¼ 0 ìœ¼ë¡œ ë‚¨ê²¼ë‹¤. 2ë¹„íŠ¸ í•„ë“œì�˜ ìƒ�í•œì�´ 0 ì�¼ ìˆ˜ ì—†ìœ¼ë¯€ë¡œ ë²”ìœ„ ë¯¸ê¸°ìž¬ë¡œ ë³¸ë‹¤. ê°’ì�„ ë§Œë“¤ì§€ ì•Šê³  í‘œì‹œë§Œ ë‚¨ê¸´ë‹¤";
-CM_ SG_ 2566844683 ParkingBrakeSwitch "ë²¤ë�” ë¬¸ì„œê°€ Max ë¥¼ 0 ìœ¼ë¡œ ë‚¨ê²¼ë‹¤. 2ë¹„íŠ¸ í•„ë“œì�˜ ìƒ�í•œì�´ 0 ì�¼ ìˆ˜ ì—†ìœ¼ë¯€ë¡œ ë²”ìœ„ ë¯¸ê¸°ìž¬ë¡œ ë³¸ë‹¤. ê°’ì�„ ë§Œë“¤ì§€ ì•Šê³  í‘œì‹œë§Œ ë‚¨ê¸´ë‹¤";
-CM_ SG_ 160 PID_0Ch "Engine RPM / Factor ê°€ '0..25' ë¡œ ì �í˜€ ìžˆì–´ ìƒ�ì„±ê¸°ê°€ ê¸°ë³¸ê°’ 1 ë¡œ ëŒ€ì²´í–ˆê³  RPM ì�´ 4ë°°ë¡œ ë””ì½”ë”©ë��ë‹¤. 65535 x 0.25 = 16383.75 ë¡œ ì„ ì–¸ Max ì™€ ì •í™•ížˆ ì�¼ì¹˜í•˜ë¯€ë¡œ ì�˜ë�„ê°’ì�€ 0.25 ë‹¤";
+CM_ SG_ 170 E_STOP_Rsvd_AA "A18 답 (2026-09-09): MC 가 4비트로 줄면서 그 바이트의 하위 니블이 비었다";
+CM_ SG_ 170 E_STOP_AA "11-bit 표준 ID. Priority 필드가 없으므로 그대로 둔다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 A1 RS E_STOP1). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2633994444 CC_AliveCounter "순환 카운터. 수신 측은 증가하지 않으면 낡은 것으로 본다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FE00CC CC_Net_Status). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A14 답 (2026-09-08): 둘 다 유효할 때 CC 우선 / VC 보조로 뒤집혔고 E-STOP 도 CC 우선이다. 유효성 판정 입력이 이 둘에서 CRC 로 옮겨갈 예정이며 그것은 보류다 (A8 도 CRC 보류). 중재는 Chassis_uC 구현이고 Data Line 은 이 값을 만들어 낼 뿐이다 | A18 답 (2026-09-09): 선택 3 - 4비트 그";
+CM_ SG_ 2633994444 CC_Net_Link_Count "Net_Link_Count. 이 4비트는 벤더 시트가 SRS_Condition 이라고 적고 아무도 뜻을 정하지 않은 자리다 (유일한 단서인 차량 규격 주석 'IP 체크 후 잘 배당받았는지 여부?' 에는 작성자도 물음표를 달았다) | A10 답 (2026-09-08): '너가 권장하는 DB를 설계해달라'. 그래서 이 저장소가 재고 있으면서 아무 데도 보고하지 않던 값 하나를 담았다 — 본딩 그룹에서 실제로 데이터를 나르는 Link 의 수 (srt_group_data + srt_bistats, DataLineSock";
+CM_ SG_ 2633994444 CC_Net_Level "링크 통계이므로 최저 우선순위 7. 공용 PGN 0x0FF40, SA 로 발신자 구분 | 혼잡도 등급. 각 노드가 자기 SRT 본딩 그룹의 통계에서 산출해 자기 로컬 CAN 버스에 발행한다 — 링크로 실어 올리지 않는다 (ADR 0007) | A9 답 (2026-09-08): 확인이 아니라 설계 요청으로 왔고 값표는 이 저장소가 정했다. \"수신강도\" 는 철회한다 — 저장소에 모뎀 RSSI 를 읽는 코드가 없고 재는 것은 혼잡도뿐이다 (srt_bistats 의 msRTT, pktSndLoss/pktS";
+CM_ SG_ 2566869708 CC_Status_FireGunCAM "방수포 카메라 링크 상태. Eth 로는 OPSTS2_Status_FireGunCAM 으로 올라간다 | A7 (2026-09-08) 은 카메라 고장 타입 설계를 우리에게 넘겼고 그 대상에 이 두 시그널이 들어 있었다. VC 쪽 6 시그널은 2 를 No Camera 로 썼지만(issues/15) 여기는 Reserved 로 둔다 - CC 는 열화상과 방수포 카메라 2 대가 고정이라 커넥터가 비는 경우가 없다. 정본 안에 2bit 카메라 값표가 둘인 것은 의도이며, 소유자와 장착 조건이 다르기 때문이다 (i";
+CM_ SG_ 2566869708 CC_Status_ThermalCAM "열화상 카메라 링크 상태. Eth 로는 OPSTS2_Status_ThermalCAM 으로 올라간다 | A7 (2026-09-08) 은 카메라 고장 타입 설계를 우리에게 넘겼고 그 대상에 이 두 시그널이 들어 있었다. VC 쪽 6 시그널은 2 를 No Camera 로 썼지만(issues/15) 여기는 Reserved 로 둔다 - CC 는 열화상과 방수포 카메라 2 대가 고정이라 커넥터가 비는 경우가 없다. 정본 안에 2bit 카메라 값표가 둘인 것은 의도이며, 소유자와 장착 조건이 다르기 때문이다";
+CM_ SG_ 2566869708 CC_Streaming_Rsvd "송신 측은 0 으로 채우고 수신 측은 무시한다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FE01CC CC_Streaming_Status). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566869708 CC_RS_Data_Route_Connected "데이타(제어,상태) 커넥션 여부. Chassis_uC 의 지령원 중재가 이 비트를 읽는다 (ADR 0008) | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FE01CC CC_Streaming_Status). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A15 답 (2026-09-08): 값표는 네 시그널 모두 이 값으로 통일 확정 | A15 두 번째 답 (2026-09-09): 2 = Fail 은 하드웨어가 인식되지 않는 상태다 - 데이터그램이 늙었다는 읽기는 상대측이 거부했다. VC 쪽 판정은 dataRouteConnected() 이며 살아 있는 ";
+CM_ SG_ 2566869708 CC_RS_Streaming_Route_Connected "스트리밍 커넥션 여부 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FE01CC CC_Streaming_Status). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A15 답 (2026-09-08): 값표는 네 시그널 모두 이 값으로 통일 확정 | A15 두 번째 답 (2026-09-09): 2 = Fail 은 하드웨어가 인식되지 않는 상태다 - 데이터그램이 늙었다는 읽기는 상대측이 거부했다. VC 쪽 판정은 dataRouteConnected() 이며 살아 있는 Link 가 하나도 없거나 하행이 침묵하면 Fail 이고, Link 일부";
+CM_ SG_ 2566869708 CC_Streaming_Mode "CC 가 운용 중인 카메라 모드. 0: Invalid 는 문서 전반의 관례 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FE01CC CC_Streaming_Status). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2365542604 Command_Rsvd2_FF50 "A18 답 (2026-09-09): MC 가 4비트로 줄면서 그 바이트의 하위 니블이 비었다";
+CM_ SG_ 2365542604 Command_Rsvd1_FF50 "미사용. 송신 측은 0 으로 채우고 수신 측은 무시한다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC00CC RS Chassis Command1). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A18 답 (2026-09-09): 같은 프레임에 Reserved 가 둘이 되어 번호를 맞췄다";
+CM_ SG_ 2365542604 Steering_Angle_Position_CC "-800~800범위 / 1도 -> 0.1도 분해능; raw 0..16000 | 차량 규격 주석: 0~800 은 스티어링 각도이고 바퀴 각도가 아니다 - §3 의 +-800 재스케일링 근거 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC00CC RS Chassis Command1). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A16 확인 완료: 재스케일링 채택 (2026-09-08)";
+CM_ SG_ 2365542604 Brake_Position_CC "VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC00CC RS Chassis Command1). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2365542604 Throttle_Position_CC "VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC00CC RS Chassis Command1). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2365542604 Gear_Position_CC "4bit / Max 7 인데 값표가 없었다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC00CC RS Chassis Command1). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A1 확인 완료: 값표 채택 (2026-09-08) | 무효(0)를 받은 Chassis_uC 의 동작은 규격에 없다 — A14 에서 묻는다";
+CM_ SG_ 2365542604 Chassis_Op_Mode_CC "지령이므로 우선순위 3. 전용 PGN 0x0FF11 으로 분리 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC00CC RS Chassis Command1). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A23 (2026-09-09): 운용 모드는 컴퓨터별이므로 Chassis_ 접두를 붙여 FSM 것과 구분한다. 비트는 움직이지 않는다 | A23 답 (2026-09-09): 승인 - 운용 모드는 컴퓨터별이다. RSVC-VC 와 RSCC-CC 두 짝이 각각 자기 모드를 말하며 Chassis_ 는 구동부, FSM_ 은 소방특장 지령이다. RSuC 와 FSM uC 펌웨어 재";
+CM_ SG_ 171 CRC_AB "CRC-8 SAE J1850 (poly 0x1D, init 0xFF, xorout 0xFF), 자기 바이트를 뺀 앞의 모든 바이트에 대해 계산 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 A2 RS E_STOP2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A8 보류 (2026-09-08): 상대측이 차후 개선으로 미뤘다. 산식은 그대로 두고 확인만 미정이므로 TBD 다";
+CM_ SG_ 171 MC_AB "8bit 필드에 Max 15 는 자기모순; 순환 카운터. 수신 측은 증가하지 않으면 낡은 것으로 본다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 A2 RS E_STOP2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A18 답 (2026-09-09): 선택 3 - *_AliveCounter 는 전부 4비트 그대로 두고, MC 를 8비트에서 4비트로 줄여 CRC 바로 앞 바이트의 상위 니블에 둔다. EPS 프레임 다섯이 이미 그 배치다(byte 6.4). 이로써 MC 와 *_AliveCounter 와 DG_AliveCounter 가 전부 4비트가 된다";
+CM_ SG_ 171 E_STOP_Rsvd_AB "A18 답 (2026-09-09): MC 가 4비트로 줄면서 그 바이트의 하위 니블이 비었다";
+CM_ SG_ 171 E_STOP_AB "11-bit 표준 ID. Priority 필드가 없으므로 그대로 둔다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 A2 RS E_STOP2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2633994428 VC_AliveCounter "순환 카운터. 수신 측은 증가하지 않으면 낡은 것으로 본다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FB00BC VC_Net_Status). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A14 답 (2026-09-08): 둘 다 유효할 때 CC 우선 / VC 보조로 뒤집혔고 E-STOP 도 CC 우선이다. 유효성 판정 입력이 이 둘에서 CRC 로 옮겨갈 예정이며 그것은 보류다 (A8 도 CRC 보류). 중재는 Chassis_uC 구현이고 Data Line 은 이 값을 만들어 낼 뿐이다 | A18 답 (2026-09-09): 선택 3 - 4비트 그";
+CM_ SG_ 2633994428 VC_Net_Link_Count "Net_Link_Count. 이 4비트는 벤더 시트가 SRS_Condition 이라고 적고 아무도 뜻을 정하지 않은 자리다 (유일한 단서인 차량 규격 주석 'IP 체크 후 잘 배당받았는지 여부?' 에는 작성자도 물음표를 달았다) | A10 답 (2026-09-08): '너가 권장하는 DB를 설계해달라'. 그래서 이 저장소가 재고 있으면서 아무 데도 보고하지 않던 값 하나를 담았다 — 본딩 그룹에서 실제로 데이터를 나르는 Link 의 수 (srt_group_data + srt_bistats, DataLineSock";
+CM_ SG_ 2633994428 VC_Net_Level "링크 통계이므로 최저 우선순위 7. 공용 PGN 0x0FF40, SA 로 발신자 구분 | 혼잡도 등급. 각 노드가 자기 SRT 본딩 그룹의 통계에서 산출해 자기 로컬 CAN 버스에 발행한다 — 링크로 실어 올리지 않는다 (ADR 0007) | A9 답 (2026-09-08): 확인이 아니라 설계 요청으로 왔고 값표는 이 저장소가 정했다. \"수신강도\" 는 철회한다 — 저장소에 모뎀 RSSI 를 읽는 코드가 없고 재는 것은 혼잡도뿐이다 (srt_bistats 의 msRTT, pktSndLoss/pktS";
+CM_ SG_ 2566873532 VC_Status_FAKRA_6 "Lower_4. Eth 로는 OPSTS1_Status_FAKRA_6 으로 올라간다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FB01BC VC_Streaming_Status). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A7 답 (2026-09-08): 판정 대상은 '카메라 고장 여부' 로 확정되었고 (이 저장소가 읽은 영상 유입과 같은 방향이다), 고장 타입은 '너의 권장을 적극 따르겠다' 로 우리에게 넘어왔다 — 값 2 는 이 저장소가 골랐고 상대측은 아직 그것을 보지 못했다 | 2bit 에 빈 칸이 ";
+CM_ SG_ 2566873532 VC_Status_FAKRA_5 "Lower_3. Eth 로는 OPSTS1_Status_FAKRA_5 로 올라간다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FB01BC VC_Streaming_Status). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A7 답 (2026-09-08): 판정 대상은 '카메라 고장 여부' 로 확정되었고 (이 저장소가 읽은 영상 유입과 같은 방향이다), 고장 타입은 '너의 권장을 적극 따르겠다' 로 우리에게 넘어왔다 — 값 2 는 이 저장소가 골랐고 상대측은 아직 그것을 보지 못했다 | 2bit 에 빈 칸이 ";
+CM_ SG_ 2566873532 VC_Status_FAKRA_4 "Lower_2. Eth 로는 OPSTS1_Status_FAKRA_4 로 올라간다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FB01BC VC_Streaming_Status). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A7 답 (2026-09-08): 판정 대상은 '카메라 고장 여부' 로 확정되었고 (이 저장소가 읽은 영상 유입과 같은 방향이다), 고장 타입은 '너의 권장을 적극 따르겠다' 로 우리에게 넘어왔다 — 값 2 는 이 저장소가 골랐고 상대측은 아직 그것을 보지 못했다 | 2bit 에 빈 칸이 ";
+CM_ SG_ 2566873532 VC_Status_FAKRA_3 "Lower_1. Eth 로는 OPSTS1_Status_FAKRA_3 으로 올라간다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FB01BC VC_Streaming_Status). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A7 답 (2026-09-08): 판정 대상은 '카메라 고장 여부' 로 확정되었고 (이 저장소가 읽은 영상 유입과 같은 방향이다), 고장 타입은 '너의 권장을 적극 따르겠다' 로 우리에게 넘어왔다 — 값 2 는 이 저장소가 골랐고 상대측은 아직 그것을 보지 못했다 | 2bit 에 빈 칸이 ";
+CM_ SG_ 2566873532 VC_Status_FAKRA_2 "Upper_2. Eth 로는 OPSTS1_Status_FAKRA_2 로 올라간다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FB01BC VC_Streaming_Status). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A7 답 (2026-09-08): 판정 대상은 '카메라 고장 여부' 로 확정되었고 (이 저장소가 읽은 영상 유입과 같은 방향이다), 고장 타입은 '너의 권장을 적극 따르겠다' 로 우리에게 넘어왔다 — 값 2 는 이 저장소가 골랐고 상대측은 아직 그것을 보지 못했다 | 2bit 에 빈 칸이 ";
+CM_ SG_ 2566873532 VC_Status_FAKRA_1 "Upper_1. Eth 로는 OPSTS1_Status_FAKRA_1 로 올라간다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FB01BC VC_Streaming_Status). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A7 답 (2026-09-08): 판정 대상은 '카메라 고장 여부' 로 확정되었고 (이 저장소가 읽은 영상 유입과 같은 방향이다), 고장 타입은 '너의 권장을 적극 따르겠다' 로 우리에게 넘어왔다 — 값 2 는 이 저장소가 골랐고 상대측은 아직 그것을 보지 못했다 | 2bit 에 빈 칸이 ";
+CM_ SG_ 2566873532 VC_Streaming_Rsvd "송신 측은 0 으로 채우고 수신 측은 무시한다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FB01BC VC_Streaming_Status). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566873532 VC_RS_Data_Route_Connected "데이타(제어,상태) 커넥션 여부. Chassis_uC 의 지령원 중재가 이 비트를 읽는다 (ADR 0008) | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FB01BC VC_Streaming_Status). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A15 답 (2026-09-08): 값표는 네 시그널 모두 이 값으로 통일 확정 | A15 두 번째 답 (2026-09-09): 2 = Fail 은 하드웨어가 인식되지 않는 상태다 - 데이터그램이 늙었다는 읽기는 상대측이 거부했다. VC 쪽 판정은 dataRouteConnected() 이며 살아 있는 ";
+CM_ SG_ 2566873532 VC_RS_Streaming_Route_Connected "스트리밍 커넥션 여부. 원본 값표가 비어 있어 CC 쪽과 같게 맞춤 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FB01BC VC_Streaming_Status). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A15 답 (2026-09-08): 값표는 네 시그널 모두 이 값으로 통일 확정 | A15 두 번째 답 (2026-09-09): 2 = Fail 은 하드웨어가 인식되지 않는 상태다 - 데이터그램이 늙었다는 읽기는 상대측이 거부했다. VC 쪽 판정은 dataRouteConnected() 이며 살아 있는 Link 가 하나도 ";
+CM_ SG_ 2566873532 VC_Streaming_Mode "CC_Streaming_Mode 와 같은 값표. 원본은 비어 있었다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FB01BC VC_Streaming_Status). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A6 확인 완료: 값표 수정 (2026-09-08). 이전 제안은 1 Thermal Mode / 2 Visible Mode 였다";
+CM_ SG_ 2365546684 Command_Rsvd2_FF60 "A18 답 (2026-09-09): MC 가 4비트로 줄면서 그 바이트의 하위 니블이 비었다";
+CM_ SG_ 2365546684 Command_Rsvd1_FF60 "미사용. 송신 측은 0 으로 채우고 수신 측은 무시한다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FCA0BC RS Chassis Command2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A18 답 (2026-09-09): 같은 프레임에 Reserved 가 둘이 되어 번호를 맞췄다";
+CM_ SG_ 2365546684 Steering_Angle_Position_VC "-800~800범위 / 1도 -> 0.1도 분해능; raw 0..16000 | 차량 규격 주석: 0~800 은 스티어링 각도이고 바퀴 각도가 아니다 - §3 의 +-800 재스케일링 근거 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FCA0BC RS Chassis Command2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A16 확인 완료: 재스케일링 채택 (2026-09-08)";
+CM_ SG_ 2365546684 Brake_Position_VC "VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FCA0BC RS Chassis Command2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2365546684 Throttle_Position_VC "VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FCA0BC RS Chassis Command2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2365546684 Gear_Position_VC "4bit / Max 7 인데 값표가 없었다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FCA0BC RS Chassis Command2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A1 확인 완료: 값표 채택 (2026-09-08) | 무효(0)를 받은 Chassis_uC 의 동작은 규격에 없다 — A14 에서 묻는다";
+CM_ SG_ 2365546684 Chassis_Op_Mode_VC "지령이므로 우선순위 3. 전용 PGN 0x0FF11 으로 분리 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FCA0BC RS Chassis Command2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A23 (2026-09-09): 운용 모드는 컴퓨터별이므로 Chassis_ 접두를 붙여 FSM 것과 구분한다. 비트는 움직이지 않는다 | A23 답 (2026-09-09): 승인 - 운용 모드는 컴퓨터별이다. RSVC-VC 와 RSCC-CC 두 짝이 각각 자기 모드를 말하며 Chassis_ 는 구동부, FSM_ 은 소방특장 지령이다. RSuC 와 FSM uC 펌웨어 재";
+CM_ SG_ 2566877423 Chassis_Status_Rsvd3 "미사용. 송신 측은 0 으로 채우고 수신 측은 무시한다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC01EF Chassis Status1). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566877423 Chassis_Status_Rsvd2 "미사용. 송신 측은 0 으로 채우고 수신 측은 무시한다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC01EF Chassis Status1). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566877423 SideBrake_Position_FB "Max 3 이므로 3값 enum | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC01EF Chassis Status1). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566877423 Steering_Angle_Position_FB "1도 -> 0.1도 분해능; raw 0..16000 | 차량 규격 주석: 0~800 은 스티어링 각도이고 바퀴 각도가 아니다 - §3 의 +-800 재스케일링 근거 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC01EF Chassis Status1). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A16 확인 완료: 재스케일링 채택 (2026-09-08)";
+CM_ SG_ 2566877423 Brake_Position_FB "명령과 같은 Invalid 관례 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC01EF Chassis Status1). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566877423 Throttle_Position_FB "명령과 같은 Invalid 관례 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC01EF Chassis Status1). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566877423 Gear_Position_FB "Gear_Position 과 같은 값표 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC01EF Chassis Status1). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A1 확인 완료: 값표 채택 (2026-09-08)";
+CM_ SG_ 2566877423 Chassis_Status_Rsvd1 "미사용. 송신 측은 0 으로 채우고 수신 측은 무시한다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC01EF Chassis Status1). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566877423 Chassis_Op_Mode_Status "상태이므로 우선순위 6 | Op_Mode 명령의 되울림 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC01EF Chassis Status1). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A23 (2026-09-09): 운용 모드는 컴퓨터별이므로 Chassis_ 접두를 붙여 FSM 것과 구분한다. 비트는 움직이지 않는다 | A23 답 (2026-09-09): 승인 - 운용 모드는 컴퓨터별이다. RSVC-VC 와 RSCC-CC 두 짝이 각각 자기 모드를 말하며 Chassis_ 는 구동부, FSM_ 은 소방특장 지령이다. RSuC 와 FSM uC 펌웨어 재배";
+CM_ SG_ 2566877679 Chassis_Status_Rsvd6 "미사용. 송신 측은 0 으로 채우고 수신 측은 무시한다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC02EF Chassis Status2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566877679 Battery_Status "VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC02EF Chassis Status2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566877679 Engine_Mission_Status "VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC02EF Chassis Status2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566877679 Fuel_Warning "VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC02EF Chassis Status2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566877679 Chassis_Status_Rsvd5 "미사용. 송신 측은 0 으로 채우고 수신 측은 무시한다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC02EF Chassis Status2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566877679 Chassis_Status_Rsvd4 "미사용. 송신 측은 0 으로 채우고 수신 측은 무시한다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC02EF Chassis Status2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566877679 Battery_Voltage "1V -> 0.1V; 10bit raw 1023 을 정확히 사용 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC02EF Chassis Status2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A16 확인 완료: 재스케일링 채택 (2026-09-08)";
+CM_ SG_ 2566877679 Coolant_Temp "영하 표현 가능 (J1939 관례) | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC02EF Chassis Status2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A16 확인 완료: 재스케일링 채택 (2026-09-08)";
+CM_ SG_ 2566877679 Mission_Fluid_Temp "영하 표현 가능 (J1939 관례) | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC02EF Chassis Status2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A16 확인 완료: 재스케일링 채택 (2026-09-08)";
+CM_ SG_ 2566877679 Vehicle_Velocity "상태이므로 우선순위 6 | 1kph -> 0.5kph 분해능 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC02EF Chassis Status2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566877935 Chassis_Status_Rsvd9 "미사용. 송신 측은 0 으로 채우고 수신 측은 무시한다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC03EF Chassis Status3). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566877935 Chassis_Status_Rsvd8 "미사용. 송신 측은 0 으로 채우고 수신 측은 무시한다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC03EF Chassis Status3). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566877935 Chassis_Status_Rsvd7 "미사용. 송신 측은 0 으로 채우고 수신 측은 무시한다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC03EF Chassis Status3). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566877935 ABS_Status "VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC03EF Chassis Status3). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566877935 APC_Status "VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC03EF Chassis Status3). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566877935 Steering_Control_Unit_Status "VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC03EF Chassis Status3). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566877935 Gear_Selector_Status "VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC03EF Chassis Status3). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566877935 Brake_Actuator_Status "VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC03EF Chassis Status3). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566877935 Gear_Actuator_Status "상태이므로 우선순위 6 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC03EF Chassis Status3). 두 정본이 갈라지지 않게 손으로 쓰지 않는다";
+CM_ SG_ 2566878191 Chassis_uC_Status_Error "A11 확인 완료: RS Bus 의 Chassis_uC_Status 와 같은 필드다 - 값표를 상속한다 (2026-09-08). 이전 이름 Chassis_uC_Status_Error | bit4 -> bit12 이동 (2026-09-22): bit4 가 Chassis State Machine Status 가 되면서 이 등급이 자리를 옮겼다. 값표와 신호 이름은 A11/A12 로 닫힌 것을 그대로 가져왔고 바뀐 것은 자리뿐이다. 소진한 것은 Reserved2 이므로 DLC 2 와 거울 관계는 불변이다. 자리를 고른 것은 이 저장소이므로 Confirm 을 CONFIRM 으로 둔다 | A19 답 (2026-09-09): 채택 - *Operation Status 짝 둘";
+CM_ SG_ 2566878191 Chassis_uC_AliveCounter_VC "순환 카운터. 수신 측은 증가하지 않으면 낡은 것으로 본다. Chassis_uC 의 지령원 중재와 무관 - 이쪽은 Chassis_uC 자신의 박동이다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FC11EF Chassis_uC_Status1). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A11 개명 (2026-09-08): 이전 이름 Chassis_uC_AliveCounter, 벤더 doc name 오타 Chassis_uC_AliveConter";
+CM_ SG_ 2566878191 Chassis_State_Machine_Status_VC "Chassis State Machine Status 로 정의 (2026-09-22): 이 4비트가 마이컴 상태 기계의 현재 상태다. 이 자리에 있던 고장 등급(Chassis uC Status Error)은 이름과 값표가 어긋나 있었으므로 같은 프레임의 bit12 로 옮겼다 - 등급을 버리지 않은 이유는 그것이 스테이션이 마이컴 건전성을 읽는 유일한 채널이기 때문이다 (DESIGN §14). 상태 열거는 마이컴 펌웨어의 사실이라 이 저장소가 만들 수 없다: 값표를 비우고 Confirm 을 TBD 로 ";
+CM_ SG_ 2566878191 Chassis_Op_Status_Rsvd1 "메시지 개명 (2026-09-22): * uC Status1 -> * Operation Status. RS Bus 와 차량 버스와 데이터그램이 같은 2바이트 레이아웃의 거울이므로(docs/adr/0013) 세 곳의 이름을 하나로 맞췄다. DBC 이름도 옛 메시지 이름(_Status_)을 떼고 새 이름을 따른다 | A19 (2026-09-09, 정정): 이 자리에 있던 Op_Mode_Status 를 삭제했다. 섀시의 운용 모드는 Chassis Status1 의 Op. Mode Status 가 나르는 실제 되먹임이고, 여기 있던 것은 그 값의 두 번째 사본(\"Op_Mode 명령의 되울림\")이었다";
+CM_ SG_ 2566882026 FSMuC_Rsvd2 "송신 측은 0 으로 채우고 수신 측은 무시한다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FE03EA FSMuC_Status). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | 메시지 개명 (2026-09-22): * uC Status2 -> * uC Status. 짝이던 * uC Status1 이 * Operation Status 로 옮겨 가면서 번호 2 가 가리킬 1 이 없어졌다";
+CM_ SG_ 2566882026 FSMuC_AliveCounter "FSM uC 와 Chassis uC 가 GCAN 으로 직접 주고받는 건전성 카운터. 벤더 FSMuc_CAN.csv 의 18FE03EA(GCAN 판)를 §8 PS 대역(0x8x=FSMuC)으로 재배치했다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FE03EA FSMuC_Status). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | 메시지 개명 (2026-09-22): * uC Status2 -> * uC Status. 짝이던 * uC Status1 이 * Operation Status 로 옮겨 가면서 번호 2 가 가리킬 1 이 없어졌다";
+CM_ SG_ 2566882026 FSMuC_Rsvd1 "송신 측은 0 으로 채우고 수신 측은 무시한다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FE03EA FSMuC_Status). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | 56 -> 52 비트 (2026-09-22): 앞 4비트를 State Machine Status 에 내주었다. Start Bit 0 -> 4, Byte No 0 -> 0.4 | 메시지 개명 (2026-09-22): * uC Status2 -> * uC Status. 짝이던 * uC Status1 이 * Operation Status 로 옮겨 가면서 번호 2 가 가리킬 1 이 없어졌다";
+CM_ SG_ 2566882026 FSM_State_Machine_Status "FSM State Machine Status 로 정의 (2026-09-22): 56비트 Reserved1 의 앞 4비트를 상태 기계 상태에 썼다. 폭을 FSM Operation Status 의 같은 신호와 맞춘 것은 두 프레임이 같은 사실을 나르기 때문이다. 값표는 같은 이유로 비워 두고 Confirm 을 TBD 로 올린다. 두 프레임의 값이 어긋날 때 어느 쪽을 믿을지는 아직 규칙이 없다 - OPEN_QUESTIONS_proposed2.md 참조 | 메시지 개명 (2026-09-22): * uC Status2 -> * uC Status. 짝이던 * uC Status1 이 * Operation Status 로 옮겨 가면서 번호 2 가 가리";
+CM_ SG_ 2566878447 Chassis_uC_Rsvd2 "송신 측은 0 으로 채우고 수신 측은 무시한다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FE04EF Chassis_uC_Status2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A11 개명 (2026-09-08): 이전 이름 Chassis_uC_Reserved2 | 메시지 개명 (2026-09-22): * uC Status2 -> * uC Status. 짝이던 * uC Status1 이 * Operation Status 로 옮겨 가면서 번호 2 가 가리킬 1 이 없어졌다";
+CM_ SG_ 2566878447 Chassis_uC_AliveCounter_FSM "Chassis uC 가 FSM uC 에 돌려주는 건전성 카운터. 벤더 18FE04EF 를 §8 PS 대역(0x7x=Chassis_uC)으로 재배치했다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FE04EF Chassis_uC_Status2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A11 개명 (2026-09-08): 이전 이름 Chassis_uC_AliveCounter, 벤더 doc name 오타 Chassis_uC_AliveConter | 메시지 개명 (2026-09-22): * uC Status2 -> * uC Status. 짝이던 * uC Status1 이 * Operation Status 로 옮겨 가면서 번호 2 가 가리킬 1 이 없어졌다";
+CM_ SG_ 2566878447 Chassis_uC_Rsvd1 "송신 측은 0 으로 채우고 수신 측은 무시한다 | VEH_CAN_Matrix_proposed2.csv 에서 상속 (벤더 18FE04EF Chassis_uC_Status2). 두 정본이 갈라지지 않게 손으로 쓰지 않는다 | A11 개명 (2026-09-08): 이전 이름 Chassis_uC_Reserved1 | 56 -> 52 비트 (2026-09-22): 앞 4비트를 State Machine Status 에 내주었다. Start Bit 0 -> 4, Byte No 0 -> 0.4 | 메시지 개명 (2026-09-22): * uC Status2 -> * uC Status. 짝이던 * uC Status1 이 * Operation Status 로 옮겨 가면서 번호 2 가 가리킬 1 이 없어졌다";
+CM_ SG_ 2566878447 Chassis_State_Machine_Status_FSM "Chassis State Machine Status 로 정의 (2026-09-22): 56비트 Reserved1 의 앞 4비트를 상태 기계 상태에 썼다. 폭을 Chassis Operation Status 의 같은 신호와 맞춘 것은 두 프레임이 같은 사실을 나르기 때문이다. 값표는 같은 이유로 비워 두고 Confirm 을 TBD 로 올린다. 두 프레임의 값이 어긋날 때 어느 쪽을 믿을지는 아직 규칙이 없다 - OPEN_QUESTIONS_proposed2.md 참조 | 메시지 개명 (2026-09-22): * uC Status2 -> * uC Status. 짝이던 * uC Status1 이 * Operation Status 로 옮겨 가면서 번호 2 가 ";
+CM_ SG_ 1129 BRK_CMD_Pos "Range: -360,000,000 to 360,000,000 (-36,000° to 36,000°) / 벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 2147494249 BRK_WU_ErrorCode "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 2147494249 BRK_WU_Temperature "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 2147494249 BRK_WU_Current "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 2147494249 BRK_WU_Speed "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 2147494249 BRK_WU_Position "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 394 Status_Center_Push "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 394 Stauts_Button_6 "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 394 Stauts_Button_5 "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 394 Stauts_Button_4 "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 394 Stauts_Button_3 "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 394 Stauts_Button_2 "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 394 Stauts_Button_1 "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 394 Encoder_Direction "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 394 Encoder_Position_Value "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 522 Button_6_3rd_Indicator "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 522 Button_6_2nd_Indicator "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 522 Button_6_1st_Indicator "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 522 Button_5_3rd_Indicator "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 522 Button_5_2nd_Indicator "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 522 Button_5_1st_Indicator "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 522 Button_4_3rd_Indicator "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 522 Button_4_2nd_Indicator "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 522 Button_4_1st_Indicator "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 522 Button_3_3rd_Indicator "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 522 Button_3_2nd_Indicator "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 522 Button_3_1st_Indicator "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 522 Button_2_3rd_Indicator "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 522 Button_2_2nd_Indicator "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 522 Button_2_1st_Indicator "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 522 Button_1_3rd_Indicator "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 522 Button_1_2nd_Indicator "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 522 Button_1_1st_Indicator "Controls indicator states / 벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 778 Backlight "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 778 Indicator_Intensity "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 1128 GA_CMD_Pos "Range: -360,000,000 to 360,000,000 (-36,000° to 36,000°) / 벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 2147494248 GA_WU_ErrorCode "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 2147494248 GA_WU_Temperature "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 2147494248 GA_WU_Current "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 2147494248 GA_WU_Speed "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 2147494248 GA_WU_Position "벤더 문서가 주기를 TBD 로 남겼다";
+CM_ SG_ 2566844683 Brake_Switch "벤더 문서가 Max 를 0 으로 남겼다. 2비트 필드의 상한이 0 일 수 없으므로 범위 미기재로 본다. 값을 만들지 않고 표시만 남긴다";
+CM_ SG_ 2566844683 ParkingBrakeSwitch_CAR "벤더 문서가 Max 를 0 으로 남겼다. 2비트 필드의 상한이 0 일 수 없으므로 범위 미기재로 본다. 값을 만들지 않고 표시만 남긴다";
+CM_ SG_ 160 PID_0Ch "Engine RPM / Factor 가 '0..25' 로 적혀 있어 생성기가 기본값 1 로 대체했고 RPM 이 4배로 디코딩됐다. 65535 x 0.25 = 16383.75 로 선언 Max 와 정확히 일치하므로 의도값은 0.25 다";
 CM_ SG_ 160 PID_11h "Absolute Throttle Position";
-CM_ SG_ 160 PID_03h "Fuel Control System Status / ë²¤ë�” ë¬¸ì„œê°€ Max ë¥¼ 0 ìœ¼ë¡œ ë‚¨ê²¼ë‹¤. 16ë¹„íŠ¸ í•„ë“œì�˜ ìƒ�í•œì�´ 0 ì�¼ ìˆ˜ ì—†ìœ¼ë¯€ë¡œ ë²”ìœ„ ë¯¸ê¸°ìž¬ë¡œ ë³¸ë‹¤. ê°’ì�„ ë§Œë“¤ì§€ ì•Šê³  í‘œì‹œë§Œ ë‚¨ê¸´ë‹¤";
+CM_ SG_ 160 PID_03h "Fuel Control System Status / 벤더 문서가 Max 를 0 으로 남겼다. 16비트 필드의 상한이 0 일 수 없으므로 범위 미기재로 본다. 값을 만들지 않고 표시만 남긴다";
 CM_ SG_ 160 PID_0Dh "Vehicle Speed Sensor";
-CM_ SG_ 160 PID_05h "Engine coolant temperature / ë²¤ë�” ë¬¸ì„œê°€ Max ë¥¼ 0 ìœ¼ë¡œ ë‚¨ê²¼ë‹¤. 8ë¹„íŠ¸ í•„ë“œì�˜ ìƒ�í•œì�´ 0 ì�¼ ìˆ˜ ì—†ìœ¼ë¯€ë¡œ ë²”ìœ„ ë¯¸ê¸°ìž¬ë¡œ ë³¸ë‹¤. ê°’ì�„ ë§Œë“¤ì§€ ì•Šê³  í‘œì‹œë§Œ ë‚¨ê¸´ë‹¤";
+CM_ SG_ 160 PID_05h "Engine coolant temperature / 벤더 문서가 Max 를 0 으로 남겼다. 8비트 필드의 상한이 0 일 수 없으므로 범위 미기재로 본다. 값을 만들지 않고 표시만 남긴다";
 CM_ SG_ 160 PID_04h "Calculated LOAD Value";
-CM_ SG_ 1264 Odometer "ë²¤ë�” ë¬¸ì„œê°€ Max ë¥¼ 0 ìœ¼ë¡œ ë‚¨ê²¼ë‹¤. 16ë¹„íŠ¸ í•„ë“œì�˜ ìƒ�í•œì�´ 0 ì�¼ ìˆ˜ ì—†ìœ¼ë¯€ë¡œ ë²”ìœ„ ë¯¸ê¸°ìž¬ë¡œ ë³¸ë‹¤. ê°’ì�„ ë§Œë“¤ì§€ ì•Šê³  í‘œì‹œë§Œ ë‚¨ê¸´ë‹¤";
+CM_ SG_ 1264 Odometer "벤더 문서가 Max 를 0 으로 남겼다. 16비트 필드의 상한이 0 일 수 없으므로 범위 미기재로 본다. 값을 만들지 않고 표시만 남긴다";
 CM_ SG_ 1264 SPEED_UNIT "SPEED_UNIT = 0 : km/h
 SPEED_UNIT = 1 : MPH";
-CM_ SG_ 1349 VB_Battery_Voltage "ë²¤ë�” ë¬¸ì„œê°€ Byte No 4 ì™€ Start Bit 24(byte 3) ë¡œ ì„œë¡œ ë‹¤ë¥´ê²Œ ì �ëŠ”ë‹¤. Start Bit ë¥¼ ì±„íƒ�í–ˆë‹¤";
+CM_ SG_ 1349 VB_Battery_Voltage "벤더 문서가 Byte No 4 와 Start Bit 24(byte 3) 로 서로 다르게 적는다. Start Bit 를 채택했다";
 CM_ SG_ 672 CTR_CDN_OBD "General denominator calculation";
 CM_ SG_ 672 CTR_IG_CYC_OBD "Ignition cycle counter";
 CM_ SG_ 672 INH_DC_OBD "Inhibition of rate-based monitoring";
@@ -778,52 +770,50 @@ CM_ SG_ 672 SwitchOffCondExt "SCC shut off conditiom detected";
 CM_ SG_ 672 ECFail "Function failure engine power control";
 CM_ SG_ 672 QECACC "Failure in SCC-message detected by engine control for SCC";
 CM_ SG_ 672 ECGPOvrd "Driver Override for SCC";
-CM_ SG_ 608 SOAK_TIME "í�­ì�´ 1ë¹„íŠ¸ë¡œ ì ˆë‹¨ë�˜ì–´ ìžˆì—ˆë‹¤. Max 255 ëŠ” 8ë¹„íŠ¸ë¥¼ ìš”êµ¬í•˜ê³  ê°™ì�€ í”„ë ˆìž„ì�˜ ë¹ˆ ë¹„íŠ¸ê°€ ì •í™•ížˆ 33..39 ì�¼ê³± ê°œì�´ë¯€ë¡œ 32..39 ê°€ ì›�ëž˜ í�­ì�´ë‹¤";
-CM_ SG_ 608 ENG_STAT "í�­ì�´ 1ë¹„íŠ¸ë¡œ ì ˆë‹¨ë�˜ì–´ ìžˆì—ˆë‹¤. Max 7 ì�€ 3ë¹„íŠ¸ë¥¼ ìš”êµ¬í•˜ê³  ê°™ì�€ í”„ë ˆìž„ì�˜ ë¹ˆ ë¹„íŠ¸ê°€ ì •í™•ížˆ 29..30 ë‘� ê°œì�´ë¯€ë¡œ 28..30 ì�´ ì›�ëž˜ í�­ì�´ë‹¤";
+CM_ SG_ 608 SOAK_TIME "폭이 1비트로 절단되어 있었다. Max 255 는 8비트를 요구하고 같은 프레임의 빈 비트가 정확히 33..39 일곱 개이므로 32..39 가 원래 폭이다";
+CM_ SG_ 608 ENG_STAT "폭이 1비트로 절단되어 있었다. Max 7 은 3비트를 요구하고 같은 프레임의 빈 비트가 정확히 29..30 두 개이므로 28..30 이 원래 폭이다";
 CM_ SG_ 161 PID_23h "Fuel Pressure";
 CM_ SG_ 161 PID_0Bh "Manifold Absolute Pressure";
 CM_ SG_ 161 PID_09h "Long Term Fuel Trim Bank2";
 CM_ SG_ 161 PID_08h "Short Term Fuel Trim Bank2";
 CM_ SG_ 161 PID_07h "Long Term Fuel Trim Bank1";
 CM_ SG_ 161 PID_06h "Short Term Fuel Trim Bank1";
-CM_ SG_ 2298375691 WheelSpeed_RR "ë²¤ë�” ë¬¸ì„œê°€ ì�´ ìž�ë¦¬ì—�ë�„ WheelSpeed_FR ë¥¼ ì �ì—ˆë‹¤(ê°™ì�€ ì�´ë¦„ 3íšŒ). ìž�ë§¤ í”„ë ˆìž„ HRW_EPS ê°€ ê°™ì�€ PGN 0xFE6E ì—�ì„œ FL/FR/RL/RR ì�¸ ê²ƒì�„ ë”°ë�¼ êµ�ì •í–ˆë‹¤ | ë²¤ë�” ë¬¸ì„œê°€ Max ë¥¼ 0 ìœ¼ë¡œ ë‚¨ê²¼ë‹¤. 16ë¹„íŠ¸ í•„ë“œì�˜ ìƒ�í•œì�´ 0 ì�¼ ìˆ˜ ì—†ìœ¼ë¯€ë¡œ ë²”ìœ„ ë¯¸ê¸°ìž¬ë¡œ ë³¸ë‹¤. ê°’ì�„ ë§Œë“¤ì§€ ì•Šê³  í‘œì‹œë§Œ ë‚¨ê¸´ë‹¤";
-CM_ SG_ 2298375691 WheelSpeed_RL "ë²¤ë�” ë¬¸ì„œê°€ ì�´ ìž�ë¦¬ì—�ë�„ WheelSpeed_FR ë¥¼ ì �ì—ˆë‹¤(ê°™ì�€ ì�´ë¦„ 3íšŒ). ìž�ë§¤ í”„ë ˆìž„ HRW_EPS ê°€ ê°™ì�€ PGN 0xFE6E ì—�ì„œ FL/FR/RL/RR ì�¸ ê²ƒì�„ ë”°ë�¼ êµ�ì •í–ˆë‹¤ | ë²¤ë�” ë¬¸ì„œê°€ Max ë¥¼ 0 ìœ¼ë¡œ ë‚¨ê²¼ë‹¤. 16ë¹„íŠ¸ í•„ë“œì�˜ ìƒ�í•œì�´ 0 ì�¼ ìˆ˜ ì—†ìœ¼ë¯€ë¡œ ë²”ìœ„ ë¯¸ê¸°ìž¬ë¡œ ë³¸ë‹¤. ê°’ì�„ ë§Œë“¤ì§€ ì•Šê³  í‘œì‹œë§Œ ë‚¨ê¸´ë‹¤";
-CM_ SG_ 2298375691 WheelSpeed_FR "ë²¤ë�” ë¬¸ì„œê°€ Max ë¥¼ 0 ìœ¼ë¡œ ë‚¨ê²¼ë‹¤. 16ë¹„íŠ¸ í•„ë“œì�˜ ìƒ�í•œì�´ 0 ì�¼ ìˆ˜ ì—†ìœ¼ë¯€ë¡œ ë²”ìœ„ ë¯¸ê¸°ìž¬ë¡œ ë³¸ë‹¤. ê°’ì�„ ë§Œë“¤ì§€ ì•Šê³  í‘œì‹œë§Œ ë‚¨ê¸´ë‹¤";
-CM_ SG_ 2298375691 WheelSpeed_FL "ë²¤ë�” ë¬¸ì„œê°€ Max ë¥¼ 0 ìœ¼ë¡œ ë‚¨ê²¼ë‹¤. 16ë¹„íŠ¸ í•„ë“œì�˜ ìƒ�í•œì�´ 0 ì�¼ ìˆ˜ ì—†ìœ¼ë¯€ë¡œ ë²”ìœ„ ë¯¸ê¸°ìž¬ë¡œ ë³¸ë‹¤. ê°’ì�„ ë§Œë“¤ì§€ ì•Šê³  í‘œì‹œë§Œ ë‚¨ê¸´ë‹¤";
-CM_ SG_ 1087 TQI_TCU_INC "TCU requeseted engine RPM increase";
-CM_ SG_ 1087 N_TC "í�­ì�´ 8ë¹„íŠ¸ë¡œ ì ˆë‹¨ë�˜ì–´ ìžˆì—ˆë‹¤. 65534 x 0.25 = 16383.5 ë¡œ ì„ ì–¸ Max ì™€ ì •í™•ížˆ ì�¼ì¹˜í•˜ê³  ê°™ì�€ í”„ë ˆìž„ì�˜ ë¹ˆ ë¹„íŠ¸ê°€ ì •í™•ížˆ 48..55 ì—¬ë�Ÿ ê°œì�´ë¯€ë¡œ 40..55 ê°€ ì›�ëž˜ í�­ì�´ë‹¤";
-CM_ SG_ 1087 TCU_TYPE "ë²¤ë�” ë¬¸ì„œê°€ Max ë¥¼ 0 ìœ¼ë¡œ ë‚¨ê²¼ë‹¤. 2ë¹„íŠ¸ í•„ë“œì�˜ ìƒ�í•œì�´ 0 ì�¼ ìˆ˜ ì—†ìœ¼ë¯€ë¡œ ë²”ìœ„ ë¯¸ê¸°ìž¬ë¡œ ë³¸ë‹¤. ê°’ì�„ ë§Œë“¤ì§€ ì•Šê³  í‘œì‹œë§Œ ë‚¨ê¸´ë‹¤";
-CM_ SG_ 1087 SWI_CC "ë²¤ë�” ë¬¸ì„œê°€ Max ë¥¼ 0 ìœ¼ë¡œ ë‚¨ê²¼ë‹¤. 2ë¹„íŠ¸ í•„ë“œì�˜ ìƒ�í•œì�´ 0 ì�¼ ìˆ˜ ì—†ìœ¼ë¯€ë¡œ ë²”ìœ„ ë¯¸ê¸°ìž¬ë¡œ ë³¸ë‹¤. ê°’ì�„ ë§Œë“¤ì§€ ì•Šê³  í‘œì‹œë§Œ ë‚¨ê¸´ë‹¤";
+CM_ SG_ 2298375691 WheelSpeed_RR "벤더 문서가 이 자리에도 WheelSpeed_FR 를 적었다(같은 이름 3회). 자매 프레임 HRW_EPS 가 같은 PGN 0xFE6E 에서 FL/FR/RL/RR 인 것을 따라 교정했다 | 벤더 문서가 Max 를 0 으로 남겼다. 16비트 필드의 상한이 0 일 수 없으므로 범위 미기재로 본다. 값을 만들지 않고 표시만 남긴다";
+CM_ SG_ 2298375691 WheelSpeed_RL "벤더 문서가 이 자리에도 WheelSpeed_FR 를 적었다(같은 이름 3회). 자매 프레임 HRW_EPS 가 같은 PGN 0xFE6E 에서 FL/FR/RL/RR 인 것을 따라 교정했다 | 벤더 문서가 Max 를 0 으로 남겼다. 16비트 필드의 상한이 0 일 수 없으므로 범위 미기재로 본다. 값을 만들지 않고 표시만 남긴다";
+CM_ SG_ 2298375691 WheelSpeed_FR "벤더 문서가 Max 를 0 으로 남겼다. 16비트 필드의 상한이 0 일 수 없으므로 범위 미기재로 본다. 값을 만들지 않고 표시만 남긴다";
+CM_ SG_ 2298375691 WheelSpeed_FL "벤더 문서가 Max 를 0 으로 남겼다. 16비트 필드의 상한이 0 일 수 없으므로 범위 미기재로 본다. 값을 만들지 않고 표시만 남긴다";
+CM_ SG_ 1087 TQI_TCU_INC_TCU1 "TCU requeseted engine RPM increase";
+CM_ SG_ 1087 N_TC "폭이 8비트로 절단되어 있었다. 65534 x 0.25 = 16383.5 로 선언 Max 와 정확히 일치하고 같은 프레임의 빈 비트가 정확히 48..55 여덟 개이므로 40..55 가 원래 폭이다";
+CM_ SG_ 1087 TCU_TYPE "벤더 문서가 Max 를 0 으로 남겼다. 2비트 필드의 상한이 0 일 수 없으므로 범위 미기재로 본다. 값을 만들지 않고 표시만 남긴다";
+CM_ SG_ 1087 SWI_CC "벤더 문서가 Max 를 0 으로 남겼다. 2비트 필드의 상한이 0 일 수 없으므로 범위 미기재로 본다. 값을 만들지 않고 표시만 남긴다";
 CM_ SG_ 1088 CUR_GR "This signal is only for \"RXC\" and \"RZD\" transmission.";
 CM_ SG_ 1088 ETL_TCU "This signal is only for \"RXC\" and \"RZD\" transmission.";
-CM_ SG_ 880 CF_Tcu_SptRdy "Factor 0 ì�€ ì˜¤ê¸°ë‹¤. ëª¨ë“  raw ê°’ì�´ 0 ìœ¼ë¡œ ë””ì½”ë”©ë�˜ì–´ í”Œëž˜ê·¸ê°€ 1 ì�´ ë�  ìˆ˜ ì—†ì—ˆë‹¤. 1ë¹„íŠ¸ [0..1] ì�´ë¯€ë¡œ Factor 1";
-CM_ SG_ 2565867006 TransCurrentRange "Range currently being commanded by the transmission control system. Characters may include P, Rx, Rx-1...R2, R1, R, Nx, Nx-1...N2, N1, N, D, D1, D2..., Dx, L, L1, L2..., Lx-1, 1, 2, 3,... If only one displayed character is required, the second â€¦";
-CM_ SG_ 2565867006 TransRequestedRange "Range selected by the operator. Characters may include P, Rx, Rx-1...R2, R1, R, Nx, Nx-1...N2, N1, N, D, D1, D2..., Dx, L, L1, L2..., Lx-1, 1, 2, 3,... If only one displayed character is required, the second character shall be used and the first â€¦";
+CM_ SG_ 880 CF_Tcu_SptRdy "Factor 0 은 오기다. 모든 raw 값이 0 으로 디코딩되어 플래그가 1 이 될 수 없었다. 1비트 [0..1] 이므로 Factor 1";
+CM_ SG_ 2565867006 TransCurrentRange "Range currently being commanded by the transmission control system. Characters may include P, Rx, Rx-1...R2, R1, R, Nx, Nx-1...N2, N1, N, D, D1, D2..., Dx, L, L1, L2..., Lx-1, 1, 2, 3,... If only one displayed character is required, the second …";
+CM_ SG_ 2565867006 TransRequestedRange "Range selected by the operator. Characters may include P, Rx, Rx-1...R2, R1, R, Nx, Nx-1...N2, N1, N, D, D1, D2..., Dx, L, L1, L2..., Lx-1, 1, 2, 3,... If only one displayed character is required, the second character shall be used and the first …";
 CM_ SG_ 2565867006 TransCurrentGear "The gear currently engaged in the transmission or the last gear engaged while the transmission is in the process of shifting to the new or selected gear. Transitions toward a destination gear will not be indicated. Once the selected gear has been ...";
 CM_ SG_ 2565867006 TransActualGearRatio "Actual ratio of input shaft speed to output shaft speed.";
 CM_ SG_ 2565867006 TransSelectedGear "The gear that the transmission will attempt to achieve during the current shift if a shift is in progress, or the next shift if one is pending (i.e., waiting for torque reduction to initiate the shift).";
-CM_ SG_ 2566831883 RelativeSpeedRearAxle2RightWheel "The speed of the rear axle #2, right wheel relative to the front axle speed, SPN 904. / Q11: ë²¤ë�” ë¬¸ì„œê°€ ì�´ í”„ë ˆìž„ì�„ ë‘� ë²ˆ(EBC2_CAR 5 ì‹œê·¸ë„� / EBC2_EPS 7 ì‹œê·¸ë„�) ì �ì—ˆë‹¤. ì‹¤ì œëŠ” Chassis -> Chassis uC ì�˜ EBC2 í•œ ìž¥ì�´ê³  J1939 ê·œê²©ëŒ€ë¡œ 7 ì‹œê·¸ë„�íŒ�ì�„ ì±„íƒ�í–ˆë‹¤. ì£¼ê¸°ëŠ” EBC2_CAR ì�˜ 100ms";
-CM_ SG_ 2566831883 RelativeSpeedRearAxle2LeftWheel "The speed of the rear axle #2, left wheel relative to the front axle speed, SPN 904. / Q11: ë²¤ë�” ë¬¸ì„œê°€ ì�´ í”„ë ˆìž„ì�„ ë‘� ë²ˆ(EBC2_CAR 5 ì‹œê·¸ë„� / EBC2_EPS 7 ì‹œê·¸ë„�) ì �ì—ˆë‹¤. ì‹¤ì œëŠ” Chassis -> Chassis uC ì�˜ EBC2 í•œ ìž¥ì�´ê³  J1939 ê·œê²©ëŒ€ë¡œ 7 ì‹œê·¸ë„�íŒ�ì�„ ì±„íƒ�í–ˆë‹¤. ì£¼ê¸°ëŠ” EBC2_CAR ì�˜ 100ms";
-CM_ SG_ 2566831883 RelativeSpeedRearAxle1RightWheel "The speed of the rear axle #1, right wheel relative to the front axle speed, SPN 904. / Q11: ë²¤ë�” ë¬¸ì„œê°€ ì�´ í”„ë ˆìž„ì�„ ë‘� ë²ˆ(EBC2_CAR 5 ì‹œê·¸ë„� / EBC2_EPS 7 ì‹œê·¸ë„�) ì �ì—ˆë‹¤. ì‹¤ì œëŠ” Chassis -> Chassis uC ì�˜ EBC2 í•œ ìž¥ì�´ê³  J1939 ê·œê²©ëŒ€ë¡œ 7 ì‹œê·¸ë„�íŒ�ì�„ ì±„íƒ�í–ˆë‹¤. ì£¼ê¸°ëŠ” EBC2_CAR ì�˜ 100ms";
-CM_ SG_ 2566831883 RelativeSpeedRearAxle1LeftWheel "The speed of the rear axle #1, left wheel relative to the front axle speed, SPN 904. / Q11: ë²¤ë�” ë¬¸ì„œê°€ ì�´ í”„ë ˆìž„ì�„ ë‘� ë²ˆ(EBC2_CAR 5 ì‹œê·¸ë„� / EBC2_EPS 7 ì‹œê·¸ë„�) ì �ì—ˆë‹¤. ì‹¤ì œëŠ” Chassis -> Chassis uC ì�˜ EBC2 í•œ ìž¥ì�´ê³  J1939 ê·œê²©ëŒ€ë¡œ 7 ì‹œê·¸ë„�íŒ�ì�„ ì±„íƒ�í–ˆë‹¤. ì£¼ê¸°ëŠ” EBC2_CAR ì�˜ 100ms";
-CM_ SG_ 2566831883 RelativeSpeedFrontAxleRightWheel "The speed of the front axle, right wheel relative to the front axle speed, SPN 904. / Q11: ë²¤ë�” ë¬¸ì„œê°€ ì�´ í”„ë ˆìž„ì�„ ë‘� ë²ˆ(EBC2_CAR 5 ì‹œê·¸ë„� / EBC2_EPS 7 ì‹œê·¸ë„�) ì �ì—ˆë‹¤. ì‹¤ì œëŠ” Chassis -> Chassis uC ì�˜ EBC2 í•œ ìž¥ì�´ê³  J1939 ê·œê²©ëŒ€ë¡œ 7 ì‹œê·¸ë„�íŒ�ì�„ ì±„íƒ�í–ˆë‹¤. ì£¼ê¸°ëŠ” EBC2_CAR ì�˜ 100ms";
-CM_ SG_ 2566831883 RelativeSpeedFrontAxleLeftWheel "The speed of the front axle, left wheel relative to the front axle speed, SPN 904. / Q11: ë²¤ë�” ë¬¸ì„œê°€ ì�´ í”„ë ˆìž„ì�„ ë‘� ë²ˆ(EBC2_CAR 5 ì‹œê·¸ë„� / EBC2_EPS 7 ì‹œê·¸ë„�) ì �ì—ˆë‹¤. ì‹¤ì œëŠ” Chassis -> Chassis uC ì�˜ EBC2 í•œ ìž¥ì�´ê³  J1939 ê·œê²©ëŒ€ë¡œ 7 ì‹œê·¸ë„�íŒ�ì�„ ì±„íƒ�í–ˆë‹¤. ì£¼ê¸°ëŠ” EBC2_CAR ì�˜ 100ms";
-CM_ SG_ 2566831883 FrontAxleSpeed "The average speed of the two front wheels. / Q11: ë²¤ë�” ë¬¸ì„œê°€ ì�´ í”„ë ˆìž„ì�„ ë‘� ë²ˆ(EBC2_CAR 5 ì‹œê·¸ë„� / EBC2_EPS 7 ì‹œê·¸ë„�) ì �ì—ˆë‹¤. ì‹¤ì œëŠ” Chassis -> Chassis uC ì�˜ EBC2 í•œ ìž¥ì�´ê³  J1939 ê·œê²©ëŒ€ë¡œ 7 ì‹œê·¸ë„�íŒ�ì�„ ì±„íƒ�í–ˆë‹¤. ì£¼ê¸°ëŠ” EBC2_CAR ì�˜ 100ms";
-CM_ SG_ 2566848766 ExtControlModeReq "EPSì œì–´ëª¨ë“œ(0 = off, 1= Ready, 2 = Feedback-free Torque, 3 = Motor Torque Control, 4 = Steer Angle Control), 5 = Cancel";
-CM_ SG_ 2566848766 FBFTorqueReq "Feedback-free Motor Torque ëª…ë ¹ (-2.0~ 2.0 Nm)";
-CM_ SG_ 2566848766 SteeringAngleReq "-850.0 ~ 850.0 deg ì œí•œ";
-CM_ SG_ 2566848766 MotorTorqueReq "Motor Torque ëª…ë ¹ (-2.0~ 2.0 Nm)";
-CM_ SG_ 2566849022 AngleCtrTorqueLimReq "Steering Trq ì œí•œê°’";
-CM_ SG_ 2566849022 AngleCtrlWeightReq "Str Angle Ctrl weight ìš”êµ¬ê°’";
-CM_ SG_ 2566849022 ActiveReturnWeightReq "Steering return weight ìš”êµ¬ê°’";
-CM_ SG_ 2566849278 SteeringWheelVibrationLv "ë²¤ë�”ê°€ Byte No ë¥¼ 1 ë¡œ ì �ì—ˆìœ¼ë‚˜ Start Bit 0/4/8 ì�´ ë¹ˆí‹ˆì—†ì�´ ì�´ì–´ì§€ë¯€ë¡œ Byte No ê°€ ì˜¤ê¸°ë‹¤";
-CM_ SG_ 2566832126 RelativeSpeedFrontAxle2RightWhee "The speed of the rear axle #2, right wheel relative to the front axle speed, SPN 904.";
-CM_ SG_ 2566832126 RelativeSpeedFrontAxle2LeftWheel "The speed of the rear axle #2, left wheel relative to the front axle speed, SPN 904.";
-CM_ SG_ 2566832126 RelativeSpeedFrontAxle1RightWhee "The speed of the rear axle #1, right wheel relative to the front axle speed, SPN 904.";
-CM_ SG_ 2566832126 RelativeSpeedFrontAxle1LeftWheel "The speed of the rear axle #1, left wheel relative to the front axle speed, SPN 904. / J1939 EBC2 ê·œê²©ì�€ ì�´ ìž�ë¦¬ë¥¼ RearAxle1 ë¡œ ì •ì�˜í•œë‹¤. ë²¤ë�” ë¬¸ì„œê°€ FrontAxle1 ë¡œ ì �ì—ˆë‹¤";
-CM_ SG_ 2566832126 RelativeSpeedFrontAxleRightWheel "The speed of the front axle, right wheel relative to the front axle speed, SPN 904.";
-CM_ SG_ 2566832126 RelativeSpeedFrontAxleLeftWheel "The speed of the front axle, left wheel relative to the front axle speed, SPN 904.";
-CM_ SG_ 2566832126 FrontAxleSpeed "The average speed of the two front wheels.";
+CM_ SG_ 2566831883 Relative_Speed_RR "The speed of the rear axle #1, right wheel relative to the front axle speed, SPN 904. / Q11: 벤더 문서가 이 프레임을 두 번(EBC2_CAR 5 시그널 / EBC2_EPS 7 시그널) 적었다. 실제는 Chassis -> Chassis uC 의 EBC2 한 장이고 J1939 규격대로 7 시그널판을 채택했다. 주기는 EBC2_CAR 의 100ms";
+CM_ SG_ 2566831883 Relative_Speed_RL "The speed of the rear axle #1, left wheel relative to the front axle speed, SPN 904. / Q11: 벤더 문서가 이 프레임을 두 번(EBC2_CAR 5 시그널 / EBC2_EPS 7 시그널) 적었다. 실제는 Chassis -> Chassis uC 의 EBC2 한 장이고 J1939 규격대로 7 시그널판을 채택했다. 주기는 EBC2_CAR 의 100ms";
+CM_ SG_ 2566831883 Relative_Speed_FR "The speed of the front axle, right wheel relative to the front axle speed, SPN 904. / Q11: 벤더 문서가 이 프레임을 두 번(EBC2_CAR 5 시그널 / EBC2_EPS 7 시그널) 적었다. 실제는 Chassis -> Chassis uC 의 EBC2 한 장이고 J1939 규격대로 7 시그널판을 채택했다. 주기는 EBC2_CAR 의 100ms";
+CM_ SG_ 2566831883 Relative_Speed_FL "The speed of the front axle, left wheel relative to the front axle speed, SPN 904. / Q11: 벤더 문서가 이 프레임을 두 번(EBC2_CAR 5 시그널 / EBC2_EPS 7 시그널) 적었다. 실제는 Chassis -> Chassis uC 의 EBC2 한 장이고 J1939 규격대로 7 시그널판을 채택했다. 주기는 EBC2_CAR 의 100ms";
+CM_ SG_ 2566831883 FrontAxleSpeed_CAR "The average speed of the two front wheels. / Q11: 벤더 문서가 이 프레임을 두 번(EBC2_CAR 5 시그널 / EBC2_EPS 7 시그널) 적었다. 실제는 Chassis -> Chassis uC 의 EBC2 한 장이고 J1939 규격대로 7 시그널판을 채택했다. 주기는 EBC2_CAR 의 100ms";
+CM_ SG_ 2566848766 ExtControlModeReq "EPS제어모드(0 = off, 1= Ready, 2 = Feedback-free Torque, 3 = Motor Torque Control, 4 = Steer Angle Control), 5 = Cancel";
+CM_ SG_ 2566848766 FBFTorqueReq "Feedback-free Motor Torque 명령 (-2.0~ 2.0 Nm)";
+CM_ SG_ 2566848766 SteeringAngleReq "-850.0 ~ 850.0 deg 제한";
+CM_ SG_ 2566848766 MotorTorqueReq "Motor Torque 명령 (-2.0~ 2.0 Nm)";
+CM_ SG_ 2566849022 AngleCtrTorqueLimReq "Steering Trq 제한값";
+CM_ SG_ 2566849022 AngleCtrlWeightReq "Str Angle Ctrl weight 요구값";
+CM_ SG_ 2566849022 ActiveReturnWeightReq "Steering return weight 요구값";
+CM_ SG_ 2566849278 SteeringWheelVibrationLv "벤더가 Byte No 를 1 로 적었으나 Start Bit 0/4/8 이 빈틈없이 이어지므로 Byte No 가 오기다";
+CM_ SG_ 2566832126 RelSpeedFrontAxle2RightWheel "The speed of the rear axle #2, right wheel relative to the front axle speed, SPN 904.";
+CM_ SG_ 2566832126 RelSpeedFrontAxle2LeftWheel "The speed of the rear axle #2, left wheel relative to the front axle speed, SPN 904.";
+CM_ SG_ 2566832126 RelSpeedFrontAxle1RightWheel "The speed of the rear axle #1, right wheel relative to the front axle speed, SPN 904.";
+CM_ SG_ 2566832126 RelSpeedFrontAxle1LeftWheel "The speed of the rear axle #1, left wheel relative to the front axle speed, SPN 904. / J1939 EBC2 규격은 이 자리를 RearAxle1 로 정의한다. 벤더 문서가 FrontAxle1 로 적었다";
+CM_ SG_ 2566832126 RelSpeedFrontAxleRightWheel "The speed of the front axle, right wheel relative to the front axle speed, SPN 904.";
+CM_ SG_ 2566832126 RelSpeedFrontAxleLeftWheel "The speed of the front axle, left wheel relative to the front axle speed, SPN 904.";
+CM_ SG_ 2566832126 FrontAxleSpeed_EPS "The average speed of the two front wheels.";
 CM_ SG_ 2565868030 LongitudinalAcceleration "Indicates the longitudinal acceleration of the vehicle. A positive longitudinal acceleration signal results when the vehicle speed increases, regardless of driving the vehicle forward or backward.";
 CM_ SG_ 2565868030 LateralAcceleration "Indicates a lateral acceleration of the vehicle (the component of vehicle acceleration vector along the Y-axis). A positive lateral acceleration signal results when the vehicle is accelerated to the left";
 CM_ SG_ 2565868030 YawRate "Indicates the rate of rotation about the vertical axis (i.e. the z-axis). A positive yaw rate signal results when the vehicle turns counter-clockwise.";
@@ -841,14 +831,8 @@ CM_ SG_ 2566842110 Minutes "The minutes component of the current time of day.";
 CM_ SG_ 2566842110 Seconds "The seconds component of the current time of day.";
 CM_ SG_ 2566832638 HighResolutionTripDistance "Distance traveled during all or part of a journey.";
 CM_ SG_ 2566832638 HghRsolutionTotalVehicleDistance "Accumulated distance traveled by the vehicle during its operation.";
-CM_ SG_ 2364540158 EngDemandPercentTorque "The requested torque output of the engine by all dynamic internal inputs, including smoke control, noise control and low and high speed governing.";
 CM_ SG_ 2364540158 EngStarterMode "0000 start not requested, 0001 starter active, gear not engaged, 0010 starter active, gear engaged, 0011 start finished; starter not active after";
-CM_ SG_ 2364540158 SrcAddrssOfCntrlIngDvcForEngCtrl "The source address of the SAE J1939 device currently controlling the engine.";
 CM_ SG_ 2364540158 EngSpeed "Actual engine speed which is calculated over a minimum crankshaft angle of 720 degrees divided by the number of cylinders.";
-CM_ SG_ 2364540158 ActualEngPercenTorque "The calculated output torque of the engine.";
-CM_ SG_ 2364540158 DriversDemandEngPercentTorque "The requested torque output of the engine by the driver.";
-CM_ SG_ 2364540158 ActIEngPrcntTorqueHighResolution "The requested torque output of the engine by the driver. / offset -125 ì™€ Max 125 ëŠ” í˜•ì œ SPN 513 (ActualEngPercenTorque 8ë¹„íŠ¸) ì—�ì„œ ë² ë‚€ ê°’ì�´ë‹¤. J1939-71 ì�˜ SPN 4154 ëŠ” 4ë¹„íŠ¸ x 0.125 % / offset 0 / ë²”ìœ„ 0~0.875 ì�´ë©° SPN 513 ì—� ë�”í•´ì§€ëŠ” ì†Œìˆ˜ë¶€ë‹¤. ë¹ˆ ë¹„íŠ¸ê°€ 52..55 ë�¼ í�­ í™•ìž¥ì�€ ë¶ˆê°€ëŠ¥í•˜ë‹¤";
-CM_ SG_ 2364540158 EngTorqueMode "State signal which indicates which engine torque mode is currently generating, limiting, or controlling the torque.";
 CM_ SG_ 2365484286 TachographVehicleSpeed "Speed of the vehicle registered by the tachograph.";
 CM_ SG_ 2365484286 TachographOutputShaftSpeed "Calculated speed of the transmission output shaft.";
 CM_ SG_ 2365484286 DirectionIndicator "Indicates the direction of the vehicle.
@@ -861,7 +845,7 @@ CM_ SG_ 2365484286 TachographPerformance "Indicates the tachograph performance; 
 00 - Normal performance
 01 - Performance analysis
 10 - Error
-11 - Not â€¦";
+11 - Not …";
 CM_ SG_ 2365484286 HandlingInformation "Indicates that handling information is present.
 
 00 - No handling information
@@ -900,7 +884,7 @@ CM_ SG_ 2365484286 Driver1TimeRelatedStates "Indicates if the driver approaches 
 0010 Limit #2 ?4 ?h reached
 0011 Limit #3 ?15 min before 9 h
 0100 Limit #4 ?9 h reached
-â€¦";
+…";
 CM_ SG_ 2365484286 VehicleMotion "Indicates whether motion of the vehicle is detected or not.
 
 00 Vehicle motion not detected
@@ -956,7 +940,7 @@ CM_ SG_ 2566844926 CruiseCtrlStates "This parameter is used to indicate the curr
 011 - Decelerate
 100 - Resume
 101 - Set
-110 - Accelerator â€¦";
+110 - Accelerator …";
 CM_ SG_ 2566844926 PTOGovernorState "This parameter is used to indicate the current state or mode of operation by the power takeoff (PTO) governor.";
 CM_ SG_ 2566844926 CruiseCtrlSetSpeed "Value of set (chosen) velocity of velocity control system.";
 CM_ SG_ 2566844926 CruiseCtrlAccelerateSwitch "Switch signal of the cruise control activator which indicates that the activator is in the position
@@ -973,7 +957,7 @@ CM_ SG_ 2566844926 CruiseCtrlSetSwitch "Switch signal of the cruise control acti
 11 - Not available";
 CM_ SG_ 2566844926 ClutchSwitch "Switch signal which indicates that the clutch pedal is being pressed. It is necessary for a safe drivetrain behavior that the clutch switch is set before the clutch is opened (cruise control function).
 00 - Clutch pedal released
-01 - Clutch pedal â€¦";
+01 - Clutch pedal …";
 CM_ SG_ 2566844926 BrakeSwitch "Switch signal which indicates that the driver operated brake foot pedal is being pressed.";
 CM_ SG_ 2566844926 CruiseCtrlEnableSwitch "Switch signal which indicates that it is possible to manage the cruise control function.
 
@@ -986,12 +970,12 @@ CM_ SG_ 2566844926 WheelBasedVehicleSpeed "Speed of the vehicle as calculated fr
 CM_ SG_ 2566844926 ParkBrakeReleaseInhibitRq "Park Brake Release Inhibit Request signals the desire that an applied park brake remain applied and limit the ability of the vehicle to be moved.
 00 - Park Brake Release Inhibit not requested
 01 - Park Brake Release Inhibit requested
-10 - SAE â€¦";
+10 - SAE …";
 CM_ SG_ 2566844926 CruiseCtrlPauseSwitch "Switch signal which indicates the position of the Cruise Control Pause Switch used on Remote Cruise Control applications. 
 00 - Off
 01 - On
-10 - Error â€¦";
-CM_ SG_ 2566844926 ParkingBrakeSwitch "Switch signal which indicates when the parking brake is set. 
+10 - Error …";
+CM_ SG_ 2566844926 ParkingBrakeSwitch_EPS "Switch signal which indicates when the parking brake is set. 
 00 - Parking brake not set";
 CM_ SG_ 2566844926 TwoSpeedAxleSwitch "Switch signal which indicates the current axle range.
 
@@ -1006,51 +990,51 @@ CM_ SG_ 2566849811 AmberWarningLampStatus_EPSO1 "This lamp is used to relay trou
 00     Lamp Off
 01     Lamp On
 10     Reserved
-11     Not available / ë²¤ë�” ì‹œíŠ¸ì�˜ ì�´ë¦„ì�„ ê·¸ëŒ€ë¡œ ì˜®ê²¼ë‹¤. ì ‘ë¯¸ì‚¬ EPSO1 ì�€ ì•ŒíŒŒë²³ O ì�´ê³  ë©”ì‹œì§€ ì�´ë¦„ EPS01 ì�€ ìˆ«ìž� 0 ì�´ë�¼ ì„œë¡œ ë‹¤ë¥´ë‹¤";
+11     Not available / 벤더 시트의 이름을 그대로 옮겼다. 접미사 EPSO1 은 알파벳 O 이고 메시지 이름 EPS01 은 숫자 0 이라 서로 다르다";
 CM_ SG_ 2566849811 EmergencySteerStatus "Signal indicated if the hydraulic system of the steering gear works or if electrical backup support is need in order to prevent dangerous situations.";
 CM_ SG_ 2566849811 ElectricalSteeringSupRedLv "Signal indicates the current level of torque reduction from electrical steering support.";
-CM_ SG_ 2566850067 ReservedData1_EPSO2 "ë²¤ë�” ì‹œíŠ¸ ê°±ì‹ ë¶„: ë¹„íŠ¸ 44 ì�˜ SteeringWheelVibrationMode ë¥¼ Reserved ë¡œ ëŒ€ì²´í•œë‹¤. ì�´ë¦„ ë³€ê²½ì�´ ì•„ë‹ˆë�¼ ê¸°ëŠ¥ ì‚­ì œì�´ë¯€ë¡œ ì�˜ë�„í•œ ê²ƒì�¸ì§€ ë²¤ë�” í™•ì�¸ í•„ìš”";
-CM_ SG_ 2566850067 ExtcontrolMode "ë²¤ë�” ì‹œíŠ¸ ê°±ì‹ ë¶„: ê¸°ì¡´ ì •ë³¸ì�˜ ExcontrolMode ëŠ” ì˜¤ê¸°ë‹¤";
-CM_ SG_ 2566850067 MotorTorque "ë²¤ë�” ì‹œíŠ¸ ê°±ì‹ ë¶„: factor ë¥¼ ë°˜ì˜¬ë¦¼ê°’ 0.000976563 ì—�ì„œ ì‹œíŠ¸ê°€ ì �ì�€ ì •í™•ê°’ 0.0009765625 (=2^-10) ìœ¼ë¡œ ë�˜ë�Œë ¸ë‹¤. ê°™ì�€ ë¬¼ë¦¬ ìŠ¤ì¼€ì�¼ì�´ë‹¤";
-CM_ SG_ 2566850067 DriverTorque "ë²¤ë�” ì‹œíŠ¸ ê°±ì‹ ë¶„: factor ë¥¼ ë°˜ì˜¬ë¦¼ê°’ 0.000976563 ì—�ì„œ ì‹œíŠ¸ê°€ ì �ì�€ ì •í™•ê°’ 0.0009765625 (=2^-10) ìœ¼ë¡œ ë�˜ë�Œë ¸ë‹¤. ê°™ì�€ ë¬¼ë¦¬ ìŠ¤ì¼€ì�¼ì�´ë‹¤";
+CM_ SG_ 2566850067 ReservedData1_EPSO2 "벤더 시트 갱신분: 비트 44 의 SteeringWheelVibrationMode 를 Reserved 로 대체한다. 이름 변경이 아니라 기능 삭제이므로 의도한 것인지 벤더 확인 필요";
+CM_ SG_ 2566850067 ExtcontrolMode "벤더 시트 갱신분: 기존 정본의 ExcontrolMode 는 오기다";
+CM_ SG_ 2566850067 MotorTorque "벤더 시트 갱신분: factor 를 반올림값 0.000976563 에서 시트가 적은 정확값 0.0009765625 (=2^-10) 으로 되돌렸다. 같은 물리 스케일이다";
+CM_ SG_ 2566850067 DriverTorque "벤더 시트 갱신분: factor 를 반올림값 0.000976563 에서 시트가 적은 정확값 0.0009765625 (=2^-10) 으로 되돌렸다. 같은 물리 스케일이다";
 CM_ SG_ 2565872915 ReservedData2_SAS1 "This Signal is for unused bytes in SAS1 msg";
 CM_ SG_ 2565872915 SteerAngleSensorCalibrated1 "This signal indicates the calibration status of the steering angle sensor.
 
-00 â€“ SAS not calibrated
-01 â€“ SAS calibrated
-10 â€“ Reserved
-11 â€“ Not available";
+00 – SAS not calibrated
+01 – SAS calibrated
+10 – Reserved
+11 – Not available";
 CM_ SG_ 2565872915 SteerAngleSensorActiveMode1 "This signal indicates the operational mode of the steering angle sensor.
 
-00 â€“ Programming mode active
-01 â€“ Normal mode active
-10 â€“ Reserved
-11 â€“ Not available";
+00 – Programming mode active
+01 – Normal mode active
+10 – Reserved
+11 – Not available";
 CM_ SG_ 2565872915 SteerWheelAngleRange1 "The signal indicates the range of  the steering wheel angle the sensor element is capable to measure. The steering wheel angle signal ranges between the negative and the positive value of the steering wheel angle range.
 For example, a steering ...";
 CM_ SG_ 2565872915 ReservedData1_SAS1 "This signal is for unused bytes in SAS1 msg";
 CM_ SG_ 2565872915 SteerWheelAngleRangeCounterType1 "The signal indicates whether the steering wheel angle sensor is capable of absolute measuring of the number of steering wheel angle ranges or not.  Absolute measuring means that the steering wheel angle range counter signal indicates the real ...";
 CM_ SG_ 2565872915 SteerWheelAngleRangeCounter1 "The signal indicates the number of steering wheel angle range overflows if the operating range of steering wheel is greater than the measuring range of sensor element. Positive values indicate left turns (counterclockwise). If the steering wheel ...";
-CM_ SG_ 2565872915 SteerWheelAngle1 "CCAN 0x2B0 ì�˜ SAS1 ê³¼ ì�´ë¦„ë§Œ ê°™ê³  ë¬´ê´€í•œ í”„ë ˆìž„ì�´ë‹¤ (ê·¸ìª½ì�€ SAS ëª¨ë“ˆ -> Chassis uC ì�˜ í˜„ëŒ€í˜•, ì�´ìª½ì�€ EPS -> Chassis uC ì�˜ SAE J1939 í˜•). ë²„ìŠ¤ë§ˆë‹¤ DBC ë¥¼ ë”°ë¡œ ë‚´ë¯€ë¡œ ìƒ�ì„± ì¶©ë�Œì�€ ì—†ë‹¤. ë²¤ë�” ë¬¸ì„œì™€ ëŒ€ì¡°ê°€ ë�˜ë�„ë¡� ì�´ë¦„ì�„ ë°”ê¾¸ì§€ ì•Šì•˜ë‹¤";
+CM_ SG_ 2565872915 SteerWheelAngle1 "CCAN 0x2B0 의 SAS1 과 이름만 같고 무관한 프레임이다 (그쪽은 SAS 모듈 -> Chassis uC 의 현대형, 이쪽은 EPS -> Chassis uC 의 SAE J1939 형). 버스마다 DBC 를 따로 내므로 생성 충돌은 없다. 벤더 문서와 대조가 되도록 이름을 바꾸지 않았다";
 CM_ SG_ 2565872916 ReservedData2_SAS2 "This Signal is for unused bytes in SAS1 msg";
 CM_ SG_ 2565872916 SteerAngleSensorCalibrated2 "This signal indicates the calibration status of the steering angle sensor.
 
-00 â€“ SAS not calibrated
-01 â€“ SAS calibrated
-10 â€“ Reserved
-11 â€“ Not available";
+00 – SAS not calibrated
+01 – SAS calibrated
+10 – Reserved
+11 – Not available";
 CM_ SG_ 2565872916 SteerAngleSensorActiveMode2 "This signal indicates the operational mode of the steering angle sensor.
 
-00 â€“ Programming mode active
-01 â€“ Normal mode active
-10 â€“ Reserved
-11 â€“ Not available";
+00 – Programming mode active
+01 – Normal mode active
+10 – Reserved
+11 – Not available";
 CM_ SG_ 2565872916 SteerWheelAngleRange2 "The signal indicates the range of  the steering wheel angle the sensor element is capable to measure. The steering wheel angle signal ranges between the negative and the positive value of the steering wheel angle range.
 For example, a steering ...";
 CM_ SG_ 2565872916 ReservedData1_SAS2 "This signal is for unused bytes in SAS1 msg";
 CM_ SG_ 2565872916 SteerWheelAngleRangeCounterType2 "The signal indicates whether the steering wheel angle sensor is capable of absolute measuring of the number of steering wheel angle ranges or not.  Absolute measuring means that the steering wheel angle range counter signal indicates the real ...";
 CM_ SG_ 2565872916 SteerWheelAngleRangeCounter2 "The signal indicates the number of steering wheel angle range overflows if the operating range of steering wheel is greater than the measuring range of sensor element. Positive values indicate left turns (counterclockwise). If the steering wheel ...";
-CM_ SG_ 2565872916 SteerWheelAngle2 "SAS1 ê³¼ ì‹œê·¸ë„� ì§‘í•©ì�´ ê°™ì�€ë�° ì£¼ê¸°ë§Œ 10 ms ëŒ€ 100 ms ë¡œ 10ë°° ë‹¤ë¥´ë‹¤. ë²¤ë�” ì‹œíŠ¸ ê°’ ê·¸ëŒ€ë¡œ ì „ì‚¬í–ˆë‹¤. ì�´ì¤‘í™” ì„¼ì„œë�¼ë©´ ì£¼ê¸°ê°€ ê°™ì•„ì•¼ í•˜ë¯€ë¡œ ë²¤ë�” í™•ì�¸ í•„ìš”";
+CM_ SG_ 2565872916 SteerWheelAngle2 "SAS1 과 시그널 집합이 같은데 주기만 10 ms 대 100 ms 로 10배 다르다. 벤더 시트 값 그대로 전사했다. 이중화 센서라면 주기가 같아야 하므로 벤더 확인 필요";
 CM_ SG_ 2565868307 TypeOfSteerTrans "Type of Steering Transmission (Ref. ECE Regulation 79 paragraph 2.6)
 0000 Purely mechanical steering transmission
 0001 Purely hydraulic steering transmission
@@ -1089,7 +1073,7 @@ CM_ SG_ 2566834707 FlashMalfuncIndicatorLamp "This parameter provides the capabi
 01 - Fast Flash (2 Hz or faster, 50% duty cycle)
 10 - Class C DTC
 11 - Unavailable / Do Not Flash
-Note: State 10 is for WWH OBD discriminatory â€¦";
+Note: State 10 is for WWH OBD discriminatory …";
 CM_ SG_ 2566834707 FlashRedStopLamp "This parameter provides the capability to flash the RSL
 00 - Slow Flash (1 Hz, 50 % duty cycle)
 01 - Fast Flash (2 Hz or faster, 50% duty cycle)
@@ -1127,13 +1111,11 @@ BA_DEF_ BO_  "GenMsgCycleTime" INT 0 65535;
 BA_DEF_  "BusType" STRING ;
 BA_DEF_ BO_  "VFrameFormat" ENUM  "StandardCAN","ExtendedCAN","reserved","J1939PG","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","StandardCAN_FD","ExtendedCAN_FD";
 BA_DEF_ BO_  "CANFD_BRS" ENUM  "0","1";
-BA_DEF_ SG_  "SystemSignalLongSymbol" STRING ;
 BA_DEF_DEF_  "GenMsgCycleTime" 0;
 BA_DEF_DEF_  "BusType" "";
 BA_DEF_DEF_  "VFrameFormat" "StandardCAN";
 BA_DEF_DEF_  "CANFD_BRS" "1";
-BA_DEF_DEF_  "SystemSignalLongSymbol" "";
-BA_ "BusType" "CAN FD";
+BA_ "BusType" "CAN";
 BA_ "GenMsgCycleTime" BO_ 170 10;
 BA_ "GenMsgCycleTime" BO_ 2633994444 20;
 BA_ "VFrameFormat" BO_ 2633994444 1;
@@ -1190,49 +1172,46 @@ BA_ "GenMsgCycleTime" BO_ 1064 20;
 BA_ "GenMsgCycleTime" BO_ 1087 10;
 BA_ "GenMsgCycleTime" BO_ 1088 10;
 BA_ "GenMsgCycleTime" BO_ 880 10;
+BA_ "VFrameFormat" BO_ 2565867006 1;
 BA_ "GenMsgCycleTime" BO_ 2565867006 100;
-BA_ "VFrameFormat" BO_ 2565867006 15;
 BA_ "GenMsgCycleTime" BO_ 2566831883 100;
 BA_ "VFrameFormat" BO_ 2566831883 1;
+BA_ "VFrameFormat" BO_ 2566848766 1;
 BA_ "GenMsgCycleTime" BO_ 2566848766 10;
-BA_ "VFrameFormat" BO_ 2566848766 15;
+BA_ "VFrameFormat" BO_ 2566849022 1;
 BA_ "GenMsgCycleTime" BO_ 2566849022 10;
-BA_ "VFrameFormat" BO_ 2566849022 15;
+BA_ "VFrameFormat" BO_ 2566849278 1;
 BA_ "GenMsgCycleTime" BO_ 2566849278 10;
-BA_ "VFrameFormat" BO_ 2566849278 15;
+BA_ "VFrameFormat" BO_ 2566832126 1;
 BA_ "GenMsgCycleTime" BO_ 2566832126 10;
-BA_ "VFrameFormat" BO_ 2566832126 15;
+BA_ "VFrameFormat" BO_ 2565868030 1;
 BA_ "GenMsgCycleTime" BO_ 2565868030 10;
-BA_ "VFrameFormat" BO_ 2565868030 15;
+BA_ "VFrameFormat" BO_ 2566842110 1;
 BA_ "GenMsgCycleTime" BO_ 2566842110 1000;
-BA_ "VFrameFormat" BO_ 2566842110 15;
+BA_ "VFrameFormat" BO_ 2566832638 1;
 BA_ "GenMsgCycleTime" BO_ 2566832638 1000;
-BA_ "VFrameFormat" BO_ 2566832638 15;
+BA_ "VFrameFormat" BO_ 2364540158 1;
 BA_ "GenMsgCycleTime" BO_ 2364540158 10;
-BA_ "VFrameFormat" BO_ 2364540158 15;
+BA_ "VFrameFormat" BO_ 2365484286 1;
 BA_ "GenMsgCycleTime" BO_ 2365484286 20;
-BA_ "VFrameFormat" BO_ 2365484286 15;
+BA_ "VFrameFormat" BO_ 2298375934 1;
 BA_ "GenMsgCycleTime" BO_ 2298375934 20;
-BA_ "VFrameFormat" BO_ 2298375934 15;
+BA_ "VFrameFormat" BO_ 2566844926 1;
 BA_ "GenMsgCycleTime" BO_ 2566844926 20;
-BA_ "VFrameFormat" BO_ 2566844926 15;
+BA_ "VFrameFormat" BO_ 2566849811 1;
 BA_ "GenMsgCycleTime" BO_ 2566849811 10;
-BA_ "VFrameFormat" BO_ 2566849811 15;
+BA_ "VFrameFormat" BO_ 2566850067 1;
 BA_ "GenMsgCycleTime" BO_ 2566850067 10;
-BA_ "VFrameFormat" BO_ 2566850067 15;
+BA_ "VFrameFormat" BO_ 2565872915 1;
 BA_ "GenMsgCycleTime" BO_ 2565872915 10;
-BA_ "VFrameFormat" BO_ 2565872915 15;
+BA_ "VFrameFormat" BO_ 2565872916 1;
 BA_ "GenMsgCycleTime" BO_ 2565872916 100;
-BA_ "VFrameFormat" BO_ 2565872916 15;
+BA_ "VFrameFormat" BO_ 2565868307 1;
 BA_ "GenMsgCycleTime" BO_ 2565868307 20;
-BA_ "VFrameFormat" BO_ 2565868307 15;
+BA_ "VFrameFormat" BO_ 2566834707 1;
 BA_ "GenMsgCycleTime" BO_ 2566834707 1000;
-BA_ "VFrameFormat" BO_ 2566834707 15;
-BA_ "SystemSignalLongSymbol" SG_ 2566878191 Chassis_Operation_Status_Reserve "Chassis_Operation_Status_Reserved1";
-BA_ "SystemSignalLongSymbol" SG_ 2566832126 RelativeSpeedFrontAxle2RightWhee "RelativeSpeedFrontAxle2RightWheel";
-BA_ "SystemSignalLongSymbol" SG_ 2566832126 RelativeSpeedFrontAxle1RightWhee "RelativeSpeedFrontAxle1RightWheel";
-VAL_ 170 CC_AEBS 0 "Invalid" 1 "None" 7 "AEBS" ;
-VAL_ 170 CC_E_STOP 0 "Invalid" 1 "None" 7 "ESTOP" ;
+VAL_ 170 AEBS_AA 0 "Invalid" 1 "None" 7 "AEBS" ;
+VAL_ 170 E_STOP_AA 0 "Invalid" 1 "None" 7 "ESTOP" ;
 VAL_ 2633994444 CC_Net_Link_Count 0 "No Link" ;
 VAL_ 2633994444 CC_Net_Level 0 "No Link" 1 "Worst" 10 "Best" ;
 VAL_ 2566869708 CC_Status_FireGunCAM 0 "Invalid" 1 "Fault" 2 "Reserved" 3 "Normal" ;
@@ -1240,12 +1219,12 @@ VAL_ 2566869708 CC_Status_ThermalCAM 0 "Invalid" 1 "Fault" 2 "Reserved" 3 "Norma
 VAL_ 2566869708 CC_RS_Data_Route_Connected 0 "Invalid" 1 "Not Conn" 2 "Fail" 3 "Connected" ;
 VAL_ 2566869708 CC_RS_Streaming_Route_Connected 0 "Invalid" 1 "Not Conn" 2 "Fail" 3 "Connected" ;
 VAL_ 2566869708 CC_Streaming_Mode 0 "Invalid" 1 "Thermal Mode" 2 "Visible Mode" ;
-VAL_ 2365542604 Brake_Position 101 "Invalid" ;
-VAL_ 2365542604 Throttle_Position 101 "Invalid" ;
-VAL_ 2365542604 Gear_Position 0 "Invalid" 1 "P" 2 "R" 3 "N" 4 "D" 7 "Fault" ;
-VAL_ 2365542604 Chassis_Op_Mode 0 "Invalid" 1 "Manual" 2 "RS" ;
-VAL_ 171 VC_AEBS 0 "Invalid" 1 "None" 7 "AEBS" ;
-VAL_ 171 E_STOP 0 "Invalid" 1 "None" 7 "ESTOP" ;
+VAL_ 2365542604 Brake_Position_CC 101 "Invalid" ;
+VAL_ 2365542604 Throttle_Position_CC 101 "Invalid" ;
+VAL_ 2365542604 Gear_Position_CC 0 "Invalid" 1 "P" 2 "R" 3 "N" 4 "D" 7 "Fault" ;
+VAL_ 2365542604 Chassis_Op_Mode_CC 0 "Invalid" 1 "Manual" 2 "RS" ;
+VAL_ 171 AEBS_AB 0 "Invalid" 1 "None" 7 "AEBS" ;
+VAL_ 171 E_STOP_AB 0 "Invalid" 1 "None" 7 "ESTOP" ;
 VAL_ 2633994428 VC_Net_Link_Count 0 "No Link" ;
 VAL_ 2633994428 VC_Net_Level 0 "No Link" 1 "Worst" 10 "Best" ;
 VAL_ 2566873532 VC_Status_FAKRA_6 0 "Invalid" 1 "Fault" 2 "No Camera" 3 "Normal" ;
@@ -1257,10 +1236,10 @@ VAL_ 2566873532 VC_Status_FAKRA_1 0 "Invalid" 1 "Fault" 2 "No Camera" 3 "Normal"
 VAL_ 2566873532 VC_RS_Data_Route_Connected 0 "Invalid" 1 "Not Conn" 2 "Fail" 3 "Connected" ;
 VAL_ 2566873532 VC_RS_Streaming_Route_Connected 0 "Invalid" 1 "Not Conn" 2 "Fail" 3 "Connected" ;
 VAL_ 2566873532 VC_Streaming_Mode 0 "Invalid" 1 "ViewMode1" 2 "ViewMode2" ;
-VAL_ 2365546684 Brake_Position 101 "Invalid" ;
-VAL_ 2365546684 Throttle_Position 101 "Invalid" ;
-VAL_ 2365546684 Gear_Position 0 "Invalid" 1 "P" 2 "R" 3 "N" 4 "D" 7 "Fault" ;
-VAL_ 2365546684 Chassis_Op_Mode 0 "Invalid" 1 "Manual" 2 "RS" ;
+VAL_ 2365546684 Brake_Position_VC 101 "Invalid" ;
+VAL_ 2365546684 Throttle_Position_VC 101 "Invalid" ;
+VAL_ 2365546684 Gear_Position_VC 0 "Invalid" 1 "P" 2 "R" 3 "N" 4 "D" 7 "Fault" ;
+VAL_ 2365546684 Chassis_Op_Mode_VC 0 "Invalid" 1 "Manual" 2 "RS" ;
 VAL_ 2566877423 SideBrake_Position_FB 0 "Invalid" 1 "Released" 2 "Applied" ;
 VAL_ 2566877423 Brake_Position_FB 101 "Invalid" ;
 VAL_ 2566877423 Throttle_Position_FB 101 "Invalid" ;
@@ -1276,10 +1255,15 @@ VAL_ 2566877935 Gear_Selector_Status 0 "Invalid" 1 "Normal" 4 "Warning" 7 "Fault
 VAL_ 2566877935 Brake_Actuator_Status 0 "Invalid" 1 "Normal" 4 "Warning" 7 "Fault" ;
 VAL_ 2566877935 Gear_Actuator_Status 0 "Invalid" 1 "Normal" 4 "Warning" 7 "Fault" ;
 VAL_ 2566878191 Chassis_uC_Status_Error 0 "Invalid" 1 "Normal" 4 "Warning" 7 "Fault" ;
+VAL_ 2566878191 Chassis_State_Machine_Status_VC 0 "Invalid" 1 "S0" 2 "S1" 3 "S2" 4 "S3" 5 "S4" 6 "S5" 7 "S6" 8 "Reserved" 9 "Reserved" 10 "Reserved" 11 "Reserved" 12 "Reserved" 13 "Reserved" 14 "Reserved" 15 "Reserved" ;
+VAL_ 2566882026 FSM_State_Machine_Status 0 "Invalid" 1 "S0" 2 "S1" 3 "S2" 4 "S3" 5 "S4" 6 "S5" 7 "S6" 8 "Reserved" 9 "Reserved" 10 "Reserved" 11 "Reserved" 12 "Reserved" 13 "Reserved" 14 "Reserved" 15 "Reserved" ;
+VAL_ 2566878447 Chassis_State_Machine_Status_FSM 0 "Invalid" 1 "S0" 2 "S1" 3 "S2" 4 "S3" 5 "S4" 6 "S5" 7 "S6" 8 "Reserved" 9 "Reserved" 10 "Reserved" 11 "Reserved" 12 "Reserved" 13 "Reserved" 14 "Reserved" 15 "Reserved" ;
 VAL_ 1385 BRK_ZeroSet 0 "set the current deg to 0 deg" 1 "set the current deg to -180 deg" ;
 VAL_ 2147494249 BRK_WU_ErrorCode 0 "Normal" 1 "Motor Over-Temperature" 2 "Driver Over-Current" 3 "Input Over-Voltage" 4 "Input Under-Voltage" 5 "Encoder Error" 6 "MOSFET Over-Temperature" 7 "Motor Lockup" ;
 VAL_ 394 Encoder_Direction 1 "CW" -1 "CCW" ;
+VAL_ 1802 Status_Gear_Selector 0 "Boot-up" 4 "Stopped" 5 "Operational" 127 "Pre-operational" ;
 VAL_ 1384 GA_ZeroSet 0 "set the current deg to 0 deg" 1 "set the current deg to -180 deg" ;
 VAL_ 2147494248 GA_WU_ErrorCode 0 "Normal" 1 "Motor Over-Temperature" 2 "Driver Over-Current" 3 "Input Over-Voltage" 4 "Input Under-Voltage" 5 "Encoder Error" 6 "MOSFET Over-Temperature" 7 "Motor Lockup" ;
+VAL_ 1264 SPEED_UNIT 0 "km/h" 1 "MPH" ;
 VAL_ 2566849811 SysState 0 "Undefined" 1 "NMWait" 2 "T30Wait" 3 "PreDrive" 4 "DriveDown" 5 "DriveUp" 6 "PostRun" 7 "Off" 8 "Error" 9 "Flash" 10 "Low Voltage" 11 "RES" 12 "RES" 13 "RES" 14 "ERR" 15 "SNA" ;
 

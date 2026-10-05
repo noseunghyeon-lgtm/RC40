@@ -153,6 +153,9 @@ function build_rc40_model(cfg)
             [dir, grp] = rc40_can_direction(S, cfg);
             if isempty(dir), continue; end
             if strcmp(dir,'Out'), blockType='Outport'; else, blockType='Inport'; end
+            if ~(isfield(cfg,'canGrouping') && strcmpi(cfg.canGrouping,'flat'))
+                grp = sprintf('%s/%s', grp, canMessageGroupName(S, cfg));
+            end
             sub = ensureSubsystem(name, grp, subs, cfg);
             if isfield(cfg,'canPortNaming') && strcmpi(cfg.canPortNaming,'message')
                 portName = sanitize(sprintf('%s_%s', S.message, S.name));
@@ -199,6 +202,14 @@ function setPortDims(blk, cfg)
         set_param(blk, 'PortDimensions', cfg.portDimensions);
     catch
         % Outport (or a release without the param): ignore.
+    end
+end
+
+function nm = canMessageGroupName(S, cfg)
+    % Subsystem name for one CAN message, e.g. 'VC_Streaming_Status_0x18FF61BC'.
+    nm = sanitize(S.message);
+    if isfield(cfg,'canSubsystemIncludeId') && cfg.canSubsystemIncludeId
+        nm = sprintf('%s_0x%X', nm, S.id);
     end
 end
 

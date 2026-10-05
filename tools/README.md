@@ -188,13 +188,21 @@ VC_Streaming_Mode, VC_Streaming_Reserved
 
 CAN 포트명에는 `cfg.appendTypeSuffix`(HwInp/HwOutp용, 기본 off)와는 **별개의
 독립된 플래그**를 사용합니다. CAN 쪽은 기본적으로 접미사가 붙습니다
-(예: `VSC_AliveCounter_u8`).
+(예: `VSC_AliveCounter_u8`, `GA_WU_Current_s16`).
 
+- 비트폭은 MASAR `Data Type`(E열)의 숫자(8/16/32/64)에서, **부호는 `Signed`
+  (AD열)이 최종 기준**입니다. E열의 글자(`u`/`i`/`s`)만으로 부호를 추측하지
+  않습니다 — 과거 버그: `i16`/`s16`처럼 signed를 나타내는 접두사가 `i`뿐 아니라
+  `s`로도 쓰여 있어, `i`만 보고 판정하면 `s16` 신호가 전부 unsigned로
+  잘못 떨어졌습니다 (예: `GA_Status` 메시지).
+- E열과 AD열이 서로 다르면(예: `BRK_Status`의 `BRK_WU_Position`은 E=`u16`인데
+  AD=`Signed`) **AD열(Signed)이 우선**하고, 생성 시 경고를 띱니다.
 - MASAR Data Type이 `u8`이고 신호 길이(bit length)가 **1**이면 → `boolean`으로
   취급해 **`_I`** 접미사를 붙입니다 (예: `Status_Center_Push_I`).
-- 그 외 타입은 `rc40_type_suffix.m` 매핑을 그대로 사용(`_u8`, `_u16`, `_i16` 등).
+- 부호 있는 접미사는 `_s8`/`_s16`/`_s32`/`_s64`, 부호 없는 접미사는
+  `_u8`/`_u16`/`_u32`/`_u64` (`rc40_type_suffix.m`).
 - MASAR Excel(`canSource='excel'`)과 DBC(`canSource='dbc'`) 양쪽 경로 모두
-  동일한 규칙(길이 1 -> boolean)을 적용합니다.
+  동일한 규칙을 적용합니다.
 
 ## CAN 값 모드 (`cfg.canValueMode`, 기본 `'raw'`)
 

@@ -247,7 +247,7 @@ Power/Ground/SensorSupply 핀은 포트로 만들지 않습니다(`cfg.includePo
 | Use | 생성 위치 | BSW 통합 코드 |
 |-----|----------|---------------|
 | `ON` (기본, 빈칸도 ON) | `HwInp/<class>`, `HwOutp/<class>` | 포함 |
-| `OFF` | `Unused/HwInp/<class>`, `Unused/HwOutp/<class>` | 제외 |
+| `OFF` | `Unused/HwInp/<class>`, `Unused/HwOutp/<class>` | 주석(`//`) 처리된 전용 섹션에 포함 |
 
 서브시스템 이름은 `cfg.unusedGroup`(기본 `'Unused'`)으로 바꿀 수 있습니다.
 
@@ -273,6 +273,27 @@ Power/Ground/SensorSupply 핀은 포트로 만들지 않습니다(`cfg.includePo
 - `CurrentSignal`(전류)은 `_VI` 핀 ID로 인덱스를 만듭니다: K42 → `HwInp_s.AnI_as[DevInp_K42_VI_D]`
   (`cfg.currentIndexSuffix`, 기본 `'_VI'`).
 - 멀티포트 Description은 데이터시트(RE 95208, p.13~14, 17~20) 기준입니다.
+
+### `.c` 파일도 Simulink와 같은 방식으로 구분
+
+생성되는 `<modelName>_bsw_integration.c`도 Simulink 모델의 `Unused` 서브시스템과
+똑같이 Use=ON/OFF로 구분됩니다.
+
+```c
+/* ================= Used pins (Use=ON) ================= */
+... (평소처럼 바로 쓰는 코드) ...
+
+/* ================= Unused pins (Use=OFF in RC40_Pinmap.xlsx) =================
+   Commented out: these pins live in the Unused/HwInp|HwOutp subsystems and are
+   not wired into BSW integration. Set Use=ON and re-generate to activate. */
+/* ----- HwOutp / PropSig [UNUSED] ----- */
+// HwOutp_s.PropSig_as[DevOutp_K80_D].inp_s.stErrReactn_e = ErrReactn_s.outp_s.ErrReactn_s.PropSig_as_DevOutp_K80_D_stErrReactn_e;
+// HwOutp_s.PropSig_as[DevOutp_K80_D].inp_s.flgSp_l = TRUE;
+// HwOutp_s.PropSig_as[DevOutp_K80_D].inp_s.dutyCycSp_perml_u16 = Veh_s.GW1_Core_s.outp_s.PO_s.K80;
+```
+
+- Unused 핀 코드는 전체가 `//`로 주석 처리되어 있어 그대로 복사해도 컴파일에 영향이 없습니다.
+- Excel에서 Use를 `ON`으로 바꾸고 재생성하면 Used 섹션으로 올라오고 주석이 사라집니다.
 
 ### 드롭다운 다시 만들기
 

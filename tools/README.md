@@ -163,6 +163,28 @@ HwOutp_s.PropSig_as[DevOutp_K81_D].inp_s.dutyCycSp_perml_u16 = Veh_s.GW1_Core_s.
 - **데이터형** (`OutDataTypeStr`): Type/신호에서 도출한 타입 (uint8/uint16/...)
 - **포트 차원** (`PortDimensions`): `cfg.portDimensions` (기본 `'1'`, 스칼라)
 
+## CAN 메시지별 서브시스템 (`cfg.canGrouping`, 기본 `'byMessage'`)
+
+CAN 신호는 `CAN_Rx`/`CAN_Tx` 아래에 다시 **메시지(CAN ID)별 하위 서브시스템**
+으로 묶입니다. HwInp/HwOutp가 핀 클래스별로 중첩된 것과 같은 구조라서, 어느
+데이터가 어디 있는지 CAN ID만 보고 바로 찾을 수 있습니다.
+
+```
+CAN_Rx
+├── VC_Streaming_Status_0x18FF61BC   (10개 포트: VC_Streaming_Mode, VC_Status_FAKRA_1~6, ...)
+├── GA_Status_0x...                   (5개 포트: GA_WU_Current, GA_WU_Position, ...)
+└── ... (총 40개 메시지, 297개 포트)
+CAN_Tx
+├── ... (총 24개 메시지, 146개 포트)
+```
+
+- 서브시스템 이름은 `<메시지명>_0x<CAN ID 16진수>` 형태입니다
+  (`cfg.canSubsystemIncludeId`, 기본 on; 끄면 메시지명만 사용).
+- 한 메시지 안의 신호 순서는 `cfg.canSignalOrder`(알파벳순, 위 참고)를 그대로
+  따릅니다.
+- `cfg.canGrouping = 'flat'`로 바꾸면 이전처럼 `CAN_Rx`/`CAN_Tx`에 평면적으로
+  생성됩니다.
+
 ## CAN 포트 생성 순서 (`cfg.canSignalOrder`, 기본 `'alpha'`)
 
 ASW의 **Bus Assignment 블록**은 한 메시지의 신호를 **이름 알파벳순**(대소문자

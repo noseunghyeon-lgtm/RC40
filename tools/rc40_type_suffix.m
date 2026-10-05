@@ -5,7 +5,7 @@ function sfx = rc40_type_suffix(dataType)
 %   short suffix seen in the model (e.g. SteeringAngle_u16, MC_EPSO1_u8,
 %   HydraulicFailure_l).
 %
-%   boolean -> l    (logical/flag)
+%   boolean -> I    (logical/flag; e.g. a CAN signal with bit length 1)
 %   uint8   -> u8    int8  -> i8
 %   uint16  -> u16   int16 -> i16
 %   uint32  -> u32   int32 -> i32
@@ -15,7 +15,7 @@ function sfx = rc40_type_suffix(dataType)
 %   Unknown types return '' (no suffix appended).
 
     switch lower(strtrim(dataType))
-        case 'boolean', sfx = 'l';
+        case 'boolean', sfx = 'I';
         case 'uint8',   sfx = 'u8';
         case 'uint16',  sfx = 'u16';
         case 'uint32',  sfx = 'u32';

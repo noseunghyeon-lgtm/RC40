@@ -92,6 +92,12 @@ cfg.includeCommPins     = true;
 % (The type/unit/range is documented in each subsystem's guide annotation.)
 cfg.appendTypeSuffix   = false;
 
+% Same, but for CAN signal port names (independent of cfg.appendTypeSuffix
+% above). Kept ON by default: CAN port names in the model carry their type
+% (e.g. VSC_AliveCounter_u8, Status_FAKRA_1_I). A u8-typed signal with bit
+% length 1 is emitted as boolean -> '_I' suffix (rc40_type_suffix.m).
+cfg.canAppendTypeSuffix = true;
+
 % Prefix analog input port names with PD_ / PU_ based on the Description
 % (Pull-Down / Pull-Up), e.g. PD_K38_APP_Sig1. PD_ = Pull-Down.
 cfg.usePullPrefix      = true;

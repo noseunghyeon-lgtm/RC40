@@ -158,7 +158,7 @@ function build_rc40_model(cfg)
             else
                 portName = sanitize(S.name);                      % signal-level name
             end
-            portName = appendTypeSuffix(portName, S.dataType, cfg); % e.g. _u8, _u16
+            portName = appendTypeSuffix(portName, S.dataType, cfg, 'canAppendTypeSuffix'); % e.g. _u8, _I
             blk = sprintf('%s/%s', sub, portName);
             blk = addPortBlock(blk, blockType);   % may append _N if name clashes
             dt = S.dataType;                 % already a Simulink type string
@@ -222,9 +222,9 @@ function sigs = loadCanSignals(cfg)
             for i=1:numel(raw)
                 r = raw(i);
                 if strcmpi(cfg.canValueMode,'raw')
-                    dt = masarTypeToSimulink(r.dataType, 1, 0);          % raw integer type
+                    dt = masarTypeToSimulink(r.dataType, 1, 0, r.length);   % raw integer type
                 else
-                    dt = masarTypeToSimulink(r.dataType, r.factor, r.offset);
+                    dt = masarTypeToSimulink(r.dataType, r.factor, r.offset, r.length);
                 end
                 s = makeSig(r.message, r.node, r.name, dt, r.id, r.extended, ...
                     r.startBit, r.length, r.signed, r.byteOrder, ...
@@ -269,14 +269,20 @@ function s = makeSig(message,node,name,dataType,id,extended,startBit,length_, ..
         'min',mn,'max',mx,'unit',unit,'dir',dir,'receivers',{receivers});
 end
 
-function dt = masarTypeToSimulink(masarType, factor, offset)
+function dt = masarTypeToSimulink(masarType, factor, offset, bitLen)
+    % bitLen (optional): DBC/MASAR signal bit length. A u8 signal with
+    % bitLen==1 is a single-bit flag -> treated as boolean (suffix '_I').
     t = lower(strtrim(masarType));
     switch t
         case 'u8',  dt='uint8';  case 'u16', dt='uint16'; case 'u32', dt='uint32'; case 'u64', dt='uint64';
         case 'i8',  dt='int8';   case 'i16', dt='int16';  case 'i32', dt='int32';  case 'i64', dt='int64';
         otherwise,  dt='uint16';
     end
-    if (factor~=1 || offset~=0), dt='single'; end   % scaled -> physical value
+    if nargin>=4 && strcmp(t,'u8') && bitLen==1
+        dt='boolean';
+    elseif (factor~=1 || offset~=0)
+        dt='single';   % scaled -> physical value
+    end
 end
 
 function m = applyOverride(m, pinName, cfg)
@@ -504,9 +510,13 @@ function nm = choosePortName(p, m, cfg)
     nm = base;
 end
 
-function nm = appendTypeSuffix(nm, dataType, cfg)
+function nm = appendTypeSuffix(nm, dataType, cfg, flagName)
     % Append data-type suffix to a port name, e.g. SteeringAngle -> SteeringAngle_u16.
-    if ~(isfield(cfg,'appendTypeSuffix') && cfg.appendTypeSuffix), return; end
+    % flagName selects which cfg flag gates this call ('appendTypeSuffix' for
+    % HwInp/HwOutp pins, 'canAppendTypeSuffix' for CAN signals) so the two can
+    % be turned on/off independently.
+    if nargin<4, flagName = 'appendTypeSuffix'; end
+    if ~(isfield(cfg,flagName) && cfg.(flagName)), return; end
     sfx = rc40_type_suffix(dataType);
     if ~isempty(sfx) && ~endsWith(nm, ['_' sfx])
         nm = [nm '_' sfx];
@@ -545,9 +555,11 @@ function dt = canSignalDataType(S, cfg)
     else
         if bits<=8, dt='uint8'; elseif bits<=16, dt='uint16'; elseif bits<=32, dt='uint32'; else, dt='uint64'; end
     end
-    % 'phys' mode -> scaled signals become single; 'raw' keeps integer type.
-    if nargin>1 && strcmpi(cfg.canValueMode,'phys') && (S.factor~=1 || S.offset~=0)
-        dt='single';
+    % An unsigned 1-bit (u8-range) signal is a flag -> boolean (suffix '_I').
+    if ~S.signed && bits==1
+        dt='boolean';
+    elseif nargin>1 && strcmpi(cfg.canValueMode,'phys') && (S.factor~=1 || S.offset~=0)
+        dt='single';   % 'phys' mode -> scaled signals become single; 'raw' keeps integer type.
     end
 end
 

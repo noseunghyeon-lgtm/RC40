@@ -163,6 +163,18 @@ HwOutp_s.PropSig_as[DevOutp_K81_D].inp_s.dutyCycSp_perml_u16 = Veh_s.GW1_Core_s.
 - **데이터형** (`OutDataTypeStr`): Type/신호에서 도출한 타입 (uint8/uint16/...)
 - **포트 차원** (`PortDimensions`): `cfg.portDimensions` (기본 `'1'`, 스칼라)
 
+## CAN 포트명 데이터타입 접미사 (`cfg.canAppendTypeSuffix`, 기본 **on**)
+
+CAN 포트명에는 `cfg.appendTypeSuffix`(HwInp/HwOutp용, 기본 off)와는 **별개의
+독립된 플래그**를 사용합니다. CAN 쪽은 기본적으로 접미사가 붙습니다
+(예: `VSC_AliveCounter_u8`).
+
+- MASAR Data Type이 `u8`이고 신호 길이(bit length)가 **1**이면 → `boolean`으로
+  취급해 **`_I`** 접미사를 붙입니다 (예: `Status_Center_Push_I`).
+- 그 외 타입은 `rc40_type_suffix.m` 매핑을 그대로 사용(`_u8`, `_u16`, `_i16` 등).
+- MASAR Excel(`canSource='excel'`)과 DBC(`canSource='dbc'`) 양쪽 경로 모두
+  동일한 규칙(길이 1 -> boolean)을 적용합니다.
+
 ## CAN 값 모드 (`cfg.canValueMode`, 기본 `'raw'`)
 
 - `'raw'`: 버스 원시 정수 타입 그대로(`u16`→`uint16` 등). factor/offset 무시.

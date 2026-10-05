@@ -163,6 +163,27 @@ HwOutp_s.PropSig_as[DevOutp_K81_D].inp_s.dutyCycSp_perml_u16 = Veh_s.GW1_Core_s.
 - **데이터형** (`OutDataTypeStr`): Type/신호에서 도출한 타입 (uint8/uint16/...)
 - **포트 차원** (`PortDimensions`): `cfg.portDimensions` (기본 `'1'`, 스칼라)
 
+## CAN 포트 생성 순서 (`cfg.canSignalOrder`, 기본 `'alpha'`)
+
+ASW의 **Bus Assignment 블록**은 한 메시지의 신호를 **이름 알파벳순**(대소문자
+무시)으로 나열합니다. DBC/Excel의 선언 순서(비트 위치 순서)와는 다릅니다.
+생성되는 Inport/Outport가 이 Bus Assignment 순서와 1:1로 맞도록, **메시지별로
+그룹을 유지하면서 그룹 내부는 신호명 알파벳순**으로 포트를 만듭니다.
+
+예: `VC_Streaming_Status` 메시지(10개 신호)는 DBC 선언 순서가
+`VC_Status_FAKRA_6, ..._5, ..._4, ..., VC_Streaming_Mode`(비트 위치 역순)인데,
+생성되는 포트 순서는 Bus Assignment와 같은 순서입니다:
+
+```
+VC_RS_Data_Route_Connected, VC_RS_Streaming_Route_Connected,
+VC_Status_FAKRA_1, VC_Status_FAKRA_2, ..., VC_Status_FAKRA_6,
+VC_Streaming_Mode, VC_Streaming_Reserved
+```
+
+- `'alpha'` (기본): 메시지는 처음 등장한 순서로 그룹 유지, 그룹 내부는 신호명
+  알파벳순 — Bus Assignment와 일치.
+- `'declared'`: 정렬하지 않고 DBC/Excel 선언 순서 그대로 사용.
+
 ## CAN 포트명 데이터타입 접미사 (`cfg.canAppendTypeSuffix`, 기본 **on**)
 
 CAN 포트명에는 `cfg.appendTypeSuffix`(HwInp/HwOutp용, 기본 off)와는 **별개의

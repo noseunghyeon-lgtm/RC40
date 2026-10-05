@@ -245,9 +245,9 @@ function sigs = loadCanSignals(cfg)
             for i=1:numel(raw)
                 r = raw(i);
                 if strcmpi(cfg.canValueMode,'raw')
-                    dt = masarTypeToSimulink(r.dataType, 1, 0, r.length);   % raw integer type
+                    dt = masarTypeToSimulink(r.dataType, 1, 0, r.length, r.signed, r.name);   % raw integer type
                 else
-                    dt = masarTypeToSimulink(r.dataType, r.factor, r.offset, r.length);
+                    dt = masarTypeToSimulink(r.dataType, r.factor, r.offset, r.length, r.signed, r.name);
                 end
                 s = makeSig(r.message, r.node, r.name, dt, r.id, r.extended, ...
                     r.startBit, r.length, r.signed, r.byteOrder, ...
@@ -292,20 +292,57 @@ function s = makeSig(message,node,name,dataType,id,extended,startBit,length_, ..
         'min',mn,'max',mx,'unit',unit,'dir',dir,'receivers',{receivers});
 end
 
-function dt = masarTypeToSimulink(masarType, factor, offset, bitLen)
-    % bitLen (optional): DBC/MASAR signal bit length. A u8 signal with
-    % bitLen==1 is a single-bit flag -> treated as boolean (suffix '_I').
+function dt = masarTypeToSimulink(masarType, factor, offset, bitLen, isSigned, sigName)
+    % masarType gives the WIDTH (8/16/32/64 bits, from its trailing digits);
+    % the AD "Signed"/"Unsigned" column (isSigned) is the AUTHORITY on sign,
+    % per user requirement -- do not infer sign from the masarType letter
+    % prefix alone (the Dataset sheet uses both 'i' and 's' prefixes for
+    % signed, e.g. i16 and s16, and 'otherwise' silently defaulted to
+    % uint16, which is the bug this fixes).
+    %
+    % bitLen (optional): DBC/MASAR signal bit length. A 8-bit unsigned signal
+    % with bitLen==1 is a single-bit flag -> treated as boolean (suffix '_I').
+    % isSigned (optional, default false): value of the Dataset "Signed" column.
+    % sigName (optional): used only to make warnings traceable to a signal.
+
     t = lower(strtrim(masarType));
-    switch t
-        case 'u8',  dt='uint8';  case 'u16', dt='uint16'; case 'u32', dt='uint32'; case 'u64', dt='uint64';
-        case 'i8',  dt='int8';   case 'i16', dt='int16';  case 'i32', dt='int32';  case 'i64', dt='int64';
-        otherwise,  dt='uint16';
+    widthTok = regexp(t, '(\d+)$', 'tokens', 'once');
+    if isempty(widthTok)
+        warning('rc40:CanDataType', '%sUnrecognized MASAR Data Type "%s" -- defaulting to uint16.', ...
+            ternary2(nargin>=6 && ~isempty(sigName), [sigName ': '], ''), masarType);
+        dt = 'uint16';
+        return;
     end
-    if nargin>=4 && strcmp(t,'u8') && bitLen==1
+    width = widthTok{1};
+
+    if nargin < 5, isSigned = false; end
+    % Flag an inconsistent sheet (Data Type letter disagrees with the Signed
+    % column) instead of silently picking one; the Signed column still wins.
+    typeSaysSigned = startsWith(t,'i') || startsWith(t,'s');
+    if typeSaysSigned ~= logical(isSigned)
+        warning('rc40:CanSignedMismatch', ...
+            '%sData Type "%s" and Signed column ("%s") disagree -- using Signed column.', ...
+            ternary2(nargin>=6 && ~isempty(sigName), [sigName ': '], ''), masarType, ...
+            ternary2(isSigned,'Signed','Unsigned'));
+    end
+
+    if isSigned, dt = ['int' width]; else, dt = ['uint' width]; end
+    if ~any(strcmp(dt, {'int8','int16','int32','int64','uint8','uint16','uint32','uint64'}))
+        warning('rc40:CanDataType', '%sUnsupported width "%s" (from "%s") -- defaulting to uint16.', ...
+            ternary2(nargin>=6 && ~isempty(sigName), [sigName ': '], ''), width, masarType);
+        dt = 'uint16';
+        return;
+    end
+
+    if nargin>=4 && strcmp(dt,'uint8') && bitLen==1
         dt='boolean';
     elseif (factor~=1 || offset~=0)
         dt='single';   % scaled -> physical value
     end
+end
+
+function s = ternary2(cond, a, b)
+    if cond, s = a; else, s = b; end
 end
 
 function m = applyOverride(m, pinName, cfg)

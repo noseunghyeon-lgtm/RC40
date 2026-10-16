@@ -36,7 +36,8 @@ function build_rc40_model(cfg)
     counters = containers.Map('KeyType','char','ValueType','double'); % y position per subsystem
 
     nMade = 0; nSkipped = 0; nUnused = 0; report = {};
-    hwPins = struct('dir',{},'hwArray',{},'index',{},'portName',{},'used',{});  % for BSW snippets
+    hwPins = struct('dir',{},'hwArray',{},'index',{},'portName',{},'used',{}, ...
+                    'pin',{},'desc',{});  % for BSW snippets + Os10msProc.c
 
     % ---- 3. signal ports --------------------------------------------------------
     for i = 1:numel(pins)
@@ -75,6 +76,7 @@ function build_rc40_model(cfg)
 
         m = rc40_typemap(p.type, io, p.desc);
         m = applyOverride(m, p.name, cfg);   % per-pin corrections (Excel gaps / MASAR reconfig)
+        m = refineByPinName(m, p.name);      % *_VI -> FrqShnt, two-pin channel -> FrqPha
         if ~m.valid
             msg = sprintf('Unrecognized Type/IO: %s (Type=%s, IO=%s)', p.name, p.type, p.inout);
             if strcmp(cfg.onUnknownType,'error')
@@ -127,8 +129,14 @@ function build_rc40_model(cfg)
         % remember for BSW snippet generation (both used and unused pins,
         % so the .c file shows a matching Unused section, same as the model)
         idx = regexp(masarRef, '\[(.*)\]', 'tokens', 'once');
+        % pin id as used inside HwInp_getPinIdx*_DU16(<pin>) / HwOutp_getPinIdx*_DU16(<pin>)
+        pinId = p.name;
+        if strcmp(m.direction,'In') && strcmp(m.hwArray,'AnI') && ~endsWith(pinId,'_VI')
+            pinId = [pinId getfielddef(cfg,'currentIndexSuffix','_VI')];
+        end
         hwPins(end+1) = struct('dir',m.direction,'hwArray',m.hwArray, ...
-            'index',idx{1},'portName',portName,'used',isUsed); %#ok<AGROW>
+            'index',idx{1},'portName',portName,'used',isUsed, ...
+            'pin',pinId,'desc',lower(p.desc)); %#ok<AGROW>
         if ~isUsed, nUnused = nUnused + 1; end
 
         % auto layout
@@ -176,6 +184,11 @@ function build_rc40_model(cfg)
     % ---- 4b. BSW integration snippets ------------------------------------------
     if isfield(cfg,'genBswSnippets') && cfg.genBswSnippets
         writeBswSnippets(hwPins, cfg);
+    end
+
+    % ---- 4c. integration-ready Os10msProc.c (pin lists + HwOutp assignments) ---
+    if isfield(cfg,'genOs10msProc') && cfg.genOs10msProc
+        rc40_gen_os10ms(hwPins, cfg);
     end
 
     % ---- 5. save + report -------------------------------------------------------
@@ -343,6 +356,20 @@ function s = ternary2(cond, a, b)
     if cond, s = a; else, s = b; end
 end
 
+function m = refineByPinName(m, pinName)
+    % Pin-name based class refinement for frequency inputs:
+    %   K30_VI, A43_VI, K55_VI ...   -> FrqShnt (DSM capable, shunt)   [HwInpFrqShnt]
+    %   A59_A44 (two physical pins)  -> FrqPha  (frequency + phase)    [HwInpFrqPha]
+    % Matches the HwInp_getPinIdxFrqShnt_DU16(K30_VI) / getChIdxFrqPha_DU16(..)
+    % entries in Os10msProc.c.
+    if ~strcmp(m.hwArray,'FrqStd'), return; end
+    if ~isempty(regexp(pinName, '^[A-Z]\d+(_VI)?_[A-Z]\d+(_VI)?$', 'once'))
+        m.hwArray = 'FrqPha';  m.hwClass = 'HwInpFrqPha';
+    elseif endsWith(pinName, '_VI')
+        m.hwArray = 'FrqShnt'; m.hwClass = 'HwInpFrqShnt';
+    end
+end
+
 function m = applyOverride(m, pinName, cfg)
     if ~isfield(cfg,'overrides') || ~isKey(cfg.overrides, pinName), return; end
     o = cfg.overrides(pinName);
@@ -499,6 +526,7 @@ function emitPinSnippet(fid, hp)
             case 'FrqStd', fprintf(fid, '/* %s */ x = %s.frq_p1Hz_u32;\n',hp.portName, base);
             case 'R',      fprintf(fid, '/* %s */ x = %s.r_Ohm_u32;\n',  hp.portName, base);
             case 'Sent',   fprintf(fid, '/* %s */ x = %s.dataSerlMsg_u16;\n', hp.portName, base);
+            case {'FrqShnt','FrqPha'}, fprintf(fid, '/* %s */ x = %s.frq_p1Hz_u32;\n', hp.portName, base);
         end
     end
     fprintf(fid, '\n');   % blank line between pins, like the real code

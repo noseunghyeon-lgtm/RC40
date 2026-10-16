@@ -66,7 +66,15 @@ function m = rc40_typemap(excelType, inout, description)
             elseif isOut
                 m.valid=true; m.direction='Out'; m.blockType='Outport';
                 m.dataType='boolean'; m.unit='state';
-                m.hwArray='DigSig'; m.hwClass='HwOutpDigSig';
+                % 200 mA small-signal switching outputs (K84..K87) -> DigSig.
+                % All other digital outputs are "power switching" outputs
+                % (A01, A04, A10, K13, ...) -> DigPwr (HwOutpDigPwr), which is
+                % what HwOutp_getPinIdxDigPwr_DU16() in Os10msProc.c expects.
+                if contains(d,'200 ma')
+                    m.hwArray='DigSig'; m.hwClass='HwOutpDigSig';
+                else
+                    m.hwArray='DigPwr'; m.hwClass='HwOutpDigPwr';
+                end
             end
 
         case 'currentsignal'

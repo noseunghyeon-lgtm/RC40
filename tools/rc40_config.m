@@ -138,21 +138,16 @@ cfg.genBswSnippets     = true;
 %   2) Os10msProc_HwOutpPinChList_as[]   - one entry per output pin, class from Type
 %   3) HwOutp_s.<cls>_as[..].inp_s.*     - setpoint assignments (Use=ON active,
 %                                          Use=OFF commented)
-%   4) HwInp_s.<cls>_as[..].outp_s.*     - input reads (commented by default)
 % Everything else in the file is copied byte-for-byte. The result is written to
 % cfg.os10msOut so the committed Os10msProc.c is never overwritten.
 cfg.genOs10msProc      = true;
 cfg.os10msTemplate     = fullfile(repoRoot, 'Os10msProc.c');
 cfg.os10msOut          = fullfile(repoRoot, 'generated', 'Os10msProc.c');
 
-% Application signal buses the HwOutp assignments read from / HwInp reads feed.
+% Application signal bus the HwOutp assignments read from.
 % Outputs: <appOutpBus>.PO_s.<port> (duty/current/voltage), .DO_s.<port> (digital)
+% (HwInp -> application reads are done by the integration engineer.)
 cfg.appOutpBus         = 'Veh_s.GW1_Core_s.outp_s';
-cfg.appInpBus          = 'Veh_s.GW1_Core_s.inp_s';
-
-% HwInp reads: 'commented' (default, destination bus must be confirmed),
-% 'active', or 'off'.
-cfg.os10msInputs       = 'commented';
 
 % PropPwr pins driven as an enable flag only (FctDigCtrl / FctPwrSply modes):
 % flgSp_l comes from DO_s.<port>, no current/duty line is written.

@@ -438,76 +438,6 @@ void Os10msProc(void)
       // HwInp backward compatibility: use HwInp(NULL, 0u);
       HwInp(Os10msProc_HwInpPinList_as, Os10msProc_HwInpPinListLen_u16);
 
-      // ---- HwInp reads generated from RC40_Pinmap.xlsx by rc40_gen_os10ms ----
-      // Commented out: confirm the destination bus (cfg.appInpBus), then remove the leading //
-      // Veh_s.GW1_Core_s.inp_s.K21_ENG_INHBIT_1 = HwInp_s.Dig_as[DevInp_K21_D].outp_s.flg_l;
-      // Veh_s.GW1_Core_s.inp_s.K22_ENG_INHBIT_2 = HwInp_s.Dig_as[DevInp_K22_D].outp_s.flg_l;
-      // Veh_s.GW1_Core_s.inp_s.PU_K31_MODE_MN = HwInp_s.AnU_as[DevInp_K31_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.PU_K34_MODE_RM = HwInp_s.AnU_as[DevInp_K34_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.K38_APP_SIG1 = HwInp_s.Dig_as[DevInp_K38_D].outp_s.flg_l;
-      // Veh_s.GW1_Core_s.inp_s.K39_APP_SIG2 = HwInp_s.Dig_as[DevInp_K39_D].outp_s.flg_l;
-      // ---- Use = OFF pins ----
-      // Veh_s.GW1_Core_s.inp_s.PD_A13 = HwInp_s.AnU_as[DevInp_A13_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.PU_A14 = HwInp_s.AnU_as[DevInp_A14_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.A21 = HwInp_s.AnU_as[DevInp_A21_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.A22 = HwInp_s.FrqStd_as[DevInp_A22_D].outp_s.frq_p1Hz_u32;
-      // Veh_s.GW1_Core_s.inp_s.A23 = HwInp_s.FrqStd_as[DevInp_A23_D].outp_s.frq_p1Hz_u32;
-      // Veh_s.GW1_Core_s.inp_s.A24 = HwInp_s.FrqStd_as[DevInp_A24_D].outp_s.frq_p1Hz_u32;
-      // Veh_s.GW1_Core_s.inp_s.PD_A25 = HwInp_s.AnU_as[DevInp_A25_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.PD_A26 = HwInp_s.AnU_as[DevInp_A26_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.PD_A27 = HwInp_s.AnU_as[DevInp_A27_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.PU_A28 = HwInp_s.AnU_as[DevInp_A28_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.PU_A29 = HwInp_s.AnU_as[DevInp_A29_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.A36 = HwInp_s.AnU_as[DevInp_A36_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.A37 = HwInp_s.AnU_as[DevInp_A37_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.A38 = HwInp_s.AnU_as[DevInp_A38_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.A39 = HwInp_s.AnU_as[DevInp_A39_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.PD_A40 = HwInp_s.AnU_as[DevInp_A40_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.PD_A41 = HwInp_s.AnU_as[DevInp_A41_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.PD_A42 = HwInp_s.AnU_as[DevInp_A42_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.A43 = HwInp_s.Dig_as[DevInp_A43_D].outp_s.flg_l;
-      // Veh_s.GW1_Core_s.inp_s.A43_VI = HwInp_s.FrqShnt_as[DevInp_A43_VI_D].outp_s.frq_p1Hz_u32;
-      // Veh_s.GW1_Core_s.inp_s.PU_A57 = HwInp_s.AnU_as[DevInp_A57_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.A59 = HwInp_s.AnU_as[DevInp_A59_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.A59_A44 = HwInp_s.FrqPha_as[DevInp_A59_A44_D].outp_s.frq_p1Hz_u32;
-      // Veh_s.GW1_Core_s.inp_s.PU_K10 = HwInp_s.AnU_as[DevInp_K10_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.PU_K11 = HwInp_s.AnU_as[DevInp_K11_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.K30 = HwInp_s.AnU_as[DevInp_K30_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.K30_VI = HwInp_s.FrqShnt_as[DevInp_K30_VI_D].outp_s.frq_p1Hz_u32;
-      // Veh_s.GW1_Core_s.inp_s.K32 = HwInp_s.AnU_as[DevInp_K32_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.K33 = HwInp_s.R_as[DevInp_K33_D].outp_s.r_Ohm_u32;
-      // Veh_s.GW1_Core_s.inp_s.PU_K35 = HwInp_s.AnU_as[DevInp_K35_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.K36 = HwInp_s.FrqStd_as[DevInp_K36_D].outp_s.frq_p1Hz_u32;  // handled in the 1ms task
-      // Veh_s.GW1_Core_s.inp_s.K37 = HwInp_s.AnU_as[DevInp_K37_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.K37_VI = HwInp_s.FrqShnt_as[DevInp_K37_VI_D].outp_s.frq_p1Hz_u32;
-      // Veh_s.GW1_Core_s.inp_s.K40 = HwInp_s.Dig_as[DevInp_K40_D].outp_s.flg_l;
-      // Veh_s.GW1_Core_s.inp_s.K41 = HwInp_s.Dig_as[DevInp_K41_D].outp_s.flg_l;
-      // Veh_s.GW1_Core_s.inp_s.K42 = HwInp_s.Dig_as[DevInp_K42_D].outp_s.flg_l;
-      // Veh_s.GW1_Core_s.inp_s.K43 = HwInp_s.AnU_as[DevInp_K43_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.K44 = HwInp_s.R_as[DevInp_K44_D].outp_s.r_Ohm_u32;
-      // Veh_s.GW1_Core_s.inp_s.K45 = HwInp_s.R_as[DevInp_K45_D].outp_s.r_Ohm_u32;
-      // Veh_s.GW1_Core_s.inp_s.K52 = HwInp_s.AnU_as[DevInp_K52_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.K53 = HwInp_s.FrqStd_as[DevInp_K53_D].outp_s.frq_p1Hz_u32;  // handled in the 1ms task
-      // Veh_s.GW1_Core_s.inp_s.K54 = HwInp_s.AnU_as[DevInp_K54_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.K54_VI = HwInp_s.FrqShnt_as[DevInp_K54_VI_D].outp_s.frq_p1Hz_u32;
-      // Veh_s.GW1_Core_s.inp_s.K55 = HwInp_s.AnU_as[DevInp_K55_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.K55_VI = HwInp_s.FrqShnt_as[DevInp_K55_VI_D].outp_s.frq_p1Hz_u32;
-      // Veh_s.GW1_Core_s.inp_s.K56 = HwInp_s.Sent_as[DevInp_K56_D].outp_s.dataSerlMsg_u16;
-      // Veh_s.GW1_Core_s.inp_s.K57 = HwInp_s.FrqStd_as[DevInp_K57_D].outp_s.frq_p1Hz_u32;
-      // Veh_s.GW1_Core_s.inp_s.K58 = HwInp_s.FrqStd_as[DevInp_K58_D].outp_s.frq_p1Hz_u32;
-      // Veh_s.GW1_Core_s.inp_s.K59 = HwInp_s.Sent_as[DevInp_K59_D].outp_s.dataSerlMsg_u16;  // handled in the 1ms task
-      // Veh_s.GW1_Core_s.inp_s.K60 = HwInp_s.AnU_as[DevInp_K60_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.K61 = HwInp_s.AnU_as[DevInp_K61_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.K61_VI = HwInp_s.FrqShnt_as[DevInp_K61_VI_D].outp_s.frq_p1Hz_u32;
-      // Veh_s.GW1_Core_s.inp_s.K63 = HwInp_s.R_as[DevInp_K63_D].outp_s.r_Ohm_u32;
-      // Veh_s.GW1_Core_s.inp_s.K64 = HwInp_s.R_as[DevInp_K64_D].outp_s.r_Ohm_u32;
-      // Veh_s.GW1_Core_s.inp_s.K65 = HwInp_s.R_as[DevInp_K65_D].outp_s.r_Ohm_u32;
-      // Veh_s.GW1_Core_s.inp_s.PU_K74 = HwInp_s.AnU_as[DevInp_K74_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.PU_K75 = HwInp_s.AnU_as[DevInp_K75_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.PU_K76 = HwInp_s.AnU_as[DevInp_K76_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.PU_K77 = HwInp_s.AnU_as[DevInp_K77_D].outp_s.u_mV_u16;
-      // Veh_s.GW1_Core_s.inp_s.PU_K78 = HwInp_s.AnU_as[DevInp_K78_D].outp_s.u_mV_u16;
-
     }
 	
     OsCmn_toc(&Os10msProc_s.prv_s.tiTskRtHelp_us_u64, &Os10msProc_s.prv_s.tiTskRtHwInp_us_u32); // Run time measurement
@@ -877,7 +807,7 @@ void Os10msProc(void)
       // HwOutp_s.PropPwr_as[DevOutp_K08HS_D].inp_s.flgSp_l = TRUE;
       // HwOutp_s.PropPwr_as[DevOutp_K08HS_D].inp_s.iSp_mA_u16 = (uint16)Veh_s.GW1_Core_s.outp_s.PO_s.HS_K08;
 
-      // K09: handled in the 1ms task (see pin list), not assigned here
+      // K09: used in 1ms (processed in another task), not assigned here
       // HwOutp_s.PropPwr_as[DevOutp_K09HS_D].inp_s.stErrReactn_e = ErrReactn_s.outp_s.ErrReactn_s.PropPwr_as_DevOutp_K09HS_D_stErrReactn_e;
       // HwOutp_s.PropPwr_as[DevOutp_K09HS_D].inp_s.flgSp_l = TRUE;
       // HwOutp_s.PropPwr_as[DevOutp_K09HS_D].inp_s.iSp_mA_u16 = (uint16)Veh_s.GW1_Core_s.outp_s.PO_s.HS_K09;
@@ -886,7 +816,7 @@ void Os10msProc(void)
       // HwOutp_s.PropPwr_as[DevOutp_K29HS_D].inp_s.flgSp_l = TRUE;
       // HwOutp_s.PropPwr_as[DevOutp_K29HS_D].inp_s.iSp_mA_u16 = (uint16)Veh_s.GW1_Core_s.outp_s.PO_s.HS_K29;
 
-      // K51: handled in the 1ms task (see pin list), not assigned here
+      // K51: used in 1ms (processed in another task), not assigned here
       // HwOutp_s.PropPwr_as[DevOutp_K51HS_D].inp_s.stErrReactn_e = ErrReactn_s.outp_s.ErrReactn_s.PropPwr_as_DevOutp_K51HS_D_stErrReactn_e;
       // HwOutp_s.PropPwr_as[DevOutp_K51HS_D].inp_s.flgSp_l = TRUE;
       // HwOutp_s.PropPwr_as[DevOutp_K51HS_D].inp_s.dutyCycSp_perml_u16 = (uint16)Veh_s.GW1_Core_s.outp_s.PO_s.HS_K51;

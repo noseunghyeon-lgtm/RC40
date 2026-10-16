@@ -14,12 +14,14 @@ function outFile = rc40_gen_os10ms(hwPins, cfg)
 %     2. Os10msProc_HwOutpPinChList_as[]  same for output pins.
 %     3. HwOutp_s.<cls>_as[<idx>].inp_s.* setpoint assignments
 %        (stErrReactn_e / flgSp_l / value line, as in the existing code).
-%     4. HwInp_s.<cls>_as[<idx>].outp_s.* input reads (commented by default).
+%     (Reading HwInp values into the application is left to the integration
+%      engineer; no input read code is generated.)
 %
 %   Rules
 %     - Use = ON  -> active line;  Use = OFF -> same line commented out.
-%     - Entries marked "used in 1ms" in the template stay untouched (they are
-%       processed by the 1ms task, not here).
+%     - Entries the template marks "used in <N>ms" (N ~= 10) stay untouched and
+%       their HwOutp assignment is commented with the cycle time, because those
+%       pins are processed by another task.
 %     - Blocks guarded by HWTGT_RC5640 are copied verbatim (other target).
 %     - Template entries whose pin is not in the Pinmap are kept but commented
 %       out and reported; Pinmap pins missing in the template are appended.
@@ -62,13 +64,13 @@ function outFile = rc40_gen_os10ms(hwPins, cfg)
     outP = hwPins(strcmp({hwPins.dir}, 'Out'));
 
     % ---- 1+2: pin lists --------------------------------------------------------
-    [newIn,  ms1In,  stIn ] = rewriteList(lines(iIn+1:iInE-1),   inP,  'In');
-    [newOut, ms1Out, stOut] = rewriteList(lines(iOut+1:iOutE-1), outP, 'Out');
+    [newIn,  msIn,  stIn ] = rewriteList(lines(iIn+1:iInE-1),   inP,  'In');
+    [newOut, msOut, stOut] = rewriteList(lines(iOut+1:iOutE-1), outP, 'Out');
 
     hdr = '      // Generated from RC40_Pinmap.xlsx by rc40_gen_os10ms (Use=ON: active, Use=OFF: commented)';
 
     % ---- 3: HwOutp assignments -------------------------------------------------
-    asg = buildOutpAssign(outP, ms1Out, cfg);
+    asg = buildOutpAssign(outP, msOut, cfg);
     legacy = lines(iAsgnLst+1:iAsgnEnd-1);
     legacy = legacy(~cellfun(@(s) isempty(strtrim(s)), legacy));
     if ~isempty(legacy)
@@ -88,13 +90,10 @@ function outFile = rc40_gen_os10ms(hwPins, cfg)
     end
     asg{end+1} = '';
 
-    % ---- 4: HwInp reads --------------------------------------------------------
-    inpBlock = buildInpReads(inP, ms1In, cfg);
-
     % ---- assemble ---------------------------------------------------------------
     outLines = [ lines(1:iIn), {hdr}, newIn, ...
             lines(iInE:iOut), {hdr}, newOut, ...
-            lines(iOutE:iInCall), inpBlock, ...
+            lines(iOutE:iInCall), ...
             lines(iInCall+1:iAsgnLst), asg, ...
             lines(iAsgnEnd:end) ];
     outTxt = strjoin(outLines, char(10));
@@ -112,17 +111,18 @@ function outFile = rc40_gen_os10ms(hwPins, cfg)
     fprintf('\nOs10msProc.c written: %s\n', outFile);
     fprintf('  HwInp  pin list : %d active, %d commented, %d appended\n', stIn.active,  stIn.commented,  stIn.added);
     fprintf('  HwOutp pin list : %d active, %d commented, %d appended\n', stOut.active, stOut.commented, stOut.added);
-    reportList('HwInp',  stIn,  inP,  ms1In);
-    reportList('HwOutp', stOut, outP, ms1Out);
+    reportList('HwInp',  stIn,  inP,  msIn);
+    reportList('HwOutp', stOut, outP, msOut);
 end
 
 % ============================================================================
-function [newBody, ms1, st] = rewriteList(body, pins, D)
+function [newBody, ms, st] = rewriteList(body, pins, D)
 %REWRITELIST  Rewrite the entries of one pin list, keeping its structure.
     byPin = containers.Map('KeyType','char','ValueType','double');
     for i = 1:numel(pins), byPin(pins(i).pin) = i; end
     seen = false(1, numel(pins));
-    newBody = {};  ms1 = {};
+    newBody = {};
+    ms = containers.Map('KeyType','char','ValueType','char');   % pin -> cycle time [ms]
     st = struct('active',0,'commented',0,'added',0,'changed',{{}},'missing',{{}});
     guard = '';
     entryPat = ['^(?://)?\s*\{\s*Hw(?:Inp|Outp)_(?:Inp|Outp)Typ(\w+?)_E,\s*' ...
@@ -140,8 +140,9 @@ function [newBody, ms1, st] = rewriteList(body, pins, D)
             newBody{end+1} = L;  continue; %#ok<AGROW>   % verbatim
         end
         cls = tok{1};  pin = tok{3};
-        if strncmp(s, '//', 2) && ~isempty(strfind(lower(s), 'used in 1ms')) %#ok<STREMP>
-            ms1{end+1} = pin; %#ok<AGROW>
+        tk = regexp(lower(s), 'used in\s*(\d+)\s*ms', 'tokens', 'once');
+        if strncmp(s, '//', 2) && ~isempty(tk) && ~strcmp(tk{1}, '10')
+            ms(pin) = tk{1};                     % processed by another task
             if isKey(byPin, pin), seen(byPin(pin)) = true; end
             newBody{end+1} = L;  continue; %#ok<AGROW>
         end
@@ -201,7 +202,7 @@ function s = entryLine(D, cls, pin, commented, tail)
 end
 
 % ----------------------------------------------------------------------------
-function L = buildOutpAssign(outP, ms1Out, cfg)
+function L = buildOutpAssign(outP, msOut, cfg)
 %BUILDOUTPASSIGN  HwOutp setpoint assignments (3-line sets like Os10msProc.c).
     L = {};
     L{end+1} = '      // ---- generated from RC40_Pinmap.xlsx by rc40_gen_os10ms ----';
@@ -221,9 +222,9 @@ function L = buildOutpAssign(outP, ms1Out, cfg)
                 hp = sel(i);
                 if ~strcmp(hp.hwArray, cs{ci}), continue; end
                 pl = outpPinLines(hp, cfg);
-                inMs = any(strcmp(ms1Out, hp.pin));
+                inMs = isKey(msOut, hp.pin);
                 if inMs
-                    L{end+1} = sprintf('      // %s: handled in the 1ms task (see pin list), not assigned here', hp.pin); %#ok<AGROW>
+                    L{end+1} = sprintf('      // %s: used in %sms (processed in another task), not assigned here', hp.pin, msOut(hp.pin)); %#ok<AGROW>
                 end
                 for j = 1:numel(pl)
                     if pass == 2 || inMs
@@ -271,56 +272,7 @@ function L = outpPinLines(hp, cfg)
 end
 
 % ----------------------------------------------------------------------------
-function L = buildInpReads(inP, ms1In, cfg)
-%BUILDINPREADS  HwInp -> application input bus (commented by default).
-    L = {};
-    mode = lower(cfg.os10msInputs);
-    if strcmp(mode, 'off') || isempty(inP), return; end
-    L{end+1} = '';
-    L{end+1} = '      // ---- HwInp reads generated from RC40_Pinmap.xlsx by rc40_gen_os10ms ----';
-    if strcmp(mode, 'commented')
-        L{end+1} = '      // Commented out: confirm the destination bus (cfg.appInpBus), then remove the leading //';
-    end
-    for pass = 1:2
-        sel = inP([inP.used] == (pass == 1));
-        if isempty(sel), continue; end
-        if pass == 2
-            L{end+1} = '      // ---- Use = OFF pins ----'; %#ok<AGROW>
-        end
-        for i = 1:numel(sel)
-            hp = sel(i);
-            fld = inpField(hp.hwArray);
-            if isempty(fld), continue; end
-            ln = sprintf('%s.%s = HwInp_s.%s_as[%s].outp_s.%s;', ...
-                cfg.appInpBus, hp.portName, hp.hwArray, hp.index, fld);
-            inMs = any(strcmp(ms1In, hp.pin));
-            if pass == 1 && ~inMs && strcmp(mode, 'active')
-                L{end+1} = ['      ' ln]; %#ok<AGROW>
-            else
-                tail = '';
-                if inMs, tail = '  // handled in the 1ms task'; end
-                L{end+1} = ['      // ' ln tail]; %#ok<AGROW>
-            end
-        end
-    end
-end
-
-function f = inpField(cls)
-    switch cls
-        case 'AnU',    f = 'u_mV_u16';
-        case 'AnI',    f = 'i_uA_u16';
-        case 'Dig',    f = 'flg_l';
-        case 'FrqStd', f = 'frq_p1Hz_u32';
-        case 'FrqShnt',f = 'frq_p1Hz_u32';
-        case 'FrqPha', f = 'frq_p1Hz_u32';
-        case 'R',      f = 'r_Ohm_u32';
-        case 'Sent',   f = 'dataSerlMsg_u16';
-        otherwise,     f = '';
-    end
-end
-
-% ----------------------------------------------------------------------------
-function reportList(name, st, pins, ms1)
+function reportList(name, st, pins, ms)
     if ~isempty(st.changed)
         fprintf('  %s class changed vs template (Pinmap Type wins):\n', name);
         for i = 1:numel(st.changed), fprintf('    %s\n', st.changed{i}); end
@@ -329,8 +281,8 @@ function reportList(name, st, pins, ms1)
         fprintf('  %s template entries not in Pinmap (commented): %s\n', name, strjoin(st.missing, ', '));
     end
     for i = 1:numel(pins)
-        if pins(i).used && any(strcmp(ms1, pins(i).pin))
-            fprintf('  NOTE %s %s is Use=ON but marked "used in 1ms" in the template (left to the 1ms task)\n', name, pins(i).pin);
+        if pins(i).used && isKey(ms, pins(i).pin)
+            fprintf('  NOTE %s %s is Use=ON but used in %sms (left to that task)\n', name, pins(i).pin, ms(pins(i).pin));
         end
     end
 end

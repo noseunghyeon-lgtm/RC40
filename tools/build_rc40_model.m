@@ -27,7 +27,12 @@ function build_rc40_model(cfg)
 
     % ---- 2. (re)create model ----------------------------------------------------
     name = cfg.modelName;
-    if bdIsLoaded(name),  close_system(name,0); end
+    % save_system(name, file) renames the in-memory model to the file's base
+    % name, so cfg.outputSlx may differ from cfg.modelName. Close any stale
+    % model under BOTH names (e.g. left over from a previous failed run).
+    [~, savedName] = fileparts(cfg.outputSlx);
+    if bdIsLoaded(name),       close_system(name,0);       end
+    if bdIsLoaded(savedName),  close_system(savedName,0);  end
     if exist(cfg.outputSlx,'file')==2, delete(cfg.outputSlx); end
     new_system(name);  load_system(name);
 
@@ -199,7 +204,9 @@ function build_rc40_model(cfg)
     fprintf('\nSaved %s  (ports created: %d, of which unused: %d, skipped: %d)\n', ...
         cfg.outputSlx, nMade, nUnused, nSkipped);
     fprintf('---- generation report ----\n%s\n', strjoin(report, sprintf('\n')));
-    close_system(name, 1);
+    if bdIsLoaded(savedName),  close_system(savedName, 1);
+    elseif bdIsLoaded(name),   close_system(name, 1);
+    end
 end
 
 % ============================================================================

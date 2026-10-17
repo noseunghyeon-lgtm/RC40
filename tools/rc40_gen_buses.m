@@ -70,18 +70,9 @@ function outFile = rc40_gen_buses(hwPins, cfg)
         fprintf(fid, '%s_Param = struct();\n', bus);
         for j = 1:numel(sel)
             hp = outP(sel(j));
-            fprintf(fid, '%s_Param.%s = %s;\n', bus, hp.portName, zeroLiteral(hp.dataType));
+            fprintf(fid, '%s_Param.%s = %s;\n', bus, hp.portName, rc40_zero_literal(hp.dataType));
         end
         fprintf(fid, '\n');
     end
     fprintf('Bus script written: %s  (%d buses, %d signals)\n', outFile, nBus, numel(outP));
-end
-
-function s = zeroLiteral(dataType)
-%ZEROLITERAL  Typed zero for a Simulink data type string.
-    if strcmp(dataType, 'boolean')
-        s = 'false';
-    else
-        s = sprintf('%s(0)', dataType);      % uint16(0), uint32(0), ...
-    end
 end

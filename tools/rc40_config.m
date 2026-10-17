@@ -131,6 +131,32 @@ cfg.addClassGuide      = true;
 % Written next to the .slx as <modelName>_bsw_integration.c
 cfg.genBswSnippets     = true;
 
+% ---- Os10msProc.c generator (rc40_gen_os10ms.m) --------------------------------
+% Takes the project's Os10msProc.c as TEMPLATE and regenerates only its HW
+% mapping from RC40_Pinmap.xlsx (Type / In-Out / Use):
+%   1) Os10msProc_HwInpPinList_as[]      - one entry per input pin, class from Type
+%   2) Os10msProc_HwOutpPinChList_as[]   - one entry per output pin, class from Type
+%   3) HwOutp_s.<cls>_as[..].inp_s.*     - setpoint assignments (Use=ON active,
+%                                          Use=OFF commented)
+% Everything else in the file is copied byte-for-byte. The result is written to
+% cfg.os10msOut so the committed Os10msProc.c is never overwritten.
+cfg.genOs10msProc      = true;
+cfg.os10msTemplate     = fullfile(repoRoot, 'Os10msProc.c');
+cfg.os10msOut          = fullfile(repoRoot, 'generated', 'Os10msProc.c');
+
+% Application signal bus the HwOutp assignments read from.
+% Outputs: <appOutpBus>.PO_s.<port> (duty/current/voltage), .DO_s.<port> (digital)
+% (HwInp -> application reads are done by the integration engineer.)
+cfg.appOutpBus         = 'Veh_s.GW1_Core_s.outp_s';
+
+% PropPwr pins driven as an enable flag only (FctDigCtrl / FctPwrSply modes):
+% flgSp_l comes from DO_s.<port>, no current/duty line is written.
+cfg.os10msFlagPins     = {'A31','A33','A48','K17'};
+
+% The template contains project-specific example assignments (e.g. the LLC
+% pump block). false = keep them but comment them out; true = leave untouched.
+cfg.os10msKeepLegacyOutp = false;
+
 % CAN port naming:
 %   'signal'  - use the signal name only (e.g. SteeringAngle_u16). If two
 %               signals share a name, a numeric suffix (_2,...) is appended

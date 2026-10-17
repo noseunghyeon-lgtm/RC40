@@ -367,6 +367,40 @@ Description을 고치거나 행을 추가한 뒤에는 드롭다운을 다시 �
 python tools/add_pinmap_dropdowns.py RC40_Pinmap.xlsx
 ```
 
+## Os10msProc.c 자동 생성 (`cfg.genOs10msProc`, 기본 on)
+
+저장소의 `Os10msProc.c`를 **템플릿**으로 읽고, **HW mapping 부분만** Pinmap(Type / In-Out / Use) 기준으로 다시 만들어
+`generated/Os10msProc.c`로 저장합니다. 원본 `Os10msProc.c`는 수정하지 않습니다. 나머지 코드는 바이트 단위로 그대로 복사됩니다(CRLF, UTF-8 유지).
+
+| 영역 | 생성 내용 |
+|---|---|
+| `Os10msProc_HwInpPinList_as[]` | 입력 핀마다 `{ HwInp_InpTyp<Class>_E, HwInp_getPinIdx<Class>_DU16(<pin>) }`. Class는 Type 선택값을 따름 |
+| `Os10msProc_HwOutpPinChList_as[]` | 출력 핀마다 `{ HwOutp_OutpTyp<Class>_E, HwOutp_getPinIdx<Class>_DU16(<pin>) }` |
+| `HwOutp_s.<cls>_as[<idx>].inp_s.*` | `stErrReactn_e` → `flgSp_l` → 값 라인 (기존 `Os10msProc.c` 패턴) |
+
+규칙
+- **Use=ON → 활성 라인, Use=OFF → 주석(`// Use=OFF`)**
+- 템플릿에서 `// ... used in <N>ms` (N≠10)로 표시된 핀은 10ms 리스트에서 제외한 채 그대로 두고, 출력 할당 자리에는 `// <pin>: used in <N>ms (processed in another task), not assigned here` 주석만 남김. 해당 핀이 ON이면 로그에 NOTE 출력
+- HwInp → 애플리케이션 입력 읽기 코드는 Integration Engineer가 작성하므로 생성하지 않음
+- `HWTGT_RC5640` 블록, Safety 채널 줄, `#if` 가드는 그대로 복사
+- 템플릿에는 있지만 Pinmap에 없는 항목은 주석 처리 + `// not in Pinmap`, Pinmap에만 있는 핀은 리스트 끝에 추가
+- 템플릿의 Class와 Pinmap의 Type이 다르면 **Pinmap이 우선**이며, 실행 로그에 `K38: AnU -> Dig` 형식으로 표시
+
+출력 값 라인(클래스별)
+| Class | 생성 코드 |
+|---|---|
+| PropSig | `flgSp_l = TRUE;` `dutyCycSp_perml_u16 = (uint16)<bus>.PO_s.<port>;` |
+| PropPwr | Description에 *Current controlled* → `iSp_mA_u16`, 그 외 → `dutyCycSp_perml_u16` (`flgSp_l = TRUE`) |
+| PropPwr (플래그 핀) | `cfg.os10msFlagPins` (기본 A31, A33, A48, K17): `flgSp_l = (bool)<bus>.DO_s.<port>;` 만 |
+| DigSig / DigPwr | `flgSp_l = (bool)<bus>.DO_s.<port>;` |
+| RelU / AbsltU | `uRel_perml_u16` / `uAbslt_mV_u16` = `(uint16)<bus>.PO_s.<port>;` |
+
+설정(`rc40_config.m`): `os10msTemplate`, `os10msOut`, `appOutpBus`, `os10msFlagPins`, `os10msKeepLegacyOutp`.
+
+Class 보정(이 기능과 함께 추가)
+- 디지털 출력: Description에 `200 mA` 가 있으면 **DigSig**(K84~K87), 그 외 *power switching* 출력은 **DigPwr**(A01, A04, A10, K13 ...)
+- 주파수 입력: 핀 이름이 `_VI` 로 끝나면 **FrqShnt**, 물리 핀 2개 조합(`A59_A44`)이면 **FrqPha**
+
 ## F열(Pin Assignment) 이름 붙이기
 
 `RC40_Pinmap.xlsx`의 **F열(`Pin Assignment (MASAR)`)**에 이름을 적으면, 자동 생성되는

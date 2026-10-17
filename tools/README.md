@@ -401,6 +401,21 @@ Class 보정(이 기능과 함께 추가)
 - 디지털 출력: Description에 `200 mA` 가 있으면 **DigSig**(K84~K87), 그 외 *power switching* 출력은 **DigPwr**(A01, A04, A10, K13 ...)
 - 주파수 입력: 핀 이름이 `_VI` 로 끝나면 **FrqShnt**, 물리 핀 2개 조합(`A59_A44`)이면 **FrqPha**
 
+## Bus 객체 + 파라미터 struct 생성 (`cfg.genBuses`, 기본 on)
+
+Use=ON **HwOutp** 포트에 대해 `generated/<modelName>_buses.m` 스크립트를 만듭니다. 한 번 실행하면 base workspace에 Bus와 파라미터가 생깁니다.
+
+| Bus | 대상 |
+|---|---|
+| `DOHS` | High side 출력 (`HS_...`) |
+| `DOLS` | Low side 출력 (`LS_...`) |
+| `VO` | RelU / AbsltU (전압 출력: A12, K25, K62) |
+
+- Bus 요소: 이름 = 포트명, 타입 = 포트 데이터 타입(`uint16`, `boolean` ...), 차원 1 / Fixed / real
+- `<Bus>_Param`: 같은 필드명의 struct, 값은 요소 타입의 0 (`uint16(0)`, `false`)
+- 순서는 Pinmap 순서, Use=OFF 핀은 제외, 입력과 CAN은 생성하지 않음
+- 설정: `cfg.genBuses`, `cfg.busOutFile`, `cfg.busNames` (`HS` / `LS` / `V` → Bus 이름)
+
 ## F열(Pin Assignment) 이름 붙이기
 
 `RC40_Pinmap.xlsx`의 **F열(`Pin Assignment (MASAR)`)**에 이름을 적으면, 자동 생성되는

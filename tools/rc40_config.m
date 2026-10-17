@@ -157,6 +157,16 @@ cfg.os10msFlagPins     = {'A31','A33','A48','K17'};
 % pump block). false = keep them but comment them out; true = leave untouched.
 cfg.os10msKeepLegacyOutp = false;
 
+% ---- Bus objects + parameter structs (rc40_gen_buses.m) ------------------------
+% Writes an .m script that creates, for the Use=ON HW OUTPUT ports:
+%   Simulink.Bus  <name>          one element per port (type = port data type)
+%   struct        <name>_Param    same field names, typed zero values
+% Groups: HS outputs -> DOHS, LS outputs -> DOLS, RelU/AbsltU -> VO.
+% Run the generated script once (base workspace) before using the buses.
+cfg.genBuses           = true;
+cfg.busOutFile         = fullfile(repoRoot, 'generated', [cfg.modelName '_buses.m']);
+cfg.busNames           = struct('HS','DOHS', 'LS','DOLS', 'V','VO');
+
 % CAN port naming:
 %   'signal'  - use the signal name only (e.g. SteeringAngle_u16). If two
 %               signals share a name, a numeric suffix (_2,...) is appended

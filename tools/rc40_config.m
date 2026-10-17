@@ -157,6 +157,26 @@ cfg.os10msFlagPins     = {'A31','A33','A48','K17'};
 % pump block). false = keep them but comment them out; true = leave untouched.
 cfg.os10msKeepLegacyOutp = false;
 
+% ---- Bus objects + parameter structs (rc40_gen_buses.m) ------------------------
+% Writes an .m script that creates, for the Use=ON HW OUTPUT ports:
+%   Simulink.Bus  <name>          one element per port (type = port data type)
+%   struct        <name>_Param    same field names, typed zero values
+% Groups: HS outputs -> DOHS, LS outputs -> DOLS, RelU/AbsltU -> VO.
+% Run the generated script once (base workspace) before using the buses.
+cfg.genBuses           = true;
+cfg.busOutFile         = fullfile(repoRoot, 'generated', [cfg.modelName '_buses.m']);
+cfg.busNames           = struct('HS','DOHS', 'LS','DOLS', 'V','VO');
+
+% ---- CAN Bus objects + parameter structs (rc40_gen_can_buses.m) ---------------
+% One Simulink.Bus <Message> and one struct <Message>_Param per CAN message
+% (Rx and Tx), written to an .m script. Element type = CAN port data type;
+% Param values are typed zeros. Run the script once (base workspace).
+cfg.genCanBuses        = true;
+cfg.canBusOutFile      = fullfile(repoRoot, 'generated', [cfg.modelName '_can_buses.m']);
+%   'port'   - element names = port names incl. type suffix (VC_Status_FAKRA_1_u8). DEFAULT.
+%   'signal' - plain signal names from the CAN Excel (VC_Status_FAKRA_1).
+cfg.canBusElementName  = 'port';
+
 % CAN port naming:
 %   'signal'  - use the signal name only (e.g. SteeringAngle_u16). If two
 %               signals share a name, a numeric suffix (_2,...) is appended

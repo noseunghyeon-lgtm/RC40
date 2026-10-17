@@ -42,7 +42,7 @@ function build_rc40_model(cfg)
 
     nMade = 0; nSkipped = 0; nUnused = 0; report = {};
     hwPins = struct('dir',{},'hwArray',{},'index',{},'portName',{},'used',{}, ...
-                    'pin',{},'desc',{});  % for BSW snippets + Os10msProc.c
+                    'pin',{},'desc',{},'side',{},'dataType',{});  % BSW snippets, Os10msProc.c, buses
 
     % ---- 3. signal ports --------------------------------------------------------
     for i = 1:numel(pins)
@@ -141,7 +141,8 @@ function build_rc40_model(cfg)
         end
         hwPins(end+1) = struct('dir',m.direction,'hwArray',m.hwArray, ...
             'index',idx{1},'portName',portName,'used',isUsed, ...
-            'pin',pinId,'desc',lower(p.desc)); %#ok<AGROW>
+            'pin',pinId,'desc',lower(p.desc), ...
+            'side',m.side,'dataType',m.dataType); %#ok<AGROW>
         if ~isUsed, nUnused = nUnused + 1; end
 
         % auto layout
@@ -154,6 +155,7 @@ function build_rc40_model(cfg)
     end
 
     % ---- 4. CAN ports (MASAR Excel primary; DBC fallback) -----------------------
+    canBus = struct('message',{},'id',{},'dir',{},'name',{},'dataType',{},'sig',{});  % for CAN buses
     if cfg.includeCommPins
         canSigs = loadCanSignals(cfg);   % normalized list regardless of source
         fprintf('CAN signals loaded (%s): %d\n', cfg.canSource, numel(canSigs));
@@ -183,6 +185,8 @@ function build_rc40_model(cfg)
                 'sig=%s start=%d len=%d factor=%g offset=%g [%g..%g] %s'], ...
                 S.message, S.id, tern(S.extended,'ext','std'), S.node, dir, ...
                 S.name, S.startBit, S.length, S.factor, S.offset, S.min, S.max, S.unit));
+            canBus(end+1) = struct('message',S.message,'id',S.id,'dir',dir, ...
+                'name',portName,'dataType',dt,'sig',S.name); %#ok<AGROW>
             placePort(blk, dir, cfg, counters, sub);
             nMade=nMade+1;
             report{end+1}=sprintf('CAN  %-4s %-28s -> %-8s (id 0x%X)', dir, portName, dt, S.id); %#ok<AGROW>
@@ -197,6 +201,14 @@ function build_rc40_model(cfg)
     % ---- 4c. integration-ready Os10msProc.c (pin lists + HwOutp assignments) ---
     if isfield(cfg,'genOs10msProc') && cfg.genOs10msProc
         rc40_gen_os10ms(hwPins, cfg);
+    end
+
+    % ---- 4d. Bus objects + parameter structs for the HW output ports ------------
+    if isfield(cfg,'genBuses') && cfg.genBuses
+        rc40_gen_buses(hwPins, cfg);
+    end
+    if isfield(cfg,'genCanBuses') && cfg.genCanBuses
+        rc40_gen_can_buses(canBus, cfg);
     end
 
     % ---- 5. save + report -------------------------------------------------------

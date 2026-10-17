@@ -401,6 +401,32 @@ Class 보정(이 기능과 함께 추가)
 - 디지털 출력: Description에 `200 mA` 가 있으면 **DigSig**(K84~K87), 그 외 *power switching* 출력은 **DigPwr**(A01, A04, A10, K13 ...)
 - 주파수 입력: 핀 이름이 `_VI` 로 끝나면 **FrqShnt**, 물리 핀 2개 조합(`A59_A44`)이면 **FrqPha**
 
+## Bus 객체 + 파라미터 struct 생성 (`cfg.genBuses`, 기본 on)
+
+Use=ON **HwOutp** 포트에 대해 `generated/<modelName>_buses.m` 스크립트를 만듭니다. 한 번 실행하면 base workspace에 Bus와 파라미터가 생깁니다.
+
+| Bus | 대상 |
+|---|---|
+| `DOHS` | High side 출력 (`HS_...`) |
+| `DOLS` | Low side 출력 (`LS_...`) |
+| `VO` | RelU / AbsltU (전압 출력: A12, K25, K62) |
+
+- Bus 요소: 이름 = 포트명, 타입 = 포트 데이터 타입(`uint16`, `boolean` ...), 차원 1 / Fixed / real
+- `<Bus>_Param`: 같은 필드명의 struct, 값은 요소 타입의 0 (`uint16(0)`, `false`)
+- 순서는 Pinmap 순서, Use=OFF 핀은 제외, 입력과 CAN은 생성하지 않음
+- 설정: `cfg.genBuses`, `cfg.busOutFile`, `cfg.busNames` (`HS` / `LS` / `V` → Bus 이름)
+
+### CAN Bus 객체 + 파라미터 (`cfg.genCanBuses`, 기본 on)
+
+CAN은 **메시지마다** `Simulink.Bus` 1개와 `<Message>_Param` struct 1개를 만듭니다(Rx, Tx 모두). `generated/<modelName>_can_buses.m` 을 한 번 실행하면 base workspace에 생성됩니다.
+
+- Bus 이름 = 메시지 이름 (예: `VC_Streaming_Status`), Param 이름 = `<메시지>_Param`
+- 요소 순서 = 생성된 CAN 포트 순서(메시지 내 알파벳순), 요소 타입 = 포트 데이터 타입 (`uint8`, `boolean`, `int16` ...)
+- 요소 이름 = 포트 이름 (`cfg.canBusElementName = 'port'`, 타입 접미사 포함). `'signal'` 이면 접미사 없는 신호 이름
+- Param 값은 타입에 맞는 0 (`uint8(0)`, `false`)
+- `Bus.Description` = `MsgID=0x... | Tx/Rx | Signals=N`
+- 타입은 CAN Excel의 Data Type 열 + Signed 열 기준 (DBC 비트 길이 기준 `map_dtype` 과 다른 경우는 52비트 신호처럼 비트 길이가 Data Type 폭을 넘는 경우뿐)
+
 ## F열(Pin Assignment) 이름 붙이기
 
 `RC40_Pinmap.xlsx`의 **F열(`Pin Assignment (MASAR)`)**에 이름을 적으면, 자동 생성되는

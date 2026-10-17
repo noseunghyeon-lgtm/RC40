@@ -150,6 +150,19 @@ cfg.canPortNaming      = 'signal';
 %                order), which does NOT match the Bus Assignment order.
 cfg.canSignalOrder     = 'alpha';
 
+% CAN subsystem grouping:
+%   'byMessage' - nest signals under CAN_Rx/<message> or CAN_Tx/<message>,
+%                 one subsystem per CAN message (mirrors the HwInp/HwOutp
+%                 per-class nesting), so all signals of a given CAN ID are
+%                 found together. DEFAULT.
+%   'flat'      - all signals directly under CAN_Rx / CAN_Tx (previous
+%                 behaviour).
+cfg.canGrouping        = 'byMessage';
+
+% Include the CAN ID in the per-message subsystem name, e.g.
+% 'VC_Streaming_Status_0x18FF61BC'. Helps you find a message by its ID.
+cfg.canSubsystemIncludeId = true;
+
 % HS/LS suffix on OUTPUT index names (e.g. DevOutp_A03LS_D).
 % NOTE: HS/LS is a MASAR-internal naming convenience (not a hardware property),
 % derived from "High Side" / "Low Side" in the Description column.

@@ -42,7 +42,7 @@ function build_rc40_model(cfg)
 
     nMade = 0; nSkipped = 0; nUnused = 0; report = {};
     hwPins = struct('dir',{},'hwArray',{},'index',{},'portName',{},'used',{}, ...
-                    'pin',{},'desc',{});  % for BSW snippets + Os10msProc.c
+                    'pin',{},'desc',{},'side',{},'dataType',{});  % BSW snippets, Os10msProc.c, buses
 
     % ---- 3. signal ports --------------------------------------------------------
     for i = 1:numel(pins)
@@ -141,7 +141,8 @@ function build_rc40_model(cfg)
         end
         hwPins(end+1) = struct('dir',m.direction,'hwArray',m.hwArray, ...
             'index',idx{1},'portName',portName,'used',isUsed, ...
-            'pin',pinId,'desc',lower(p.desc)); %#ok<AGROW>
+            'pin',pinId,'desc',lower(p.desc), ...
+            'side',m.side,'dataType',m.dataType); %#ok<AGROW>
         if ~isUsed, nUnused = nUnused + 1; end
 
         % auto layout
@@ -197,6 +198,11 @@ function build_rc40_model(cfg)
     % ---- 4c. integration-ready Os10msProc.c (pin lists + HwOutp assignments) ---
     if isfield(cfg,'genOs10msProc') && cfg.genOs10msProc
         rc40_gen_os10ms(hwPins, cfg);
+    end
+
+    % ---- 4d. Bus objects + parameter structs for the HW output ports ------------
+    if isfield(cfg,'genBuses') && cfg.genBuses
+        rc40_gen_buses(hwPins, cfg);
     end
 
     % ---- 5. save + report -------------------------------------------------------
